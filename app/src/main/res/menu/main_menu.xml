@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item
+        android:id="@+id/home"
+        android:icon="@drawable/home"
+        android:title="Home"/>
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/user2"
+        android:title="Profil"/>
+    <item android:title="Actions">
+
+
+        <menu>
+           <group android:checkableBehavior="single">
+               <item
+                   android:id="@+id/logout"
+                   android:icon="@drawable/close"
+                   android:title="Log Out"/>
+               <item
+                   android:id="@+id/modifyProfile"
+                   android:icon="@drawable/editing"
+                   android:title="Modifica date"/>
+               <item
+                   android:id="@+id/testCovid"
+                   android:icon="@drawable/mask"
+                   android:title="Modifica date"/>
+               <item
+                   android:id="@+id/spatiu"
+                   android:title="" />
+               <item
+                   android:id="@+id/spatiu2"
+                   android:title="" />
+               <item
+                   android:id="@+id/spatiu3"
+                   android:title="" />
+               <item
+                   android:id="@+id/spatiu4"
+                   android:title="" />
+               <item
+                   android:id="@+id/spatiu5"
+                   android:title="" />
+               <item
+                   android:id="@+id/deleteAcc"
+                   android:icon="@drawable/delete"
+                   android:title="Stergere cont" />
+
+           </group>
+        </menu>
+
+
+    </item>
+
+</menu>
