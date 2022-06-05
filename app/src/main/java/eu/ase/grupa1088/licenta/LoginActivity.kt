@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
@@ -18,6 +19,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private var progressBar: ProgressBar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         register = findViewById<View>(R.id.tvRegister) as TextView
