@@ -21,7 +21,7 @@
         app:layout_goneMarginTop="50dp" />
 
     <EditText
-        android:id="@+id/etemail"
+        android:id="@+id/etEmail"
         android:layout_width="300dp"
         android:layout_height="41dp"
         android:layout_marginLeft="100dp"
@@ -48,7 +48,7 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etemail" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail" />
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"

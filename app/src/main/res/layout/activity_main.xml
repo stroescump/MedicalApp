@@ -6,101 +6,97 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gdlTopScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvNume"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:text="Centru medical de recuperare"
-        android:textAlignment="center"
-        android:textSize="30sp"
+        android:gravity="center"
+        android:text="@string/centru_medical_de_recuperare"
+        android:textSize="@dimen/dimen_30sp"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_goneMarginTop="50dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gdlTopScreen" />
 
-    <EditText
-        android:id="@+id/etemail"
-        android:layout_width="300dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="100dp"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:layout_marginRight="100dp"
+        android:autofillHints="emailAddress"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:textSize="15sp"
-
-
+        android:minHeight="48dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNume" />
+        app:layout_constraintTop_toBottomOf="@id/tvNume"
+        app:layout_constraintWidth_percent="0.70" />
 
-    <EditText
-        android:id="@+id/etpassword"
-        android:layout_width="300dp"
-        android:layout_height="41dp"
-        android:layout_marginLeft="10dp"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:autofillHints="password"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
-        android:textSize="15sp"
-        app:layout_constraintHorizontal_bias="0.443"
+        android:minHeight="48dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etemail" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintWidth_percent="0.70" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignIn"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:background="#ffc87a"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etpassword" />
+        app:layout_constraintTop_toBottomOf="@id/etPassword"
+        app:layout_constraintWidth_percent="0.70" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="168dp"
         android:layout_marginTop="40dp"
-        android:text="Am uitat parola"
-        android:textSize="10sp"
-
+        android:text="@string/am_uitat_parola"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnSignIn" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="164dp"
-        android:layout_marginTop="24dp"
-        android:text="Creează cont nou"
-        android:textSize="10sp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:text="@string/creeaz_cont_nou"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvForgotPassword" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/layoutProgress"
+        layout="@layout/layout_progress"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="visible"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

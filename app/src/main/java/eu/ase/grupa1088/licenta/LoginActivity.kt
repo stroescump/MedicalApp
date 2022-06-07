@@ -26,8 +26,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         register!!.setOnClickListener(this)
         signIn = findViewById<View>(R.id.btnSignIn) as Button
         signIn!!.setOnClickListener(this)
-        etEmail = findViewById<View>(R.id.etemail) as EditText
-        etParola = findViewById<View>(R.id.etpassword) as EditText
+        etEmail = findViewById<View>(R.id.etEmail) as EditText
+        etParola = findViewById<View>(R.id.etPassword) as EditText
         progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
         mAuth = FirebaseAuth.getInstance()
         uitatParola = findViewById<View>(R.id.tvForgotPassword) as TextView
