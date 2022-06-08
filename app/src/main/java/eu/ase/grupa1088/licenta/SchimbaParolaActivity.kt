@@ -7,7 +7,7 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 
-class SchimbaParola : AppCompatActivity() {
+class SchimbaParolaActivity : AppCompatActivity() {
     var auth: FirebaseAuth? = null
     private var etEmail: EditText? = null
     private var resetParolabtn: Button? = null
@@ -39,12 +39,12 @@ class SchimbaParola : AppCompatActivity() {
         auth!!.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(
-                    this@SchimbaParola,
+                    this@SchimbaParolaActivity,
                     "Verifica mail pentru resetare parola",
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                Toast.makeText(this@SchimbaParola, "Eroare!Incearca iar!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SchimbaParolaActivity, "Eroare!Incearca iar!", Toast.LENGTH_LONG).show()
             }
         }
     }

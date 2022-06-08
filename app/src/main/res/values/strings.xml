@@ -13,6 +13,18 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="centru_medical_de_recuperare">Centru medical \nde recuperare</string>
+    <string name="register">Register</string>
+    <string name="cnp">CNP</string>
+    <string name="parola">Parola</string>
+    <string name="telefon">Telefon</string>
+    <string name="numele_complet">Numele complet</string>
+    <string name="error_name_required">Trebuie introdus un nume.</string>
+    <string name="error_phone_required">Trebuie introdus numarul de telefon</string>
+    <string name="error_email_required">Trebuie introdus emailul</string>
+    <string name="error_password_required">Trebuie introdusa parola!</string>
+    <string name="error_CNP_required">Trebuie introdus cnp-ul!</string>
+    <string name="error_password_length">Parola trebuie sa aiba minim 6 caractere</string>
+    <string name="check_data_validity">Verificati validitatea datelor introduse.</string>
 
 
 </resources>

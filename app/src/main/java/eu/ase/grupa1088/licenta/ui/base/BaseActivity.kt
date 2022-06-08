@@ -73,6 +73,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun displayError(message: String? = null) {
+        hideProgress()
         createSnackbar(binding.root, message ?: getString(R.string.generic_error))
     }
 
