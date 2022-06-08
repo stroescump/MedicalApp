@@ -1,14 +1,18 @@
-package eu.ase.grupa1088.licenta.ui.register
+package eu.ase.grupa1088.licenta.ui.login
 
-import android.widget.Toast
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import eu.ase.grupa1088.licenta.ProfileActivity
 import eu.ase.grupa1088.licenta.R
-import eu.ase.grupa1088.licenta.databinding.ActivityRegisterUserBinding
+import eu.ase.grupa1088.licenta.SchimbaParolaActivity
+import eu.ase.grupa1088.licenta.databinding.ActivityMainBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
-import eu.ase.grupa1088.licenta.ui.login.LoginActivity
+import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
+import eu.ase.grupa1088.licenta.ui.register.RegisterUserActivity
 import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.inputValidator
 import eu.ase.grupa1088.licenta.utils.value
@@ -16,8 +20,8 @@ import eu.ase.grupa1088.licenta.utils.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 
-class RegisterUserActivity : BaseActivity() {
-    override val binding by viewBinding(ActivityRegisterUserBinding::inflate)
+class LoginActivity : BaseActivity() {
+    override val binding by viewBinding(ActivityMainBinding::inflate)
     private val viewModel by viewModels<AccountViewModel> {
         AccountViewModel.Factory(
             AccountService(
@@ -26,10 +30,16 @@ class RegisterUserActivity : BaseActivity() {
         )
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        FirebaseApp.initializeApp(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun setupListeners() {
         with(binding) {
-            btnRegister.setOnClickListener { registerUser() }
-            tvScreenTitle.setOnClickListener { navigateTo(LoginActivity::class.java) }
+            tvRegister.setOnClickListener { navigateTo(RegisterUserActivity::class.java) }
+            btnSignIn.setOnClickListener { userLogin() }
+            tvForgotPassword.setOnClickListener { navigateTo(SchimbaParolaActivity::class.java) }
         }
     }
 
@@ -43,45 +53,27 @@ class RegisterUserActivity : BaseActivity() {
                     AppResult.Progress -> showProgress()
                     is AppResult.Success -> {
                         hideProgress()
-                        Toast.makeText(
-                            this@RegisterUserActivity,
-                            "User registered! ${res.successData?.nume}",
-                            Toast.LENGTH_SHORT
-                        ).show();
+                        navigateTo(ProfileActivity::class.java)
                     }
-                    else -> {}
+                    null -> {}
                 }
             }
         }
     }
 
-    private fun registerUser() {
+    private fun userLogin() {
         with(binding) {
             val isInputValid = inputValidator(
                 arrayOf(
-                    etNume to getString(R.string.error_name_required),
-                    etTelefon to getString(R.string.error_phone_required),
                     etEmail to getString(R.string.error_email_required),
-                    etParola to getString(R.string.error_password_required),
-                    etCNP to getString(R.string.error_CNP_required)
+                    etPassword to getString(R.string.error_password_required),
                 )
             )
             if (isInputValid) {
-                viewModel.registerUser(
-                    etEmail.value(),
-                    etParola.value(),
-                    etNume.value(),
-                    etCNP.value(),
-                    etTelefon.value()
-                )
+                viewModel.loginUser(etEmail.value(), etPassword.value())
             } else {
                 displayError(getString(R.string.check_data_validity))
             }
-//            //pt validarea emailului daca e valid
-//            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                etEmail.error = "Introduceti un email valid!"
-//                etEmail.requestFocus()
-//            }
         }
     }
 }

@@ -7,15 +7,17 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import eu.ase.grupa1088.licenta.ui.base.BaseActivity
+import eu.ase.grupa1088.licenta.ui.login.LoginActivity
 
-class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     //pt bara
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
@@ -29,6 +31,8 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
     private lateinit var nav_cnp: TextView
     private var userRef: DatabaseReference? = null
     private val logout: Button? = null
+    override val binding: ViewBinding
+        get() = TODO("Not yet implemented")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,6 +103,18 @@ class ProfileActivity : AppCompatActivity(), NavigationView.OnNavigationItemSele
 //           startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
 //       }
 //   });
+    }
+
+    override fun setupListeners() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initViews() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setupObservers() {
+        TODO("Not yet implemented")
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
