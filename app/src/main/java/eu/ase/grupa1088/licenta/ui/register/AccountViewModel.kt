@@ -22,8 +22,8 @@ class AccountViewModel(
     fun registerUser(email: String, parola: String, nume: String, cnp: String, telefon: String) {
         viewModelScope.launch(dispatcher) {
             uiStateFlow.update { AppResult.Progress }
-            accountService.registerUser(email, parola, nume, cnp, telefon) { it ->
-                uiStateFlow.update { it }
+            accountService.registerUser(email, parola, nume, cnp, telefon) { res ->
+                uiStateFlow.update { res }
             }
         }
     }
@@ -31,8 +31,8 @@ class AccountViewModel(
     fun loginUser(email: String, parola: String) {
         viewModelScope.launch(dispatcher) {
             uiStateFlow.update { AppResult.Progress }
-            accountService.loginUser(email, parola) {
-                uiStateFlow.update { it }
+            accountService.loginUser(email, parola) { res ->
+                uiStateFlow.update { res }
             }
         }
     }

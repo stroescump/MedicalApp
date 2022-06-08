@@ -61,12 +61,13 @@ fun inputValidator(viewArray: Array<Pair<AppCompatEditText, String>>): Boolean {
         if (it.first.value().trim().isEmpty()) {
             it.first.error = it.second
             it.first.requestFocus()
+            return false
         }
         if (it.first.id == R.id.etParola && it.first.value().length < 6) {
             it.first.error = it.first.context.getString(R.string.error_password_length)
             it.first.requestFocus()
+            return false
         }
-        return false
     }
     return true
 }
