@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/gdlTopScreen"
@@ -70,11 +70,13 @@
         app:layout_constraintWidth_percent="0.70" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:padding="@dimen/dimen_10dp"
         android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:text="@string/am_uitat_parola"
+        android:textSize="@dimen/dimen_16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +86,9 @@
         android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:padding="@dimen/dimen_10dp"
         android:text="@string/creeaz_cont_nou"
+        android:textSize="@dimen/dimen_16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

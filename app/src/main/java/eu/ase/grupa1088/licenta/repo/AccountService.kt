@@ -45,4 +45,26 @@ class AccountService(val firebaseDep: FirebaseAuth) {
                 }
             }
     }
+
+    fun loginUser(
+        email: String,
+        parola: String,
+        completionCallback: (user: AppResult<String>) -> Unit
+    ) {
+        firebaseDep.signInWithEmailAndPassword(email, parola)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    FirebaseAuth.getInstance().currentUser?.let {
+                        if (it.isEmailVerified) {
+                            //redirect to user profile
+                            completionCallback(AppResult.Success(it.email))
+                        } else {
+                            it.sendEmailVerification()
+                            completionCallback(AppResult.Error(IllegalStateException("Please verify your email.")))
+                        }
+                    }
+                        ?: completionCallback(AppResult.Error(IllegalStateException("Authentication failed. Please retry.")))
+                }
+            }
+    }
 }
