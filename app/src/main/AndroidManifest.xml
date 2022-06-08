@@ -11,11 +11,11 @@
         android:theme="@style/Theme.Licenta">
 
         <activity
-            android:name=".SchimbaParola"
+            android:name=".SchimbaParolaActivity"
             android:exported="true" />
 
         <activity
-            android:name=".RegisterUser"
+            android:name=".ui.register.RegisterUserActivity"
             android:exported="true" />
         <activity
             android:name=".LoginActivity"

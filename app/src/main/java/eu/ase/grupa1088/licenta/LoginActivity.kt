@@ -6,10 +6,13 @@ import android.util.Patterns
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import eu.ase.grupa1088.licenta.ui.base.BaseActivity
+import eu.ase.grupa1088.licenta.ui.register.RegisterUserActivity
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : BaseActivity(), View.OnClickListener {
     private var etEmail: EditText? = null
     private var etParola: EditText? = null
     private var signIn: Button? = null
@@ -17,6 +20,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     private var uitatParola: TextView? = null
     private var mAuth: FirebaseAuth? = null
     private var progressBar: ProgressBar? = null
+    override val binding b
 
     override fun onCreate(savedInstanceState: Bundle?) {
         FirebaseApp.initializeApp(this)
@@ -34,12 +38,24 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         uitatParola!!.setOnClickListener(this)
     }
 
+    override fun setupListeners() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initViews() {
+        TODO("Not yet implemented")
+    }
+
+    override fun setupObservers() {
+        TODO("Not yet implemented")
+    }
+
     override fun onClick(view: View) {
         when (view.id) {
             R.id.tvRegister -> //                startActivity(new Intent(this,RegisterUser.class));
-                startActivity(Intent(this, RegisterUser::class.java))
+                startActivity(Intent(this, RegisterUserActivity::class.java))
             R.id.btnSignIn -> userLogin()
-            R.id.tvForgotPassword -> startActivity(Intent(this, SchimbaParola::class.java))
+            R.id.tvForgotPassword -> startActivity(Intent(this, SchimbaParolaActivity::class.java))
         }
     }
 
