@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import eu.ase.grupa1088.licenta.User
 import eu.ase.grupa1088.licenta.repo.AccountService
-import eu.ase.grupa1088.licenta.ui.login.LoginUiState
 import eu.ase.grupa1088.licenta.utils.AppResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +18,6 @@ class AccountViewModel(
     ViewModel() {
 
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
-    val loginUiStateFlow = MutableStateFlow(LoginUiState())
 
     fun registerUser(email: String, parola: String, nume: String, cnp: String, telefon: String) {
         viewModelScope.launch(dispatcher) {
