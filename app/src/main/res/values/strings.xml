@@ -25,6 +25,9 @@
     <string name="error_CNP_required">Trebuie introdus cnp-ul!</string>
     <string name="error_password_length">Parola trebuie sa aiba minim 6 caractere</string>
     <string name="check_data_validity">Verificati validitatea datelor introduse.</string>
+    <string name="bun_venit">Bun Venit!</string>
+    <string name="cabinet_medical_vanatori">Cabinet Medical Vânători</string>
+    <string name="creaza_cont">Crează cont</string>
 
 
 </resources>
