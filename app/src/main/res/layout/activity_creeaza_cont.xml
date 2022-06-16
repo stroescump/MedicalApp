@@ -19,33 +19,34 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/cabinet_medical_vanatori"
         android:textAlignment="center"
-        android:textColor="#00A300"
+        android:textColor="@color/green"
         android:textSize="@dimen/dimen_30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tvSubtitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/bun_venit"
         android:textAlignment="center"
-        android:textColor="#00A300"
+        android:textColor="@color/green"
         android:textSize="@dimen/dimen_20sp"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@id/guidelineTop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etEmail"
         style="@style/CustomEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
