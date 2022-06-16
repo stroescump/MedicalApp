@@ -31,6 +31,8 @@
     <string name="cnp_placeholder">CNP:192837581923</string>
     <string name="phone_placeholder">01234566789</string>
     <string name="email_placeholder">email@email.com</string>
+    <string name="cabinet_medical_de_recuperare">Cabinet medical de recuperare</string>
+    <string name="resetare_parola">Resetare parola</string>
 
 
 </resources>
