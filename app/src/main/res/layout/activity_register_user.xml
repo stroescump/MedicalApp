@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:text="@string/centru_medical_de_recuperare"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textColor="@color/red_dark1"
+        android:textSize="@dimen/dimen_30sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -27,96 +28,84 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etNume"
-        android:layout_width="300dp"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
         android:autofillHints="name"
-        android:ems="10"
         android:hint="@string/numele_complet"
         android:inputType="text"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle" />
+        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etTelefon"
-        android:layout_width="300dp"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:autofillHints="phone"
-        android:ems="10"
         android:hint="@string/telefon"
         android:inputType="number"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNume" />
+        app:layout_constraintTop_toBottomOf="@id/etNume"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etEmail"
-        android:layout_width="300dp"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:autofillHints="emailAddress"
-        android:ems="10"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etTelefon" />
+        app:layout_constraintTop_toBottomOf="@id/etTelefon"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etParola"
-        android:layout_width="300dp"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:autofillHints="password"
-        android:ems="10"
         android:hint="@string/parola"
         android:inputType="textPassword"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEmail" />
+        app:layout_constraintTop_toBottomOf="@id/etEmail"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etCNP"
-        android:layout_width="300dp"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="100dp"
-        android:ems="10"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:hint="@string/cnp"
         android:inputType="text"
-        android:textSize="15sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etParola" />
+        app:layout_constraintTop_toBottomOf="@id/etParola"
+        app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="48dp"
-        android:background="#ffc87a"
+        style="@style/CustomButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20dp"
         android:text="@string/register"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etCNP" />
+        app:layout_constraintTop_toBottomOf="@id/etCNP"
+        app:layout_constraintWidth_percent="0.8" />
 
     <include
         android:id="@+id/layoutProgress"

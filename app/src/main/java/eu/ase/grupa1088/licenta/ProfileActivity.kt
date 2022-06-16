@@ -14,10 +14,14 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import eu.ase.grupa1088.licenta.databinding.ActivityProfileActivityBinding
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.login.LoginActivity
+import eu.ase.grupa1088.licenta.utils.viewBinding
 
 class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+    override val binding by viewBinding(ActivityProfileActivityBinding::inflate)
+
     //pt bara
     private var drawerLayout: DrawerLayout? = null
     private var toolbar: Toolbar? = null
@@ -31,14 +35,9 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private lateinit var nav_cnp: TextView
     private var userRef: DatabaseReference? = null
     private val logout: Button? = null
-    override val binding: ViewBinding
-        get() = TODO("Not yet implemented")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile_activity)
-
-
         //pt bara
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

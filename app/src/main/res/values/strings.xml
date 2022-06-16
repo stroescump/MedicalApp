@@ -12,7 +12,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="centru_medical_de_recuperare">Centru medical \nde recuperare</string>
+    <string name="centru_medical_de_recuperare">Centru medical\nde recuperare</string>
     <string name="register">Register</string>
     <string name="cnp">CNP</string>
     <string name="parola">Parola</string>
@@ -25,6 +25,15 @@
     <string name="error_CNP_required">Trebuie introdus cnp-ul!</string>
     <string name="error_password_length">Parola trebuie sa aiba minim 6 caractere</string>
     <string name="check_data_validity">Verificati validitatea datelor introduse.</string>
+    <string name="bun_venit">Bun Venit!</string>
+    <string name="cabinet_medical_vanatori">Cabinet Medical Vânători</string>
+    <string name="creaza_cont">Crează cont</string>
+    <string name="cnp_placeholder">CNP:192837581923</string>
+    <string name="phone_placeholder">01234566789</string>
+    <string name="email_placeholder">email@email.com</string>
+    <string name="cabinet_medical_de_recuperare">Cabinet medical de recuperare</string>
+    <string name="resetare_parola">Resetare parola</string>
+    <string name="programari">Programari</string>
 
 
 </resources>
