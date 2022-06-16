@@ -28,6 +28,9 @@
     <string name="bun_venit">Bun Venit!</string>
     <string name="cabinet_medical_vanatori">Cabinet Medical Vânători</string>
     <string name="creaza_cont">Crează cont</string>
+    <string name="cnp_placeholder">CNP:192837581923</string>
+    <string name="phone_placeholder">01234566789</string>
+    <string name="email_placeholder">email@email.com</string>
 
 
 </resources>
