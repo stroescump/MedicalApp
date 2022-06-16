@@ -16,7 +16,7 @@ class SchimbaParolaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schimba_parola)
         etEmail = findViewById<View>(R.id.etEmail) as EditText
-        resetParolabtn = findViewById<View>(R.id.btnResetPassword) as Button
+        resetParolabtn = findViewById<View>(R.id.btnResetareParola) as Button
         progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
         auth = FirebaseAuth.getInstance()
         resetParolabtn!!.setOnClickListener { resetParola() }

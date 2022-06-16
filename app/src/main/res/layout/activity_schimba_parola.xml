@@ -37,7 +37,7 @@
         app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnResetareParola"
         style="@style/CustomButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
