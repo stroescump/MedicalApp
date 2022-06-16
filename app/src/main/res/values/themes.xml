@@ -12,10 +12,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/red_light1</item>
     </style>
 
     <style name="CustomEditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textAlignment">center</item>
+        <item name="android:padding">@dimen/dimen_10dp</item>
+        <item name="android:paddingStart">@dimen/dimen_15dp</item>
+        <item name="android:textColor">@color/red</item>
+        <item name="android:textColorHint">@color/red_dark1</item>
+        <item name="android:background">@drawable/edittext_bg</item>
         <item name="android:textSize">@dimen/dimen_20sp</item>
         <item name="android:ems">10</item>
     </style>
