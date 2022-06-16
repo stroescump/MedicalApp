@@ -12,7 +12,7 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="centru_medical_de_recuperare">Centru medical \nde recuperare</string>
+    <string name="centru_medical_de_recuperare">Centru medical\nde recuperare</string>
     <string name="register">Register</string>
     <string name="cnp">CNP</string>
     <string name="parola">Parola</string>
@@ -33,6 +33,7 @@
     <string name="email_placeholder">email@email.com</string>
     <string name="cabinet_medical_de_recuperare">Cabinet medical de recuperare</string>
     <string name="resetare_parola">Resetare parola</string>
+    <string name="programari">Programari</string>
 
 
 </resources>
