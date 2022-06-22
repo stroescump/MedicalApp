@@ -13,10 +13,7 @@ import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.register.RegisterUserActivity
-import eu.ase.grupa1088.licenta.utils.AppResult
-import eu.ase.grupa1088.licenta.utils.inputValidator
-import eu.ase.grupa1088.licenta.utils.value
-import eu.ase.grupa1088.licenta.utils.viewBinding
+import eu.ase.grupa1088.licenta.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 
@@ -33,6 +30,9 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
+        binding.etPassword.text = "123456".toEditable()
+        binding.etEmail.text = "stroescump@gmail.com".toEditable()
+        binding.btnSignIn.performClick()
     }
 
     override fun setupListeners() {

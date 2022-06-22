@@ -19,4 +19,7 @@
     <dimen name="dimen_20sp">20sp</dimen>
     <dimen name="dimen_15dp">15dp</dimen>
     <dimen name="dimen_12dp">12dp</dimen>
+    <dimen name="dimen_95dp">95dp</dimen>
+    <dimen name="dimen_25dp">25dp</dimen>
+    <dimen name="dimen_3dp">3dp</dimen>
 </resources>

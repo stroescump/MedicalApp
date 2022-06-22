@@ -41,12 +41,15 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:dividerInsetEnd="@dimen/dimen_50dp"
+        app:dividerInsetStart="@dimen/dimen_50dp"
         app:headerLayout="@layout/header"
         app:itemIconTint="@drawable/navigation_selector"
         app:itemTextColor="@drawable/navigation_view_item_selected"
-        app:menu="@menu/main_menu" />
+        app:menu="@menu/main_menu"
+        app:subheaderColor="@color/red_dark2" />
 
     <include
         android:id="@+id/layoutProgress"

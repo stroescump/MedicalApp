@@ -17,7 +17,7 @@
     <string name="cnp">CNP</string>
     <string name="parola">Parola</string>
     <string name="telefon">Telefon</string>
-    <string name="numele_complet">Numele complet</string>
+    <string name="numele_complet">Numele\ncomplet</string>
     <string name="error_name_required">Trebuie introdus un nume.</string>
     <string name="error_phone_required">Trebuie introdus numarul de telefon</string>
     <string name="error_email_required">Trebuie introdus emailul</string>
@@ -34,6 +34,12 @@
     <string name="cabinet_medical_de_recuperare">Cabinet medical de recuperare</string>
     <string name="resetare_parola">Resetare parola</string>
     <string name="programari">Programari</string>
+    <string name="acasa">Acasa</string>
+    <string name="contul_meu">Contul meu</string>
+    <string name="delogare">Delogare</string>
+    <string name="stergere_cont">Stergere cont</string>
+    <string name="test_covid_online">Test covid online</string>
+    <string name="acces_rapid">Acces rapid</string>
 
 
 </resources>
