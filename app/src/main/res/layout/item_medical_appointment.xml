@@ -1,0 +1,75 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemContainerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimen_20dp"
+    android:layout_marginEnd="@dimen/dimen_20dp"
+    android:layout_marginBottom="@dimen/dimen_20dp"
+    android:background="@drawable/card_medical_appointment"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_10dp">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCancelAppointment"
+        style="@style/CustomButton.Inverted"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginBottom="@dimen/dimen_10dp"
+        android:text="@string/anuleaza"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/btnRescheduleAppointment"
+        app:layout_constraintStart_toStartOf="@id/btnRescheduleAppointment"
+        app:layout_constraintTop_toBottomOf="@id/btnRescheduleAppointment" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRescheduleAppointment"
+        style="@style/CustomButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:text="@string/reprogrameaza"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:text="@string/appointment_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/btnRescheduleAppointment"
+        app:layout_constraintEnd_toStartOf="@id/btnRescheduleAppointment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnRescheduleAppointment" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentDoctorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/red"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintEnd_toStartOf="@id/btnRescheduleAppointment"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvAppointmentTitle"
+        tools:text="Dr. Radu Ciobanu" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@id/btnRescheduleAppointment"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvAppointmentDoctorName"
+        tools:text="24.06.2022\n11:00AM - 11:30AM" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,6 +40,10 @@
     <string name="stergere_cont">Stergere cont</string>
     <string name="test_covid_online">Test covid online</string>
     <string name="acces_rapid">Acces rapid</string>
+    <string name="istoric_medical">Istoric medical</string>
+    <string name="anuleaza">Anuleaza</string>
+    <string name="reprogrameaza">Reprogrameaza</string>
+    <string name="appointment_title">"Aveti o programare la"</string>
 
 
 </resources>

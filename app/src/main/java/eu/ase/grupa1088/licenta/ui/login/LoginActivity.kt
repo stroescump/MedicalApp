@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import eu.ase.grupa1088.licenta.ProfileActivity
+import eu.ase.grupa1088.licenta.ui.dashboard.ProfileActivity
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.SchimbaParolaActivity
 import eu.ase.grupa1088.licenta.databinding.ActivityMainBinding

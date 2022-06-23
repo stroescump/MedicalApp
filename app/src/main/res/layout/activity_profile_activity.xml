@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#fff"
     android:fitsSystemWindows="true"
-    tools:context=".ProfileActivity"
+    tools:context=".ui.dashboard.ProfileActivity"
     tools:openDrawer="start">
 
     <LinearLayout

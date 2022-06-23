@@ -28,7 +28,7 @@
 
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name=".ui.dashboard.ProfileActivity"
             android:exported="true" />
     </application>
 

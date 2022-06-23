@@ -1,6 +1,7 @@
-package eu.ase.grupa1088.licenta
+package eu.ase.grupa1088.licenta.ui.dashboard
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.AppCompatTextView
@@ -8,6 +9,7 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivityProfileActivityBinding
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.login.LoginActivity
@@ -20,6 +22,16 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     private var userRef: DatabaseReference? = null
     private lateinit var drawerFullName: AppCompatTextView
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        supportFragmentManager.beginTransaction()
+            .replace(
+                binding.fragmentContainer.id,
+                DashboardFragment(),
+                DashboardFragment::class.java.simpleName
+            ).commit()
+    }
+
     override fun setupListeners() {}
 
     override fun initViews() {
@@ -31,8 +43,11 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
             ).also { it.syncState() }
             drawerLayout.addDrawerListener(toggle)
-            navView.setNavigationItemSelectedListener(this@ProfileActivity)
-            drawerFullName = navView.getHeaderView(0).findViewById(R.id.nav_user_fullname)
+            navView.apply {
+                drawerFullName = getHeaderView(0).findViewById(R.id.nav_user_fullname)
+                setNavigationItemSelectedListener(this@ProfileActivity)
+                setCheckedItem(R.id.home)
+            }
         }
 
         userRef = FirebaseDatabase.getInstance().reference.child("Users").child(
@@ -73,7 +88,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         when (item.itemId) {
             R.id.home -> supportFragmentManager.beginTransaction().replace(
                 R.id.fragment_container,
-                MessageFragment()
+                DashboardFragment()
             ).commit()
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
