@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MedicalRecordActivity">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:background="@null"
+                android:padding="@dimen/dimen_10dp"
+                android:src="@drawable/arrow_back" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvLogoHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dimen_20dp"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/mont_heavy"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/dimen_10dp"
+                android:text="@string/centru_medical_de_recuperare_oneline"
+                android:textColor="@color/red"
+                app:layout_constraintBottom_toTopOf="@id/guidelineTop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutContainerAlergies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:background="@drawable/card_medical_appointment"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAllergiesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginEnd="@dimen/dimen_20dp"
+                android:fontFamily="@font/mont_heavy"
+                android:text="@string/alergii"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen_32sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvAllergiesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_20dp"
+                android:textColor="@color/black"
+                tools:text="- Alergie 1\n- Alergie 2\n- Alergie 3\n- Alergie 4" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutContainerDiseaseHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:background="@drawable/card_medical_appointment"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/layoutContainerAlergies">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDiseaseHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_10dp"
+                android:fontFamily="@font/mont_heavy"
+                android:text="@string/istoric_de_boli"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen_32sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvDiseasesList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_20dp"
+                android:textColor="@color/black"
+                tools:text="- Boala 1\n- Boala 2\n- Boala 3\n- Boala 4" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutTreatmentsHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:background="@drawable/card_medical_appointment"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/layoutContainerDiseaseHistory">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTreatmentsHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_10dp"
+                android:fontFamily="@font/mont_heavy"
+                android:text="@string/istoric_tratamente"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen_32sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTreatmentsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_20dp"
+                android:textColor="@color/black"
+                tools:text="- Tratament 1\n- Tratament 2\n- Tratament 3\n- Tratament 4" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</ScrollView>

@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Licenta">
-
+        <activity
+            android:name=".MedicalRecordActivity"
+            android:exported="false" />
         <activity
             android:name=".SchimbaParolaActivity"
             android:exported="true" />
-
         <activity
             android:name=".ui.register.RegisterUserActivity"
             android:exported="true" />
@@ -25,7 +26,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ui.dashboard.ProfileActivity"

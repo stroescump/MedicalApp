@@ -19,10 +19,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red_dark2"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+            android:background="@color/red_light1" />
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/fragment_container"

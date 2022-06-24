@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
@@ -36,12 +37,16 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     override fun initViews() {
         with(binding) {
-            setSupportActionBar(binding.toolbar)
-            supportActionBar?.title = getString(R.string.centru_medical_de_recuperare)
+//            setSupportActionBar(binding.toolbar)
             val toggle = ActionBarDrawerToggle(
                 this@ProfileActivity, binding.drawerLayout,
                 binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-            ).also { it.syncState() }
+            ).also {
+                it.drawerArrowDrawable = DrawerArrowDrawable(this@ProfileActivity).apply {
+                    color = resources.getColor(R.color.red, theme)
+                }
+                it.syncState()
+            }
             drawerLayout.addDrawerListener(toggle)
             navView.apply {
                 drawerFullName = getHeaderView(0).findViewById(R.id.nav_user_fullname)

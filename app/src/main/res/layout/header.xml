@@ -28,7 +28,6 @@
         android:textColor="@color/red"
         android:fontFamily="@font/mont_heavy"
         android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/nav_user_image"
         app:layout_constraintStart_toEndOf="@id/nav_user_image"
         app:layout_constraintTop_toTopOf="@id/nav_user_image" />

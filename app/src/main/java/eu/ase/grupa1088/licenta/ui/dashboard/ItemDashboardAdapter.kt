@@ -1,14 +1,19 @@
 package eu.ase.grupa1088.licenta.ui.dashboard
 
-import android.content.res.ColorStateList
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
-import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemDashboardBinding
+import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem
 
-class ItemDashboardAdapter(private val dashboardItems: MutableList<Pair<String, Int>>) :
+
+class ItemDashboardAdapter(
+    private val dashboardItems: MutableList<DashboardItem>,
+    private val onItemClick: (item: DashboardItem) -> Unit
+) :
     RecyclerView.Adapter<ItemDashboardAdapter.ItemDashboardVH>() {
     private lateinit var binding: ItemDashboardBinding
 
@@ -29,14 +34,20 @@ class ItemDashboardAdapter(private val dashboardItems: MutableList<Pair<String, 
 
     inner class ItemDashboardVH() :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(currentItem: Pair<String, Int>) {
+        @SuppressLint("UseCompatLoadingForDrawables")
+        fun bind(currentItem: DashboardItem) {
             with(binding) {
-                ivItemIcon.apply {
-                    setBackgroundResource(currentItem.second)
-                    imageTintList =
-                        ColorStateList.valueOf(ContextCompat.getColor(context, R.color.white));
+                root.setOnClickListener { onItemClick(currentItem) }
+                DrawableCompat.wrap(
+                    root.resources.getDrawable(
+                        currentItem.resInt,
+                        root.context.theme
+                    )
+                ).apply {
+                    setTint(Color.WHITE)
+                    ivItemIcon.background = this
                 }
-                tvItemTitle.text = currentItem.first
+                tvItemTitle.text = currentItem.name
             }
         }
     }

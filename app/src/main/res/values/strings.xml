@@ -13,6 +13,7 @@
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="centru_medical_de_recuperare">Centru medical\nde recuperare</string>
+    <string name="centru_medical_de_recuperare_oneline">Centru medical de recuperare</string>
     <string name="register">Register</string>
     <string name="cnp">CNP</string>
     <string name="parola">Parola</string>
@@ -44,6 +45,9 @@
     <string name="anuleaza">Anuleaza</string>
     <string name="reprogrameaza">Reprogrameaza</string>
     <string name="appointment_title">"Aveti o programare la"</string>
+    <string name="alergii">Alergii</string>
+    <string name="istoric_de_boli">Istoric de boli</string>
+    <string name="istoric_tratamente">Istoric tratamente</string>
 
 
 </resources>
