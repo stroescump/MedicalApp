@@ -37,7 +37,6 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     override fun initViews() {
         with(binding) {
-//            setSupportActionBar(binding.toolbar)
             val toggle = ActionBarDrawerToggle(
                 this@ProfileActivity, binding.drawerLayout,
                 binding.toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
