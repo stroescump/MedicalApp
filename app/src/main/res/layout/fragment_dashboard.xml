@@ -28,7 +28,7 @@
     <!--        app:layout_constraintGuide_percent="0.4" />-->
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvLogoHome"
+        android:id="@+id/tvTitleSection"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="@dimen/dimen_20dp"
@@ -48,6 +48,7 @@
         android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="@id/guidelineTop"
@@ -56,6 +57,7 @@
 
     <View
         android:id="@+id/divider"
+        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="@dimen/dimen_2dp"
         android:background="@color/red_dark2"

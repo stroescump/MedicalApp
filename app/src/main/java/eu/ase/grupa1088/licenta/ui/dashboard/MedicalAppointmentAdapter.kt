@@ -3,6 +3,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemMedicalAppointmentBinding
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 
@@ -35,6 +36,7 @@ class MedicalAppointmentAdapter(private val medicalAppointments: MutableList<Med
         @SuppressLint("SetTextI18n")
         fun bind(currentItem: MedicalAppointment) {
             with(binding) {
+                tvAppointmentTitle.text = root.context.getString(R.string.appointment_title_as_doctor)
                 tvAppointmentDate.text =
                     "${currentItem.date}\n${currentItem.startingHour} - ${currentItem.endHour}"
                 tvAppointmentDoctorName.text = currentItem.doctorName

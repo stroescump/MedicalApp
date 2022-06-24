@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licenta">
         <activity
+            android:name=".ui.appointments.AppointmentActivity"
+            android:exported="false" />
+        <activity
             android:name=".MedicalRecordActivity"
             android:exported="false" />
         <activity

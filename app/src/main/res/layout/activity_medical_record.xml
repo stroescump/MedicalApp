@@ -27,7 +27,7 @@
                 android:src="@drawable/arrow_back" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvLogoHome"
+                android:id="@+id/tvTitleSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dimen_20dp"
@@ -145,6 +145,15 @@
                 tools:text="- Tratament 1\n- Tratament 2\n- Tratament 3\n- Tratament 4" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <include
+            android:id="@+id/layoutProgress"
+            layout="@layout/layout_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

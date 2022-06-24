@@ -44,10 +44,13 @@
     <string name="istoric_medical">Istoric medical</string>
     <string name="anuleaza">Anuleaza</string>
     <string name="reprogrameaza">Reprogrameaza</string>
-    <string name="appointment_title">"Aveti o programare la"</string>
+    <string name="appointment_title_as_patient">Aveti o programare la</string>
+    <string name="appointment_title_as_doctor">Programarea pacientului</string>
     <string name="alergii">Alergii</string>
     <string name="istoric_de_boli">Istoric de boli</string>
     <string name="istoric_tratamente">Istoric tratamente</string>
+    <string name="spinner_dropdown">Spinner dropdown</string>
+    <string name="confirma_programare">Confirma programare</string>
 
 
 </resources>
