@@ -61,8 +61,8 @@
     <string name="nu">NU</string>
     <string name="da">DA</string>
     <string name="afla_raspunsul">Afla raspunsul</string>
-    <string name="please_remain_isolated">Va recomandam sa anulati orice programare momentan, si sa va efectuati un test covid rapid/pcr atat pentru sanatatea voastra sau a celor din jur.</string>
-    <string name="patient_triage_safe">Din rezultate reiese faptul ca sunt sanse minime de a fi infectat cu  virusul sars-cov2. Poate fi doar o stare temporara de raceala sau oboseala. Pentru mai multe investigatii si precautii va sfatuim sa vizitati medicul de familie in cazul in care va simtiti foarte rau.</string>
+    <string name="please_remain_isolated">Va recomandam sa anulati orice programare momentan, si sa va efectuati un test Covid Rapid/PCR atat pentru sanatatea voastra sau a celor din jur.</string>
+    <string name="patient_triage_safe">Din rezultate reiese faptul ca sunt sanse minime de a fi infectat cu  virusul SARS-COV2. Poate fi doar o stare temporara de raceala sau oboseala. Pentru mai multe investigatii si precautii va sfatuim sa vizitati medicul de familie in cazul in care va simtiti foarte rau.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
