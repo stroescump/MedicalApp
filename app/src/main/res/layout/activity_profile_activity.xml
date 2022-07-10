@@ -23,10 +23,24 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
+            android:name="eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_dashboard" />
     </LinearLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <include
+            android:id="@+id/layoutProgress"
+            layout="@layout/layout_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -40,14 +54,5 @@
         app:itemTextColor="@drawable/navigation_view_item_selected"
         app:menu="@menu/main_menu"
         app:subheaderColor="@color/red_dark2" />
-
-    <include
-        android:id="@+id/layoutProgress"
-        layout="@layout/layout_progress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
