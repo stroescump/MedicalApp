@@ -58,9 +58,7 @@ class TestCovidActivity : BaseActivity() {
             ).setButton(
                 AlertDialogButton.PositiveButton
             ) {
-                if (scoring >= 6) {
-                    navigateTo(ProfileActivity::class.java, true)
-                }
+                navigateTo(ProfileActivity::class.java, true)
             }.create().show()
     }
 

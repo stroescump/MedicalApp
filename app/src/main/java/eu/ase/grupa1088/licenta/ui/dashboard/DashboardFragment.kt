@@ -14,6 +14,7 @@ import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.ui.appointments.AppointmentActivity
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem.*
+import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
@@ -46,7 +47,7 @@ class DashboardFragment : Fragment() {
                     Medici -> TODO()
                     Programari -> navigateTo(AppointmentActivity::class.java)
                     IstoricMedical -> navigateTo(MedicalRecordActivity::class.java)
-                    TestCovidOnline -> TODO()
+                    TestCovidOnline -> navigateTo(TestCovidActivity::class.java)
                 }
             }
             rvMedicalAppointments.adapter = MedicalAppointmentAdapter(
