@@ -2,10 +2,10 @@ package eu.ase.grupa1088.licenta.repo
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import eu.ase.grupa1088.licenta.User
+import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.utils.AppResult
 
-class AccountService(val firebaseDep: FirebaseAuth) {
+class AccountService(private val firebaseDep: FirebaseAuth) {
 
     fun registerUser(
         email: String,
@@ -76,5 +76,14 @@ class AccountService(val firebaseDep: FirebaseAuth) {
                         ?: completionCallback(AppResult.Error(IllegalStateException("Authentication failed. Please retry.")))
                 }
             }
+    }
+
+    fun resetPassword(email: String, completionCallback: (result: AppResult<Boolean>) -> Unit) {
+        firebaseDep.sendPasswordResetEmail(email).addOnSuccessListener {
+            completionCallback(AppResult.Success(true))
+
+        }.addOnFailureListener {
+            completionCallback(AppResult.Error(it))
+        }
     }
 }

@@ -10,10 +10,12 @@ import androidx.core.view.GravityCompat
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import de.hdodenhof.circleimageview.CircleImageView
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivityProfileActivityBinding
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.login.LoginActivity
+import eu.ase.grupa1088.licenta.ui.profile.ProfileDetailsActivity
 import eu.ase.grupa1088.licenta.utils.viewBinding
 import java.util.*
 
@@ -48,7 +50,13 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             }
             drawerLayout.addDrawerListener(toggle)
             navView.apply {
-                drawerFullName = getHeaderView(0).findViewById(R.id.nav_user_fullname)
+                 getHeaderView(0).also {
+                     drawerFullName = it.findViewById(R.id.nav_user_fullname)
+                     it.findViewById<CircleImageView>(R.id.nav_user_image).setOnClickListener {
+                        navigateTo(ProfileDetailsActivity::class.java)
+                     }
+                }
+
                 setNavigationItemSelectedListener(this@ProfileActivity)
                 setCheckedItem(R.id.home)
             }
@@ -98,6 +106,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
             }
+            R.id.profile -> navigateTo(ProfileDetailsActivity::class.java)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true

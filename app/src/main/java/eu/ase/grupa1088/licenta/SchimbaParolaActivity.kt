@@ -1,50 +1,58 @@
 package eu.ase.grupa1088.licenta
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
-import android.os.Bundle
-import android.util.Patterns
-import android.view.View
-import android.widget.*
+import eu.ase.grupa1088.licenta.databinding.ActivitySchimbaParolaBinding
+import eu.ase.grupa1088.licenta.repo.AccountService
+import eu.ase.grupa1088.licenta.ui.base.BaseActivity
+import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
+import eu.ase.grupa1088.licenta.utils.AppResult
+import eu.ase.grupa1088.licenta.utils.inputValidator
+import eu.ase.grupa1088.licenta.utils.value
+import eu.ase.grupa1088.licenta.utils.viewBinding
+import kotlinx.coroutines.launch
 
-class SchimbaParolaActivity : AppCompatActivity() {
-    var auth: FirebaseAuth? = null
-    private var etEmail: EditText? = null
-    private var resetParolabtn: Button? = null
-    private var progressBar: ProgressBar? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_schimba_parola)
-        etEmail = findViewById<View>(R.id.etEmail) as EditText
-        resetParolabtn = findViewById<View>(R.id.btnResetareParola) as Button
-        progressBar = findViewById<View>(R.id.progressBar) as ProgressBar
-        auth = FirebaseAuth.getInstance()
-        resetParolabtn!!.setOnClickListener { resetParola() }
+class SchimbaParolaActivity : BaseActivity() {
+    override val binding by viewBinding { ActivitySchimbaParolaBinding.inflate(layoutInflater) }
+    private val viewModel by viewModels<AccountViewModel> {
+        AccountViewModel.Factory(
+            AccountService(
+                FirebaseAuth.getInstance()
+            )
+        )
+    }
+
+    override fun setupListeners() {
+        with(binding) {
+            btnResetareParola.setOnClickListener { resetParola() }
+        }
+    }
+
+    override fun initViews() {}
+
+    override fun setupObservers() {
+        lifecycleScope.launch {
+            viewModel.resetPasswordStateFlow.collect {
+                when (it) {
+                    is AppResult.Error -> displayError(it.exception.localizedMessage)
+                    AppResult.Progress -> showProgress()
+                    is AppResult.Success -> {
+                        hideProgress()
+                        displayInfo(getString(R.string.msg_password_reset_info))
+                    }
+                    null -> {}
+                }
+            }
+        }
     }
 
     private fun resetParola() {
-        val email = etEmail!!.text.toString().trim { it <= ' ' }
-        if (email.isEmpty()) {
-            etEmail!!.error = "Trebuie introdus emailul"
-            etEmail!!.requestFocus()
-            return
-        }
-        //pt validarea emailului daca e valid
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail!!.error = "Introduceti un email valid!"
-            etEmail!!.requestFocus()
-            return
-        }
-        progressBar!!.visibility = View.VISIBLE
-        auth!!.sendPasswordResetEmail(email).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Toast.makeText(
-                    this@SchimbaParolaActivity,
-                    "Verifica mail pentru resetare parola",
-                    Toast.LENGTH_LONG
-                ).show()
-            } else {
-                Toast.makeText(this@SchimbaParolaActivity, "Eroare!Incearca iar!", Toast.LENGTH_LONG).show()
+        with(binding) {
+            inputValidator(arrayOf(etEmail to getString(R.string.error_email_required))).also { isValid ->
+                if (isValid) {
+                    viewModel.resetPassword(etEmail.value())
+                }
             }
         }
     }

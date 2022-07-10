@@ -3,6 +3,7 @@ package eu.ase.grupa1088.licenta.utils
 import android.content.res.Resources
 import android.graphics.Paint
 import android.text.Editable
+import android.util.Patterns
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
@@ -65,6 +66,11 @@ fun inputValidator(viewArray: Array<Pair<AppCompatEditText, String>>): Boolean {
         }
         if (it.first.id == R.id.etParola && it.first.value().length < 6) {
             it.first.error = it.first.context.getString(R.string.error_password_length)
+            it.first.requestFocus()
+            return false
+        }
+        if(it.first.id == R.id.etEmail && !Patterns.EMAIL_ADDRESS.matcher(it.first.value()).matches()){
+            it.first.error = it.first.context.getString(R.string.error_insert_valid_email)
             it.first.requestFocus()
             return false
         }

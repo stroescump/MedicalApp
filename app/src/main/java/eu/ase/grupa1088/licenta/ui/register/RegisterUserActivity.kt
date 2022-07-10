@@ -1,6 +1,5 @@
 package eu.ase.grupa1088.licenta.ui.register
 
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +12,6 @@ import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.inputValidator
 import eu.ase.grupa1088.licenta.utils.value
 import eu.ase.grupa1088.licenta.utils.viewBinding
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 
 class RegisterUserActivity : BaseActivity() {
@@ -22,7 +20,7 @@ class RegisterUserActivity : BaseActivity() {
         AccountViewModel.Factory(
             AccountService(
                 FirebaseAuth.getInstance()
-            ), Dispatchers.IO
+            )
         )
     }
 
@@ -43,11 +41,12 @@ class RegisterUserActivity : BaseActivity() {
                     AppResult.Progress -> showProgress()
                     is AppResult.Success -> {
                         hideProgress()
-                        Toast.makeText(
-                            this@RegisterUserActivity,
-                            "User registered! ${res.successData?.nume}",
-                            Toast.LENGTH_SHORT
-                        ).show();
+                        displayInfo(
+                            getString(
+                                R.string.msg_registration_successful,
+                                res.successData?.nume
+                            )
+                        )
                     }
                     else -> {}
                 }
@@ -77,11 +76,6 @@ class RegisterUserActivity : BaseActivity() {
             } else {
                 displayError(getString(R.string.check_data_validity))
             }
-//            //pt validarea emailului daca e valid
-//            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-//                etEmail.error = "Introduceti un email valid!"
-//                etEmail.requestFocus()
-//            }
         }
     }
 }

@@ -23,7 +23,7 @@ class LoginActivity : BaseActivity() {
         AccountViewModel.Factory(
             AccountService(
                 FirebaseAuth.getInstance()
-            ), Dispatchers.IO
+            )
         )
     }
 

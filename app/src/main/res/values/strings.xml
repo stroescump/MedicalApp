@@ -51,6 +51,11 @@
     <string name="istoric_tratamente">Istoric tratamente</string>
     <string name="spinner_dropdown">Spinner dropdown</string>
     <string name="confirma_programare">Confirma programare</string>
+    <string name="salveaza_profil">Salveaza profil</string>
+    <string name="profil">Profil</string>
+    <string name="error_insert_valid_email">Introduceti un email valid.</string>
+    <string name="msg_password_reset_info">An password reset email has been sent to your inbox. Please check your email.</string>
+    <string name="msg_registration_successful">User registered successfuly. Welcome %s</string>
 
 
 </resources>

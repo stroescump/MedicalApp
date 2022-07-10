@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/dimen_50dp"
-    android:paddingStart="@dimen/dimen_20dp">
+    android:paddingStart="@dimen/dimen_20dp"
+    tools:ignore="RtlSymmetry">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_user_image"
@@ -24,9 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_10dp"
         android:layout_marginTop="@dimen/dimen_10dp"
+        android:fontFamily="@font/mont_heavy"
         android:text="@string/numele_complet"
         android:textColor="@color/red"
-        android:fontFamily="@font/mont_heavy"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/nav_user_image"
         app:layout_constraintStart_toEndOf="@id/nav_user_image"

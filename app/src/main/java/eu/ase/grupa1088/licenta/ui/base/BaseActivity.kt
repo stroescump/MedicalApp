@@ -9,8 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
-import eu.ase.grupa1088.licenta.utils.NetworkWatcher
 import eu.ase.grupa1088.licenta.R
+import eu.ase.grupa1088.licenta.utils.NetworkWatcher
 
 abstract class BaseActivity : AppCompatActivity() {
     private val connectivityManager by lazy { getSystemService(ConnectivityManager::class.java) }
@@ -118,6 +118,9 @@ abstract class BaseActivity : AppCompatActivity() {
             throw IllegalArgumentException("Destination must be an Activity!")
         }
     }
+
+    fun displayInfo(message: String) =
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
 
     sealed class AlertDialogButton {
         object PositiveButton : AlertDialogButton()

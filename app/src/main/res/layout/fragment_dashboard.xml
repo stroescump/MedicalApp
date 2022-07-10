@@ -48,7 +48,7 @@
         android:id="@+id/rvCategories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="@id/guidelineTop"
@@ -57,7 +57,7 @@
 
     <View
         android:id="@+id/divider"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="0dp"
         android:layout_height="@dimen/dimen_2dp"
         android:background="@color/red_dark2"

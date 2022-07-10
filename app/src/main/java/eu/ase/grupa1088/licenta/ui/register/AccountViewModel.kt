@@ -3,21 +3,23 @@ package eu.ase.grupa1088.licenta.ui.register
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import eu.ase.grupa1088.licenta.User
+import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.utils.AppResult
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AccountViewModel(
     private val accountService: AccountService,
-    private val dispatcher: CoroutineDispatcher
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
     ViewModel() {
 
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
+    val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
 
     fun registerUser(email: String, parola: String, nume: String, cnp: String, telefon: String) {
         viewModelScope.launch(dispatcher) {
@@ -37,9 +39,18 @@ class AccountViewModel(
         }
     }
 
+    fun resetPassword(email: String) {
+        viewModelScope.launch(dispatcher) {
+            uiStateFlow.update { AppResult.Progress }
+            accountService.resetPassword(email) { res ->
+                resetPasswordStateFlow.update { res }
+            }
+        }
+    }
+
     class Factory(
         private val accountService: AccountService,
-        private val dispatcher: CoroutineDispatcher
+        private val dispatcher: CoroutineDispatcher = Dispatchers.IO
     ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return AccountViewModel(accountService, dispatcher) as T
