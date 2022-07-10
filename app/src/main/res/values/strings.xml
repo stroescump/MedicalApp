@@ -56,6 +56,25 @@
     <string name="error_insert_valid_email">Introduceti un email valid.</string>
     <string name="msg_password_reset_info">An password reset email has been sent to your inbox. Please check your email.</string>
     <string name="msg_registration_successful">User registered successfuly. Welcome %s</string>
-
-
+    <string name="screening_covid_19_online">Screening \nCovid-19 Online</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="nu">NU</string>
+    <string name="da">DA</string>
+    <string name="afla_raspunsul">Afla raspunsul</string>
+    <string name="please_remain_isolated">va recomandam sa anulati orice programare momentan, si sa va efectuati un test covid rapid/pcr atat pentru sanatatea voastra sau a celor din jur.</string>
+    <string name="patient_triage_safe">Din rezultate reiese faptul ca sunt sanse minime de a fi infectat cu  virusul sars-cov2. Poate fi doar o stare temporara de raceala sau oboseala. Pentru mai multe investigatii si precautii va sfatuim sa vizitati medicul de familie in cazul in care va simtiti foarte rau.</string>
+    <string-array name="test_covid_online_questions">
+        <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
+        <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
+        <item>3.Ati avut simpome dea pierdere a gustului sau al mirosului în ultimele 14 zile?</item>
+        <item>4.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile?\ndureri în gât\ndureri de cap\ndureri de cap și dureri musculare\ndiaree\no iritație la nivelul pielii sau o decolorare a degetelor de la mâini sau de la picioare\nochi roșii sau iritați</item>
+        <item>5.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile? Dacă da, vă recomandăm să luați măsuri și să cotactați un doctor.\ndificultăți de respirație sau dispnee\nincapacitatea de a vorbi sau de a se mișca\ndurere toracică</item>
+        <item>6.Ați primit raspuns pozitiv la vreun test rapid făcut în ultimele 14 zile?</item>
+        <item>7.Aveți probleme cronice de sănătate cum ar fi:\nBoli de inimă, boli de plămâni, boli de rinichi, diabet,anemie, alte boli de sânge\norice altă problemă a sistemului imunitar sau boli neurologice?\nDacă da, este recomandat să contactați un medic pentru a vă asigura că nu sunteți infectat și cu SARS-COV-2, pentru a preveni următoarele complicații.</item>
+        <item>8.În ultimele 3 luni, ați luat medicamente care vă slăbesc sistemul imunitar, cum ar fi cortizon, prednison sau alți steroizi, medicamente anticanceroase sau ați avut tratamente cu radiatii?</item>
+        <item>9.În ultimele luni, ați primit transfuzie de sânge sau produse din sânge, vi s-a administrat imunoglobulină sau un medicament antiviral?</item>
+        <item>10.Ați mai făcut vreun vaccin în ultimele 4 săptămâni? Starea de oboseală poate fi doar o alertă temporară.</item>
+        <item>11.Ați mai fost infectat cu virusul SARS-CoV-2 înainte?</item>
+        <item>12.Ați avut contact cu vreo persoană infectata cu SARS-CoV-2 în ultimele 14 zile?</item>
+    </string-array>
 </resources>

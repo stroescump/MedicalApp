@@ -4,4 +4,8 @@
         <attr name="itemText" format="string" />
         <attr name="iconRes" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="CovidQuestionItem">
+        <attr name="questionText" format="string" />
+    </declare-styleable>
 </resources>

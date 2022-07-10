@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licenta">
         <activity
+            android:name=".TestCovidActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.profile.ProfileDetailsActivity"
             android:exported="false" />
         <activity

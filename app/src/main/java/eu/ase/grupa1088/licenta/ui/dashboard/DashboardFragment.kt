@@ -64,6 +64,14 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    companion object {
+        fun newInstance(args: Bundle? = null): DashboardFragment {
+            val fragment = DashboardFragment()
+            args?.let { fragment.arguments = it }
+            return fragment
+        }
+    }
+
     sealed class DashboardItem(val name: String, val resInt: Int) {
         object Programari : DashboardItem("Programari", R.drawable.appointment)
         object TestCovidOnline : DashboardItem("Test covid online", R.drawable.mask)

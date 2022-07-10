@@ -1,15 +1,18 @@
 package eu.ase.grupa1088.licenta.ui.base
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
 import eu.ase.grupa1088.licenta.R
+import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.NetworkWatcher
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -23,31 +26,36 @@ abstract class BaseActivity : AppCompatActivity() {
             binding.also {
                 setContentView(it.root)
             }
+            setupObservers()
             initViews()
             setupListeners()
-            setupObservers()
         } catch (e: Throwable) {
             displayError(e.localizedMessage)
         }
     }
 
 
-    private fun AlertDialog.Builder.setButton(
+    fun AlertDialog.Builder.setButton(
         buttonHandlerType: AlertDialogButton,
-        buttonHandler: ((AlertDialog) -> DialogInterface.OnClickListener)?
-    ) {
+        buttonHandler: (() -> Unit)?
+    ): AlertDialog.Builder {
         if (buttonHandler.notNull()) {
             when (buttonHandlerType) {
                 is AlertDialogButton.PositiveButton -> setPositiveButton(
-                    getString(R.string.ok_button),
-                    buttonHandler!!(this.create())
-                )
+                    getString(R.string.ok_button)
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                    buttonHandler?.invoke()
+                }
                 is AlertDialogButton.NegativeButton -> setNegativeButton(
-                    getString(R.string.dismiss),
-                    buttonHandler!!(this.create())
-                )
+                    getString(R.string.dismiss)
+                ) { dialog, _ ->
+                    dialog.dismiss()
+                    buttonHandler?.invoke()
+                }
             }
         }
+        return this
     }
 
     override fun onResume() {
@@ -83,7 +91,7 @@ abstract class BaseActivity : AppCompatActivity() {
     private fun createIndefiniteSnackbar(view: View, message: String) =
         Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
 
-    private fun ((AlertDialog) -> DialogInterface.OnClickListener)?.notNull(): Boolean {
+    private fun (() -> Unit)?.notNull(): Boolean {
         return this != null
     }
 
@@ -119,6 +127,29 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun replaceFragment(@IdRes containerId: Int, fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(
+                containerId,
+                fragment,
+                fragment::class.simpleName
+            ).commit()
+    }
+
+    fun handleResponse(
+        it: AppResult<DataSnapshot>,
+        successHandler: (dataSnapshot: DataSnapshot) -> Unit
+    ) {
+        when (it) {
+            is AppResult.Error -> displayError(it.exception.localizedMessage)
+            AppResult.Progress -> showProgress()
+            is AppResult.Success -> {
+                hideProgress()
+                it.successData?.let { dataSnapshot -> successHandler(dataSnapshot) }
+            }
+        }
+    }
+
     fun displayInfo(message: String) =
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
 
@@ -127,7 +158,7 @@ abstract class BaseActivity : AppCompatActivity() {
         object NegativeButton : AlertDialogButton()
     }
 
-    abstract fun setupListeners()
-    abstract fun initViews()
     abstract fun setupObservers()
+    abstract fun initViews()
+    abstract fun setupListeners()
 }
