@@ -115,7 +115,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             if (isFinishActivity) finish()
         } else {
-            throw IllegalArgumentException("Destination must be an Activity!" )
+            throw IllegalArgumentException("Destination must be an Activity!")
         }
     }
 
