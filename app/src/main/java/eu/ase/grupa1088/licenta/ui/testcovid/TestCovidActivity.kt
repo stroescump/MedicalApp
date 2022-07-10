@@ -46,7 +46,11 @@ class TestCovidActivity : BaseActivity() {
     private fun handleGetScreeningResults() {
         var scoring = 0
         arrayOfQuestionItems.onEach {
-            scoring += it.getResponse()
+            try {
+                scoring += it.getResponse()
+            } catch (e: IllegalArgumentException) {
+                displayError(getString(R.string.error_one_response_mandatory_per_question))
+            }
         }
         AlertDialog.Builder(this@TestCovidActivity)
             .setMessage(

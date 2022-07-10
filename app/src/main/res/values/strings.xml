@@ -57,12 +57,13 @@
     <string name="msg_password_reset_info">An password reset email has been sent to your inbox. Please check your email.</string>
     <string name="msg_registration_successful">User registered successfuly. Welcome %s</string>
     <string name="screening_covid_19_online">Screening \nCovid-19 Online</string>
-    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
     <string name="nu">NU</string>
     <string name="da">DA</string>
     <string name="afla_raspunsul">Afla raspunsul</string>
     <string name="please_remain_isolated">Va recomandam sa anulati orice programare momentan, si sa va efectuati un test Covid Rapid/PCR atat pentru sanatatea voastra sau a celor din jur.</string>
     <string name="patient_triage_safe">Din rezultate reiese faptul ca sunt sanse minime de a fi infectat cu  virusul SARS-COV2. Poate fi doar o stare temporara de raceala sau oboseala. Pentru mai multe investigatii si precautii va sfatuim sa vizitati medicul de familie in cazul in care va simtiti foarte rau.</string>
+    <string name="error_one_response_mandatory_per_question">Va rugam sa selectati un raspuns pentru fiecare intrebare.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
