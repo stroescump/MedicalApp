@@ -45,25 +45,25 @@ class TestCovidActivity : BaseActivity() {
 
     private fun handleGetScreeningResults() {
         var scoring = 0
-        arrayOfQuestionItems.onEach {
-            try {
+        try {
+            arrayOfQuestionItems.onEach {
                 scoring += it.getResponse()
-            } catch (e: IllegalArgumentException) {
-                displayError(getString(R.string.error_one_response_mandatory_per_question))
             }
+            AlertDialog.Builder(this@TestCovidActivity)
+                .setMessage(
+                    if (scoring >= 6) {
+                        getString(R.string.please_remain_isolated)
+                    } else {
+                        getString(R.string.patient_triage_safe)
+                    }
+                ).setButton(
+                    AlertDialogButton.PositiveButton
+                ) {
+                    navigateTo(ProfileActivity::class.java, true)
+                }.create().show()
+        } catch (e: IllegalArgumentException) {
+            displayError(getString(R.string.error_one_response_mandatory_per_question))
         }
-        AlertDialog.Builder(this@TestCovidActivity)
-            .setMessage(
-                if (scoring >= 6) {
-                    getString(R.string.please_remain_isolated)
-                } else {
-                    getString(R.string.patient_triage_safe)
-                }
-            ).setButton(
-                AlertDialogButton.PositiveButton
-            ) {
-                navigateTo(ProfileActivity::class.java, true)
-            }.create().show()
     }
 
     override fun setupObservers() {}
