@@ -9,21 +9,23 @@ import eu.ase.grupa1088.licenta.utils.viewBinding
 
 class TestCovidActivity : BaseActivity() {
     override val binding by viewBinding(ActivityTestCovidBinding::inflate)
-    private val arrayOfQuestionItems = with(binding) {
-        arrayOf(
-            covidQuestion1,
-            covidQuestion2,
-            covidQuestion3,
-            covidQuestion4,
-            covidQuestion5,
-            covidQuestion6,
-            covidQuestion7,
-            covidQuestion8,
-            covidQuestion9,
-            covidQuestion10,
-            covidQuestion11,
-            covidQuestion12,
-        )
+    private val arrayOfQuestionItems by lazy {
+        with(binding) {
+            arrayOf(
+                covidQuestion1,
+                covidQuestion2,
+                covidQuestion3,
+                covidQuestion4,
+                covidQuestion5,
+                covidQuestion6,
+                covidQuestion7,
+                covidQuestion8,
+                covidQuestion9,
+                covidQuestion10,
+                covidQuestion11,
+                covidQuestion12,
+            )
+        }
     }
 
     override fun initViews() {
