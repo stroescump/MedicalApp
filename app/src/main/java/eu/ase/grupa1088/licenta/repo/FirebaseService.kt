@@ -34,7 +34,7 @@ fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List
             ?: throw IllegalArgumentException("UID must be valid for user ${FirebaseAuth.getInstance().currentUser}")
     ).get().addOnSuccessListener {
         it.getAppointments()?.let { user ->
-            completionHandler(AppResult.Success(user))
+            completionHandler(AppResult.Success(user.values.toList()))
         }
             ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
     }.addOnFailureListener {

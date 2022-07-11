@@ -11,10 +11,6 @@ import eu.ase.grupa1088.licenta.utils.viewBinding
 class AppointmentActivity : BaseActivity() {
     override val binding by viewBinding(ActivityAppointmentBinding::inflate)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun setupListeners() {
         with(binding) {
             btnBack.setOnClickListener { onBackPressed() }
@@ -68,7 +64,5 @@ class AppointmentActivity : BaseActivity() {
         }
     }
 
-    override fun setupObservers() {
-        TODO("Not yet implemented")
-    }
+    override fun setupObservers() {}
 }
