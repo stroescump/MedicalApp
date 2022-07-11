@@ -40,11 +40,6 @@ fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List
         completionHandler(AppResult.Error(it))
     }
 
-private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
-    user.entries.map { appointment ->
-        appointment.value.copy(id = appointment.key)
-    }.toList()
-
 fun deleteAppointmentFirebase(
     appointmentId: String,
     pos: Int,
@@ -58,6 +53,11 @@ fun deleteAppointmentFirebase(
     }.addOnFailureListener {
         completionHandler(AppResult.Error(it))
     }
+
+private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
+    user.entries.map { appointment ->
+        appointment.value.copy(id = appointment.key)
+    }.toList()
 
 private fun throwUIDException(): Nothing =
     throw IllegalArgumentException("UID must be valid for user ${FirebaseAuth.getInstance().currentUser}")
