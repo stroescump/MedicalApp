@@ -22,6 +22,7 @@ class AccountViewModel(
 ) :
     ViewModel() {
 
+    var isDoctor: Boolean = false
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val userInfoLiveData = MutableLiveData<AppResult<DataSnapshot>>()

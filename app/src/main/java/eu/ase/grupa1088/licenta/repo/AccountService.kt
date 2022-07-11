@@ -74,6 +74,8 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
                         }
                     }
                         ?: completionCallback(AppResult.Error(IllegalStateException("Authentication failed. Please retry.")))
+                } else {
+                    completionCallback(AppResult.Error(task.exception ?: IllegalStateException("An unexpected error occured. Please try again.")))
                 }
             }
     }

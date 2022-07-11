@@ -65,6 +65,9 @@
     <string name="please_remain_isolated">Va recomandam sa anulati orice programare momentan, si sa va efectuati un test Covid Rapid/PCR atat pentru sanatatea voastra sau a celor din jur.</string>
     <string name="patient_triage_safe">Din rezultate reiese faptul ca sunt sanse minime de a fi infectat cu  virusul SARS-COV2. Poate fi doar o stare temporara de raceala sau oboseala. Pentru mai multe investigatii si precautii va sfatuim sa vizitati medicul de familie in cazul in care va simtiti foarte rau.</string>
     <string name="error_one_response_mandatory_per_question">Va rugam sa selectati un raspuns pentru fiecare intrebare.</string>
+    <string name="sunteti_doctor">Sunteti doctor?</string>
+    <string name="id_doctor">ID Doctor</string>
+    <string name="error_id_doctor_valid">Trebuie introdus un ID valid.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>

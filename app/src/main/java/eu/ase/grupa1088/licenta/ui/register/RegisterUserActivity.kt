@@ -8,10 +8,7 @@ import eu.ase.grupa1088.licenta.databinding.ActivityRegisterUserBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.login.LoginActivity
-import eu.ase.grupa1088.licenta.utils.AppResult
-import eu.ase.grupa1088.licenta.utils.inputValidator
-import eu.ase.grupa1088.licenta.utils.value
-import eu.ase.grupa1088.licenta.utils.viewBinding
+import eu.ase.grupa1088.licenta.utils.*
 import kotlinx.coroutines.flow.collectLatest
 
 class RegisterUserActivity : BaseActivity() {
@@ -28,10 +25,22 @@ class RegisterUserActivity : BaseActivity() {
         with(binding) {
             btnRegister.setOnClickListener { registerUser() }
             tvScreenTitle.setOnClickListener { navigateTo(LoginActivity::class.java) }
+            cbIsDoctor.setOnClickListener {
+                if (cbIsDoctor.isChecked) {
+                    cbIsDoctor.isChecked = false
+                    handleIsDoctorChecked(cbIsDoctor.isChecked)
+                } else {
+
+                    cbIsDoctor.isChecked = true
+                    handleIsDoctorChecked(cbIsDoctor.isChecked)
+                }
+            }
         }
     }
 
-    override fun initViews() {}
+    override fun initViews() {
+        binding.cbIsDoctor.isChecked = viewModel.isDoctor
+    }
 
     override fun setupObservers() {
         lifecycleScope.launchWhenResumed {
@@ -62,7 +71,9 @@ class RegisterUserActivity : BaseActivity() {
                     etTelefon to getString(R.string.error_phone_required),
                     etEmail to getString(R.string.error_email_required),
                     etParola to getString(R.string.error_password_required),
-                    etCNP to getString(R.string.error_CNP_required)
+                    if (viewModel.isDoctor) etIdDoctor to getString(R.string.error_id_doctor_valid) else etCNP to getString(
+                        R.string.error_CNP_required
+                    )
                 )
             )
             if (isInputValid) {
@@ -70,11 +81,34 @@ class RegisterUserActivity : BaseActivity() {
                     etEmail.value(),
                     etParola.value(),
                     etNume.value(),
-                    etCNP.value(),
+                    if (viewModel.isDoctor) etIdDoctor.value() else etCNP.value(),
                     etTelefon.value()
                 )
             } else {
                 displayError(getString(R.string.check_data_validity))
+            }
+        }
+    }
+
+    private fun ActivityRegisterUserBinding.handleIsDoctorChecked(isDoctor: Boolean) {
+        viewModel.isDoctor = isDoctor
+        if (isDoctor) {
+            etCNP.apply {
+                text?.clear()
+                hide()
+            }
+            etIdDoctor.apply {
+                text?.clear()
+                show()
+            }
+        } else {
+            etCNP.apply {
+                text?.clear()
+                show()
+            }
+            etIdDoctor.apply {
+                text?.clear()
+                hide()
             }
         }
     }

@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvScreenTitle"
@@ -26,18 +26,37 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/gdlTopScreen" />
 
+    <CheckedTextView
+        android:id="@+id/cbIsDoctor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:checkMarkTint="@color/red_dark1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:padding="@dimen/dimen_5dp"
+        android:text="@string/sunteti_doctor"
+        android:textColor="@color/red_dark1"
+        android:textSize="@dimen/dimen_20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle"
+        app:layout_constraintWidth_percent="0.8" />
+
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etNume"
         style="@style/CustomEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
         android:autofillHints="name"
         android:hint="@string/numele_complet_registration"
         android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvScreenTitle"
+        app:layout_constraintTop_toBottomOf="@id/cbIsDoctor"
         app:layout_constraintWidth_percent="0.8" />
 
     <androidx.appcompat.widget.AppCompatEditText
@@ -95,16 +114,30 @@
         app:layout_constraintTop_toBottomOf="@id/etParola"
         app:layout_constraintWidth_percent="0.8" />
 
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etIdDoctor"
+        style="@style/CustomEditText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:hint="@string/id_doctor"
+        android:inputType="text"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etParola"
+        app:layout_constraintWidth_percent="0.8" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
         style="@style/CustomButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_marginBottom="@dimen/dimen_20dp"
         android:text="@string/register"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etCNP"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.8" />
 
     <include

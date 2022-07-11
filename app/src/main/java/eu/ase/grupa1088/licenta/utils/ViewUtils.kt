@@ -17,12 +17,12 @@ fun ViewBinding.getString(res: Int, args: Double): String {
     return root.context.getString(res, args)
 }
 
-fun hide(view: View) {
-    view.visibility = View.GONE
+fun View.hide() {
+    visibility = View.GONE
 }
 
-fun show(view: View) {
-    view.visibility = View.VISIBLE
+fun View.show() {
+    visibility = View.VISIBLE
 }
 
 fun AppCompatTextView.applyStrikeThrough() {
