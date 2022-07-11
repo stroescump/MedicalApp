@@ -36,11 +36,18 @@ class MedicalAppointmentAdapter(private val medicalAppointments: MutableList<Med
         @SuppressLint("SetTextI18n")
         fun bind(currentItem: MedicalAppointment) {
             with(binding) {
-                tvAppointmentTitle.text = root.context.getString(R.string.appointment_title_as_doctor)
+                tvAppointmentTitle.text =
+                    root.context.getString(R.string.appointment_title_as_doctor)
                 tvAppointmentDate.text =
-                    "${currentItem.date}\n${currentItem.startingHour} - ${currentItem.endHour}"
+                    "${currentItem.date}\n${currentItem.startHour} - ${currentItem.endHour}"
                 tvAppointmentDoctorName.text = currentItem.doctorName
             }
         }
+    }
+
+    fun refreshList(newList: List<MedicalAppointment>) {
+        medicalAppointments.clear()
+        medicalAppointments.addAll(newList)
+        notifyDataSetChanged()
     }
 }

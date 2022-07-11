@@ -5,16 +5,15 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import eu.ase.grupa1088.licenta.ui.dashboard.ProfileActivity
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.SchimbaParolaActivity
 import eu.ase.grupa1088.licenta.databinding.ActivityMainBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
+import eu.ase.grupa1088.licenta.ui.dashboard.ProfileActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.register.RegisterUserActivity
 import eu.ase.grupa1088.licenta.utils.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 
 class LoginActivity : BaseActivity() {
@@ -53,7 +52,13 @@ class LoginActivity : BaseActivity() {
                     AppResult.Progress -> showProgress()
                     is AppResult.Success -> {
                         hideProgress()
-                        navigateTo(ProfileActivity::class.java)
+                        res.successData?.let { user ->
+                            navigateTo(ProfileActivity::class.java, true, extras = Bundle().also {
+                                it.putParcelable(
+                                    USER_KEY, user
+                                )
+                            })
+                        }
                     }
                     null -> {}
                 }

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.DataSnapshot
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.NetworkWatcher
@@ -118,7 +117,7 @@ abstract class BaseActivity : AppCompatActivity() {
     ) {
         if (destination.superclass.name == BaseActivity::class.java.name) {
             Intent(this, destination).also {
-                extras?.let { safeExtras -> it.putExtra("data", safeExtras) }
+                extras?.let { safeExtras -> it.putExtras(safeExtras) }
                 startActivity(it)
             }
             if (isFinishActivity) finish()
@@ -136,9 +135,9 @@ abstract class BaseActivity : AppCompatActivity() {
             ).commit()
     }
 
-    fun handleResponse(
-        it: AppResult<DataSnapshot>,
-        successHandler: (dataSnapshot: DataSnapshot) -> Unit
+    fun <T> handleResponse(
+        it: AppResult<T>?,
+        successHandler: (dataSnapshot: T) -> Unit
     ) {
         when (it) {
             is AppResult.Error -> displayError(it.exception.localizedMessage)
@@ -147,6 +146,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 hideProgress()
                 it.successData?.let { dataSnapshot -> successHandler(dataSnapshot) }
             }
+            else -> {}
         }
     }
 

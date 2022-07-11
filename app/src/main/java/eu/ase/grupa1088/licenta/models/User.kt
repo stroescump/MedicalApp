@@ -1,5 +1,9 @@
 package eu.ase.grupa1088.licenta.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class User(
     var nume: String? = null,
     var nrTel: String? = null,
@@ -7,4 +11,4 @@ data class User(
     var parola: String? = null,
     var cnp: String? = null,
     var doctorID: String? = null
-)
+) : Parcelable

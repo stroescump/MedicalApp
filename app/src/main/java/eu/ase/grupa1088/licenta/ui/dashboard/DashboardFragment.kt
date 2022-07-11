@@ -1,23 +1,37 @@
 package eu.ase.grupa1088.licenta.ui.dashboard
 
 import MedicalAppointmentAdapter
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import eu.ase.grupa1088.licenta.MedicalRecordActivity
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.FragmentDashboardBinding
-import eu.ase.grupa1088.licenta.models.MedicalAppointment
+import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.ui.appointments.AppointmentActivity
-import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem.*
+import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
+import eu.ase.grupa1088.licenta.utils.USER_KEY
+import eu.ase.grupa1088.licenta.utils.getParentActivity
+import eu.ase.grupa1088.licenta.utils.navigateTo
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
+    private val user by lazy {
+        arguments?.getParcelable<User>(USER_KEY)
+            ?: throw IllegalStateException("Must have a valid user.")
+    }
+    private val viewModel by activityViewModels<AccountViewModel>()
+    private lateinit var parentActivity: ProfileActivity
+
+    override fun onStart() {
+        super.onStart()
+        parentActivity = getParentActivity(ProfileActivity::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,8 +44,20 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObservers()
         initViews()
+        viewModel.getUserAppointments()
     }
+
+    private fun setupObservers() {
+        viewModel.medicalAppointmentLiveData.observe(viewLifecycleOwner) {
+            parentActivity.handleResponse(it) { medicalAppointments ->
+                getAdapter().refreshList(medicalAppointments)
+            }
+        }
+    }
+
+    private fun getAdapter() = (binding.rvMedicalAppointments.adapter as MedicalAppointmentAdapter)
 
     private fun initViews() {
         with(binding) {
@@ -44,31 +70,20 @@ class DashboardFragment : Fragment() {
                 )
             ) { dashboardItem ->
                 when (dashboardItem) {
-                    Medici -> TODO()
+                    Medici -> {}
                     Programari -> navigateTo(AppointmentActivity::class.java)
                     IstoricMedical -> navigateTo(MedicalRecordActivity::class.java)
                     TestCovidOnline -> navigateTo(TestCovidActivity::class.java)
                 }
             }
-            rvMedicalAppointments.adapter = MedicalAppointmentAdapter(
-                mutableListOf(
-//                    MedicalAppointment("Dr. Radu Ciobanu", "22.06.2022", "11:30AM", "12:00PM"),
-//                    MedicalAppointment("Dr. Andreea Cazacu", "04.07.2022", "10:30AM", "11:00AM"),
-//                    MedicalAppointment("Dr. Muresan Ganici", "12.08.2022", "09:30AM", "10:00AM"),
-//                    MedicalAppointment("Dr. Prof. Marius Ciorbea", "14.09.2022", "2:30PM", "3:00PM")
-                    MedicalAppointment("Caius Marian", "22.06.2022", "11:30AM", "12:00PM"),
-                    MedicalAppointment("Rares Dumitru", "04.07.2022", "10:30AM", "11:00AM"),
-                    MedicalAppointment("Andreea Costov", "12.08.2022", "09:30AM", "10:00AM"),
-                    MedicalAppointment("Danaila Mihai", "14.09.2022", "2:30PM", "3:00PM")
-                )
-            )
+            rvMedicalAppointments.adapter = MedicalAppointmentAdapter(mutableListOf())
         }
     }
 
     companion object {
-        fun newInstance(args: Bundle? = null): DashboardFragment {
+        fun newInstance(user: User): DashboardFragment {
             val fragment = DashboardFragment()
-            args?.let { fragment.arguments = it }
+            fragment.arguments = Bundle().also { it.putParcelable(USER_KEY, user) }
             return fragment
         }
     }
@@ -78,23 +93,5 @@ class DashboardFragment : Fragment() {
         object TestCovidOnline : DashboardItem("Test covid online", R.drawable.mask)
         object Medici : DashboardItem("Medici", R.drawable.doctors)
         object IstoricMedical : DashboardItem("Istoric medical", R.drawable.symptoms)
-    }
-}
-
-fun <T> Fragment.navigateTo(
-    destination: Class<T>,
-    isFinishActivity: Boolean = false,
-    extras: Bundle? = null
-) {
-    if (destination.superclass.name == BaseActivity::class.java.name) {
-        requireActivity().apply {
-            Intent(this, destination).also {
-                extras?.let { safeExtras -> it.putExtra("data", safeExtras) }
-                startActivity(it)
-            }
-            if (isFinishActivity) finish()
-        }
-    } else {
-        throw IllegalArgumentException("Destination must be an Activity!")
     }
 }

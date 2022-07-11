@@ -1,9 +1,7 @@
 package eu.ase.grupa1088.licenta.utils
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
+import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 
 fun DatabaseReference.observeValue(completionHandler: (snapshot: AppResult<DataSnapshot>) -> Unit) {
@@ -40,3 +38,7 @@ fun DataSnapshot.getDoctorId() = if (hasChild("doctorID")) {
 } else null
 
 fun DataSnapshot.getUser() = getValue(User::class.java)
+
+fun DataSnapshot.getAppointments() = getValue(object :
+    GenericTypeIndicator<List<MedicalAppointment>>() {
+})

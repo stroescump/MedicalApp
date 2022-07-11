@@ -4,12 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.database.DataSnapshot
+import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
-import eu.ase.grupa1088.licenta.repo.getCurrentUserNode
+import eu.ase.grupa1088.licenta.repo.getUserAccountDetails
+import eu.ase.grupa1088.licenta.repo.getUserAppointmentsFirebase
 import eu.ase.grupa1088.licenta.utils.AppResult
-import eu.ase.grupa1088.licenta.utils.observeValue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +25,7 @@ class AccountViewModel(
     var isDoctor: Boolean = false
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
-    val userInfoLiveData = MutableLiveData<AppResult<DataSnapshot>>()
+    val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
 
     fun registerUser(
         email: String,
@@ -62,8 +62,16 @@ class AccountViewModel(
     }
 
     fun getUserInfo() {
-        getCurrentUserNode().observeValue {
-            userInfoLiveData.postValue(it)
+        getUserAccountDetails { res ->
+            viewModelScope.launch(dispatcher) {
+                uiStateFlow.update { res }
+            }
+        }
+    }
+
+    fun getUserAppointments() {
+        getUserAppointmentsFirebase { res ->
+            medicalAppointmentLiveData.postValue(res)
         }
     }
 

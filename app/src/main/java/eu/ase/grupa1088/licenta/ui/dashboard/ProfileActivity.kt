@@ -7,22 +7,26 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivityProfileActivityBinding
+import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.login.LoginActivity
 import eu.ase.grupa1088.licenta.ui.profile.ProfileDetailsActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
+import eu.ase.grupa1088.licenta.utils.USER_KEY
 import eu.ase.grupa1088.licenta.utils.capitalizeWord
 import eu.ase.grupa1088.licenta.utils.viewBinding
+import kotlinx.coroutines.launch
 
 class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var user: User
     override val binding by viewBinding(ActivityProfileActivityBinding::inflate)
     private val viewModel by viewModels<AccountViewModel> {
         AccountViewModel.Factory(AccountService(FirebaseAuth.getInstance()))
@@ -32,7 +36,9 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance())
+        user = intent.extras?.getParcelable(USER_KEY)
+            ?: throw IllegalStateException("Must have a valid user.")
+        replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
     }
 
     override fun setupListeners() {}
@@ -64,20 +70,21 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     override fun setupObservers() {
-        viewModel.userInfoLiveData.observe(this) {
-            handleResponse(it) { snapshot -> provideUserInfoSuccessHandler(snapshot) }
+        lifecycleScope.launch {
+            viewModel.uiStateFlow.collect {
+                handleResponse(it) { user -> provideUserInfoSuccessHandler(user) }
+            }
         }
     }
 
-    private fun provideUserInfoSuccessHandler(snapshot: DataSnapshot) {
-        if (snapshot.exists()) {
-            snapshot.child("nume").value.toString()
-                .also { fullName ->
-                    val (nume, prenume) = fullName.split(" ")
-                    val numeFormatat =
-                        "${nume.capitalizeWord()}\n${prenume.capitalizeWord()}"
-                    drawerFullName.text = numeFormatat
-                }
+    private fun provideUserInfoSuccessHandler(user: User?) {
+        user?.let {
+            it.nume?.let { name ->
+                val (nume, prenume) = name.split(" ")
+                val numeFormatat =
+                    "${nume.capitalizeWord()}\n${prenume.capitalizeWord()}"
+                drawerFullName.text = numeFormatat
+            }
         }
     }
 
@@ -85,7 +92,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         when (item.itemId) {
             R.id.home -> replaceFragment(
                 binding.fragmentContainer.id,
-                DashboardFragment.newInstance()
+                DashboardFragment.newInstance(user)
             )
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
