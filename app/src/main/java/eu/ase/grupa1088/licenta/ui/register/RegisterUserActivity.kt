@@ -50,12 +50,7 @@ class RegisterUserActivity : BaseActivity() {
                     AppResult.Progress -> showProgress()
                     is AppResult.Success -> {
                         hideProgress()
-                        displayInfo(
-                            getString(
-                                R.string.msg_registration_successful,
-                                res.successData?.nume
-                            )
-                        )
+                        onBackPressed()
                     }
                     else -> {}
                 }
@@ -81,8 +76,9 @@ class RegisterUserActivity : BaseActivity() {
                     etEmail.value(),
                     etParola.value(),
                     etNume.value(),
-                    if (viewModel.isDoctor) etIdDoctor.value() else etCNP.value(),
-                    etTelefon.value()
+                    etTelefon.value(),
+                    etCNP.value(),
+                    etIdDoctor.value()
                 )
             } else {
                 displayError(getString(R.string.check_data_validity))

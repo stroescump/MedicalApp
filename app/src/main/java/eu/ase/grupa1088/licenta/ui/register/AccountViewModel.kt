@@ -27,10 +27,17 @@ class AccountViewModel(
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val userInfoLiveData = MutableLiveData<AppResult<DataSnapshot>>()
 
-    fun registerUser(email: String, parola: String, nume: String, cnp: String, telefon: String) {
+    fun registerUser(
+        email: String,
+        parola: String,
+        nume: String,
+        telefon: String,
+        cnp: String? = null,
+        doctorID: String? = null
+    ) {
         viewModelScope.launch(dispatcher) {
             uiStateFlow.update { AppResult.Progress }
-            accountService.registerUser(email, parola, nume, cnp, telefon) { res ->
+            accountService.registerUser(email, parola, nume, telefon, cnp, doctorID) { res ->
                 uiStateFlow.update { res }
             }
         }

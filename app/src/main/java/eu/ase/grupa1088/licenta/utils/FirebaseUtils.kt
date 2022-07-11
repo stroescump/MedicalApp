@@ -1,7 +1,10 @@
 package eu.ase.grupa1088.licenta.utils
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import eu.ase.grupa1088.licenta.models.User
 
 fun DatabaseReference.observeValue(completionHandler: (snapshot: AppResult<DataSnapshot>) -> Unit) {
     completionHandler(AppResult.Progress)
@@ -27,3 +30,13 @@ private fun provideValueEventListener(completionHandler: (snapshot: AppResult<Da
             completionHandler(AppResult.Error(error.toException()))
         }
     }
+
+fun DataSnapshot.isDoctor() = if (hasChild("doctorID")) {
+    child("doctorID").value.toString().isEmpty().not()
+} else false
+
+fun DataSnapshot.getDoctorId() = if (hasChild("doctorID")) {
+    child("doctorID").value.toString()
+} else null
+
+fun DataSnapshot.getUser() = getValue(User::class.java)
