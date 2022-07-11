@@ -19,6 +19,7 @@
     <string name="parola">Parola</string>
     <string name="telefon">Telefon</string>
     <string name="numele_complet">Numele\ncomplet</string>
+    <string name="numele_complet_registration">Numele complet</string>
     <string name="error_name_required">Trebuie introdus un nume.</string>
     <string name="error_phone_required">Trebuie introdus numarul de telefon</string>
     <string name="error_email_required">Trebuie introdus emailul</string>
@@ -68,11 +69,11 @@
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
         <item>3.Ati avut simpome dea pierdere a gustului sau al mirosului în ultimele 14 zile?</item>
-        <item>4.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile?\ndureri în gât\ndureri de cap\ndureri de cap și dureri musculare\ndiaree\no iritație la nivelul pielii sau o decolorare a degetelor de la mâini sau de la picioare\nochi roșii sau iritați</item>
-        <item>5.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile? Dacă da, vă recomandăm să luați măsuri și să cotactați un doctor.\ndificultăți de respirație sau dispnee\nincapacitatea de a vorbi sau de a se mișca\ndurere toracică</item>
+        <item>4.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile?\n-dureri în gât\n-dureri de cap\n-dureri de cap și dureri musculare\n-diaree\n-o iritație la nivelul pielii sau o decolorare a degetelor de la mâini sau de la picioare\n-ochi roșii sau iritați</item>
+        <item>5.Ati avut vreun simptom din lista de mai jos în ultimele 14 zile? Dacă da, vă recomandăm să luați măsuri și să cotactați un doctor.\n-dificultăți de respirație sau dispnee\n-incapacitatea de a vorbi sau de a se mișca\n-durere toracică</item>
         <item>6.Ați primit raspuns pozitiv la vreun test rapid făcut în ultimele 14 zile?</item>
-        <item>7.Aveți probleme cronice de sănătate cum ar fi:\nBoli de inimă, boli de plămâni, boli de rinichi, diabet,anemie, alte boli de sânge\norice altă problemă a sistemului imunitar sau boli neurologice?\nDacă da, este recomandat să contactați un medic pentru a vă asigura că nu sunteți infectat și cu SARS-COV-2, pentru a preveni următoarele complicații.</item>
-        <item>8.În ultimele 3 luni, ați luat medicamente care vă slăbesc sistemul imunitar, cum ar fi cortizon, prednison sau alți steroizi, medicamente anticanceroase sau ați avut tratamente cu radiatii?</item>
+        <item>7.Aveți probleme cronice de sănătate cum ar fi:\n-boli de inimă\n-boli de plămâni\n-boli de rinichi\n-diabet, anemie, alte boli de sânge\n-orice altă problemă a sistemului imunitar sau boli neurologice?\nDacă da, este recomandat să contactați un medic pentru a vă asigura că nu sunteți infectat și cu SARS-COV-2, pentru a preveni următoarele complicații.</item>
+        <item>8.În ultimele 3 luni, ați luat medicamente care vă slăbesc sistemul imunitar, cum ar fi:\n-cortizon\n-prednison sau alți steroizi\n-medicamente anticanceroase sau ați avut tratamente cu radiatii?</item>
         <item>9.În ultimele luni, ați primit transfuzie de sânge sau produse din sânge, vi s-a administrat imunoglobulină sau un medicament antiviral?</item>
         <item>10.Ați mai făcut vreun vaccin în ultimele 4 săptămâni? Starea de oboseală poate fi doar o alertă temporară.</item>
         <item>11.Ați mai fost infectat cu virusul SARS-CoV-2 înainte?</item>
