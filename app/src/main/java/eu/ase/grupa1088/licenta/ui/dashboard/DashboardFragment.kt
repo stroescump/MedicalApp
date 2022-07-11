@@ -55,6 +55,11 @@ class DashboardFragment : Fragment() {
                 getAdapter().refreshList(medicalAppointments)
             }
         }
+        viewModel.deleteLiveData.observe(viewLifecycleOwner) {
+            parentActivity.handleResponse(it) { pos ->
+                getAdapter().removeItem(pos)
+            }
+        }
     }
 
     private fun getAdapter() = (binding.rvMedicalAppointments.adapter as MedicalAppointmentAdapter)
@@ -77,7 +82,9 @@ class DashboardFragment : Fragment() {
                 }
             }
             rvMedicalAppointments.adapter =
-                MedicalAppointmentAdapter(mutableListOf(), viewModel.isDoctor)
+                MedicalAppointmentAdapter(mutableListOf(), viewModel.isDoctor) { medicalAppointment, pos ->
+                    viewModel.deleteAppointment(medicalAppointment, pos)
+                }
         }
     }
 

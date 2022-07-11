@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
+import eu.ase.grupa1088.licenta.repo.deleteAppointmentFirebase
 import eu.ase.grupa1088.licenta.repo.getUserAccountDetails
 import eu.ase.grupa1088.licenta.repo.getUserAppointmentsFirebase
 import eu.ase.grupa1088.licenta.utils.AppResult
@@ -26,6 +27,7 @@ class AccountViewModel(
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
+    val deleteLiveData = MutableLiveData<AppResult<Int>>()
 
     fun registerUser(
         email: String,
@@ -70,6 +72,14 @@ class AccountViewModel(
     fun getUserAppointments() {
         getUserAppointmentsFirebase { res ->
             medicalAppointmentLiveData.postValue(res)
+        }
+    }
+
+    fun deleteAppointment(appointment: MedicalAppointment, pos: Int) {
+        appointment.id?.let { id ->
+            deleteAppointmentFirebase(id, pos) {
+                deleteLiveData.postValue(it)
+            }
         }
     }
 
