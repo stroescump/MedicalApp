@@ -5,20 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/dimen_50dp"
-    android:paddingStart="@dimen/dimen_20dp"
     tools:ignore="RtlSymmetry">
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="@dimen/dimen_15dp"
+        android:layout_height="@dimen/dimen_15dp"
+        android:layout_marginTop="@dimen/dimen_20dp"
+        android:layout_marginEnd="@dimen/dimen_20dp"
+        android:background="@drawable/close"
+        android:backgroundTint="@color/red_dark1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/nav_user_image"
         android:layout_width="@dimen/dimen_95dp"
         android:layout_height="@dimen/dimen_95dp"
-        android:layout_marginTop="@dimen/dimen_25dp"
+        android:layout_marginStart="@dimen/dimen_20dp"
+        android:layout_marginTop="@dimen/dimen_50dp"
         android:background="@drawable/image_view_stroke"
         android:padding="@dimen/dimen_3dp"
         android:src="@drawable/girl"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/btnClose" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nav_user_fullname"
@@ -27,12 +37,12 @@
         android:layout_marginStart="@dimen/dimen_10dp"
         android:layout_marginTop="@dimen/dimen_10dp"
         android:fontFamily="@font/mont_heavy"
-        android:text="@string/numele_complet"
         android:textColor="@color/red"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@id/nav_user_image"
         app:layout_constraintStart_toEndOf="@id/nav_user_image"
-        app:layout_constraintTop_toTopOf="@id/nav_user_image" />
+        app:layout_constraintTop_toTopOf="@id/nav_user_image"
+        tools:text="@string/numele_complet" />
 
     <!--    <androidx.appcompat.widget.AppCompatTextView-->
     <!--        android:id="@+id/nav_user_email"-->

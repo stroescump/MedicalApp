@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
@@ -36,6 +37,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getUserInfo()
         user = intent.extras?.getParcelable(USER_KEY)
             ?: throw IllegalStateException("Must have a valid user.")
     }
@@ -60,11 +62,13 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                     it.findViewById<CircleImageView>(R.id.nav_user_image).setOnClickListener {
                         navigateTo(ProfileDetailsActivity::class.java)
                     }
+                    it.findViewById<AppCompatImageButton>(R.id.btnClose).setOnClickListener {
+                        drawerLayout.closeDrawer(GravityCompat.START)
+                    }
                 }
                 setNavigationItemSelectedListener(this@ProfileActivity)
             }
         }
-        viewModel.getUserInfo()
     }
 
     override fun setupObservers() {
@@ -76,11 +80,17 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
     }
 
     private fun provideUserInfoSuccessHandler(user: User?) {
-        user?.let {
+        user?.let { userSafe ->
             viewModel.isDoctor = user.doctorID.isNullOrBlank().not()
+            this.user = user
             replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
-            it.nume?.let { name ->
-                val (nume, prenume) = name.split(" ")
+            userSafe.nume?.let { name ->
+                var nume = ""
+                var prenume = ""
+                name.split(" ").apply {
+                    nume = first()
+                    prenume = filter { it != nume }.joinToString(" ")
+                }
                 val numeFormatat =
                     "${nume.capitalizeWord()}\n${prenume.capitalizeWord()}"
                 drawerFullName.text = numeFormatat
