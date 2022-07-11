@@ -57,7 +57,7 @@
     <string name="error_insert_valid_email">Introduceti un email valid.</string>
     <string name="msg_password_reset_info">An password reset email has been sent to your inbox. Please check your email.</string>
     <string name="msg_registration_successful">User registered successfuly. Welcome %s</string>
-    <string name="screening_covid_19_online">Screening \nCovid-19 Online</string>
+    <string name="screening_covid_19_online">Screening Covid-19 Online</string>
     <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
     <string name="nu">NU</string>
     <string name="da">DA</string>

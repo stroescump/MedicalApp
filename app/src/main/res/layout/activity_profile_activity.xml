@@ -5,7 +5,6 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
     android:fitsSystemWindows="true"
     tools:context=".ui.dashboard.ProfileActivity"
     tools:openDrawer="start">
@@ -22,8 +21,8 @@
             android:background="@color/red_light1" />
 
         <androidx.fragment.app.FragmentContainerView
+            android:background="@color/red_light1"
             android:id="@+id/fragment_container"
-            android:name="eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_dashboard" />

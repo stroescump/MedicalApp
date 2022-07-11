@@ -38,7 +38,6 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         super.onCreate(savedInstanceState)
         user = intent.extras?.getParcelable(USER_KEY)
             ?: throw IllegalStateException("Must have a valid user.")
-        replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
     }
 
     override fun setupListeners() {}
@@ -63,7 +62,6 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                     }
                 }
                 setNavigationItemSelectedListener(this@ProfileActivity)
-                setCheckedItem(R.id.home)
             }
         }
         viewModel.getUserInfo()
@@ -79,6 +77,8 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun provideUserInfoSuccessHandler(user: User?) {
         user?.let {
+            viewModel.isDoctor = user.doctorID.isNullOrBlank().not()
+            replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
             it.nume?.let { name ->
                 val (nume, prenume) = name.split(" ")
                 val numeFormatat =

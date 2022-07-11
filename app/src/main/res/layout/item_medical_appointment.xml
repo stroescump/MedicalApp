@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_10dp"
         android:layout_marginEnd="@dimen/dimen_10dp"
-        android:text="@string/appointment_title_as_patient"
+        tools:text="@string/appointment_title_as_patient"
         android:textColor="@color/black"
         android:textSize="@dimen/dimen_16sp"
         app:layout_constraintBottom_toBottomOf="@id/btnRescheduleAppointment"

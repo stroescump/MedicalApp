@@ -29,10 +29,10 @@ fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) =
     }
 
 fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List<MedicalAppointment>>) -> Unit) =
-    FirebaseDatabase.getInstance().reference.child(Users.path).child(
+    FirebaseDatabase.getInstance().reference.child(MedicalAppointments.path).child(
         FirebaseAuth.getInstance().currentUser?.uid
             ?: throw IllegalArgumentException("UID must be valid for user ${FirebaseAuth.getInstance().currentUser}")
-    ).child(MedicalAppointments.path).get().addOnSuccessListener {
+    ).get().addOnSuccessListener {
         it.getAppointments()?.let { user ->
             completionHandler(AppResult.Success(user))
         }

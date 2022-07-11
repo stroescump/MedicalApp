@@ -40,6 +40,7 @@ class TestCovidActivity : BaseActivity() {
     override fun setupListeners() {
         with(binding) {
             btnGetScreeningResults.setOnClickListener { handleGetScreeningResults() }
+            btnBack.setOnClickListener { onBackPressed() }
         }
     }
 

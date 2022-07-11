@@ -76,7 +76,8 @@ class DashboardFragment : Fragment() {
                     TestCovidOnline -> navigateTo(TestCovidActivity::class.java)
                 }
             }
-            rvMedicalAppointments.adapter = MedicalAppointmentAdapter(mutableListOf())
+            rvMedicalAppointments.adapter =
+                MedicalAppointmentAdapter(mutableListOf(), viewModel.isDoctor)
         }
     }
 

@@ -7,7 +7,10 @@ import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemMedicalAppointmentBinding
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 
-class MedicalAppointmentAdapter(private val medicalAppointments: MutableList<MedicalAppointment>) :
+class MedicalAppointmentAdapter(
+    private val medicalAppointments: MutableList<MedicalAppointment>,
+    private val isDoctor: Boolean
+) :
     RecyclerView.Adapter<MedicalAppointmentVH>() {
     private lateinit var binding: ItemMedicalAppointmentBinding
 
@@ -36,13 +39,16 @@ class MedicalAppointmentAdapter(private val medicalAppointments: MutableList<Med
         @SuppressLint("SetTextI18n")
         fun bind(currentItem: MedicalAppointment) {
             with(binding) {
-                tvAppointmentTitle.text =
-                    root.context.getString(R.string.appointment_title_as_doctor)
+                tvAppointmentTitle.text = if (isDoctor)
+                    getString(R.string.appointment_title_as_doctor) else getString(R.string.appointment_title_as_patient)
                 tvAppointmentDate.text =
                     "${currentItem.date}\n${currentItem.startHour} - ${currentItem.endHour}"
-                tvAppointmentDoctorName.text = currentItem.doctorName
+                tvAppointmentDoctorName.text = currentItem.name
             }
         }
+
+        private fun getString(stringRes: Int) =
+            binding.root.context.getString(stringRes)
     }
 
     fun refreshList(newList: List<MedicalAppointment>) {

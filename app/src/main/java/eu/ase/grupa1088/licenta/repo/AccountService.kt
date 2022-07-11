@@ -16,6 +16,7 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
         doctorID: String? = null,
         completionCallback: (user: AppResult<User>) -> Unit
     ) {
+        completionCallback(AppResult.Progress)
         firebaseDep.createUserWithEmailAndPassword(email, parola)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -52,6 +53,7 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
         parola: String,
         completionCallback: (user: AppResult<User>) -> Unit
     ) {
+        completionCallback(AppResult.Progress)
         firebaseDep.signInWithEmailAndPassword(email, parola)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -63,9 +65,7 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
                                     User(
                                         it.displayName,
                                         it.phoneNumber,
-                                        it.email,
-                                        null,
-                                        null
+                                        it.email
                                     )
                                 )
                             )
