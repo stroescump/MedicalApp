@@ -109,6 +109,7 @@
         android:layout_marginTop="@dimen/dimen_10dp"
         android:hint="@string/cnp"
         android:inputType="text"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etParola"
@@ -122,11 +123,25 @@
         android:layout_marginTop="@dimen/dimen_10dp"
         android:hint="@string/id_doctor"
         android:inputType="text"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etParola"
         app:layout_constraintWidth_percent="0.8" />
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spinnerAppointmentType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_40dp"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_40dp"
+        android:background="@null"
+        android:entries="@array/doctor_specialities"
+        android:overlapAnchor="false"
+        android:popupBackground="@drawable/card_medical_appointment"
+        app:layout_constraintTop_toBottomOf="@id/etIdDoctor"
+        tools:listitem="@layout/layout_spinner" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
@@ -135,9 +150,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_20dp"
         android:text="@string/register"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="0.8" />
 
     <include

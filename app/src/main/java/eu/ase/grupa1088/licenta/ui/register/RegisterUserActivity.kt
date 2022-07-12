@@ -97,6 +97,7 @@ class RegisterUserActivity : BaseActivity() {
                 text?.clear()
                 show()
             }
+            spinnerAppointmentType.show()
         } else {
             etCNP.apply {
                 text?.clear()
@@ -106,6 +107,7 @@ class RegisterUserActivity : BaseActivity() {
                 text?.clear()
                 hide()
             }
+            spinnerAppointmentType.hide()
         }
     }
 }

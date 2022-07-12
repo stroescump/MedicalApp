@@ -82,4 +82,18 @@
         <item>11.Ați mai fost infectat cu virusul SARS-CoV-2 înainte?</item>
         <item>12.Ați avut contact cu vreo persoană infectata cu SARS-CoV-2 în ultimele 14 zile?</item>
     </string-array>
+    <string-array name="doctor_specialities">
+        <item>Fizioterapie</item>
+        <item>Fiziokinetoterapie</item>
+        <item>Electroterapie</item>
+        <item>Hidroterapie</item>
+        <item>Termoterapie</item>
+        <item>Masaj terapeutic</item>
+        <item>Ergoterapia</item>
+        <item>Pneumatoterapia</item>
+        <item>Radiografie</item>
+        <item>Tomografie</item>
+        <item>Analize</item>
+        <item>Intretinere corporala</item>
+    </string-array>
 </resources>

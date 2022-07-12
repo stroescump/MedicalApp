@@ -81,7 +81,8 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
 
     private fun provideUserInfoSuccessHandler(user: User?) {
         user?.let { userSafe ->
-            viewModel.isDoctor = user.doctorID.isNullOrBlank().not()
+            viewModel.isDoctor =
+                user.doctorID.isNullOrBlank().not() && user.speciality.isNullOrBlank().not()
             this.user = user
             replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
             userSafe.nume?.let { name ->

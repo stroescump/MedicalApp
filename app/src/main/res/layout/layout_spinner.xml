@@ -8,7 +8,7 @@
     android:layout_gravity="start"
     android:background="@drawable/spinner_bg"
     android:drawableEnd="@drawable/dropdown_arrow"
-    android:padding="@dimen/dimen_10dp"
+    android:padding="@dimen/dimen_15dp"
     android:textColor="@color/black"
     android:textSize="@dimen/dimen_16sp"
     tools:text="Dr. Stoian Marian" />
