@@ -9,13 +9,20 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivityAppointmentBinding
+import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
+import eu.ase.grupa1088.licenta.utils.dateFormatter
 import eu.ase.grupa1088.licenta.utils.initArrayAdapter
 import eu.ase.grupa1088.licenta.utils.viewBinding
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.time.temporal.ChronoUnit
+import java.util.*
+
 
 class AppointmentActivity : BaseActivity() {
     private lateinit var user: User
@@ -56,9 +63,22 @@ class AppointmentActivity : BaseActivity() {
                     resources.getStringArray(R.array.doctor_specialities)
                 )
 
-            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(
-                mutableListOf()
-            )
+            val calendar = Calendar.getInstance()
+            val dateFormat = SimpleDateFormat("dd.MM.yyyy")
+            val listOfDates = mutableListOf<String>()
+            for (index in 1..10) {
+                calendar.add(Calendar.DATE, 1)
+                listOfDates.add(dateFormat.format(calendar.time))
+            }
+
+            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf())
+            rvDateDesired.adapter = DesiredDateAdapter(listOfDates) { dateDesired ->
+                binding.spinnerDoctor.selectedItem?.also {
+                    (it as User).doctorID?.let { doctorID ->
+                        viewModel.getAvailableTimetables(doctorID, dateDesired)
+                    }
+                }
+            }
         }
     }
 
@@ -80,8 +100,30 @@ class AppointmentActivity : BaseActivity() {
         }
 
         viewModel.medicalAppointmentLiveData.observe(this) { response ->
-            handleResponse(response) {
-                getAvailabilityAdapter().refreshAdapter(it)
+            handleResponse(response) { appointmentsRemoteList ->
+                val calendar = Calendar.getInstance()
+                val listOfHours = mutableListOf<MedicalAppointment>()
+                val currentTime =
+                    LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
+                val endOfShift = LocalTime.of(17, 30)
+                val diff = currentTime.until(endOfShift, ChronoUnit.MINUTES)
+                if (diff > 60) {
+                    for (i in 1..(diff) step 60) {
+                        addHoursToAvailabileSlots(calendar, listOfHours)
+                    }
+                } else if (diff > 30) {
+                    addHoursToAvailabileSlots(calendar, listOfHours)
+                }
+                appointmentsRemoteList.onEach { appointmentRemote ->
+                    listOfHours.removeIf { it.startHour == appointmentRemote.startHour }
+                }
+                if (listOfHours.isEmpty()) {
+                    displayError(getString(R.string.error_no_intervals_available))
+                } else {
+                    getAvailabilityAdapter().refreshAdapter(
+                        listOfHours
+                    )
+                }
             }
         }
 
@@ -93,30 +135,13 @@ class AppointmentActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
+                    getAvailabilityAdapter().refreshAdapter(listOf())
                     val speciality = getSelectedSpeciality()
                     binding.spinnerDoctor.adapter = initDoctorAdapter(
                         this@AppointmentActivity,
                         listOf()
                     )
                     viewModel.getAvailableDoctors(speciality)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-
-        binding.spinnerDoctor.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    if (this@AppointmentActivity::user.isInitialized) {
-                        (binding.spinnerDoctor.selectedItem as User).doctorID?.let { doctorID ->
-                            viewModel.getAvailableTimetables(doctorID, "19.07.2022")
-                        }
-                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -131,8 +156,27 @@ class AppointmentActivity : BaseActivity() {
         }
     }
 
+    private fun addHoursToAvailabileSlots(
+        calendar: Calendar,
+        listOfHours: MutableList<MedicalAppointment>
+    ) {
+        calendar.add(Calendar.MINUTE, 30)
+        val startHour = dateFormatter.format(calendar.time)
+        calendar.add(Calendar.MINUTE, 30)
+        val endHour = dateFormatter.format(calendar.time)
+        listOfHours.add(
+            MedicalAppointment(
+                startHour = startHour,
+                endHour = endHour
+            )
+        )
+    }
+
     private fun getAvailabilityAdapter() =
         (binding.rvAvailableDates.adapter as AppointmentAvailabilityAdapter)
+
+    private fun getDatesDesiredAdapter() =
+        (binding.rvDateDesired.adapter as DesiredDateAdapter)
 
 
     private fun getSelectedSpeciality() = binding.spinnerAppointmentType.selectedItem as String

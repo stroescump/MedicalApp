@@ -69,6 +69,7 @@
     <string name="id_doctor">ID Doctor</string>
     <string name="error_id_doctor_valid">Trebuie introdus un ID valid.</string>
     <string name="error_no_doctors_available">No doctors available for selected speciality.</string>
+    <string name="error_no_intervals_available">No intervals available. Please select another day.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>

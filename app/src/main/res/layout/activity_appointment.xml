@@ -61,13 +61,24 @@
         tools:listitem="@layout/layout_spinner" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvDateDesired"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/rvAvailableDates"
+        app:layout_constraintTop_toBottomOf="@id/spinnerDoctor"
+        tools:listitem="@layout/item_appointment_desired_date" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAvailableDates"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimen_10dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerDoctor"
+        app:layout_constraintTop_toBottomOf="@id/rvDateDesired"
         tools:listitem="@layout/item_appointment_details" />
 
     <androidx.appcompat.widget.AppCompatButton

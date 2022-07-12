@@ -94,24 +94,26 @@ fun getDoctorAvailability(
     completionHandler(AppResult.Progress)
     getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate).get()
         .addOnSuccessListener { appointmentsHashMap ->
-            appointmentsHashMap.children.onEach { appointment ->
-                val userID = appointment.child("patient_key").value.toString()
-                getFirebaseRoot().child(MedicalAppointments.path).child(userID).get()
-                    .addOnSuccessListener { dataSnapshot ->
-                        dataSnapshot.getAppointments()?.let { appointmentHashMap ->
-                            completionHandler(
-                                AppResult.Success(
-                                    prepareMedicalAppointments(
-                                        appointmentHashMap
+            if (appointmentsHashMap.hasChildren()) {
+                appointmentsHashMap.children.onEach { appointment ->
+                    val userID = appointment.child("patient_key").value.toString()
+                    getFirebaseRoot().child(MedicalAppointments.path).child(userID).get()
+                        .addOnSuccessListener { dataSnapshot ->
+                            dataSnapshot.getAppointments()?.let { appointmentHashMap ->
+                                completionHandler(
+                                    AppResult.Success(
+                                        prepareMedicalAppointments(
+                                            appointmentHashMap
+                                        )
                                     )
                                 )
-                            )
+                            }
+                                ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
+                        }.addOnFailureListener {
+                            completionHandler(AppResult.Error(it))
                         }
-                            ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
-                    }.addOnFailureListener {
-                        completionHandler(AppResult.Error(it))
-                    }
-            }
+                }
+            } else completionHandler(AppResult.Success(listOf()))
         }.addOnFailureListener {
             completionHandler(AppResult.Error(it))
         }

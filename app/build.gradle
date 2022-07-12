@@ -68,4 +68,8 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation("androidx.fragment:fragment-ktx:$fragment_ktx")
+
+    implementation 'com.airbnb.android:paris:2.0.0'
+    // Apply the Paris processor if you're using Paris annotations for code gen.
+    kapt 'com.airbnb.android:paris-processor:2.0.0'
 }
