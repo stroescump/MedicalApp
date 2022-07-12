@@ -75,10 +75,8 @@ class AccountViewModel(
     }
 
     fun deleteAppointment(appointment: MedicalAppointment, pos: Int) {
-        appointment.id?.let { id ->
-            deleteAppointmentFirebase(id, pos) {
-                deleteLiveData.postValue(it)
-            }
+        deleteAppointmentFirebase(appointment, pos) {
+            deleteLiveData.postValue(it)
         }
     }
 

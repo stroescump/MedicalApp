@@ -4,8 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
-import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.MedicalAppointments
-import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.Users
+import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.*
 import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.getAllUsers
 import eu.ase.grupa1088.licenta.utils.getAppointments
@@ -14,7 +13,7 @@ import eu.ase.grupa1088.licenta.utils.getUser
 sealed class FirebaseEndpoints(val path: String) {
     object Users : FirebaseEndpoints("Users")
     object MedicalAppointments : FirebaseEndpoints("Appointments")
-    object Doctors : FirebaseEndpoints("Doctors")
+    data class Doctors(val bookedSlots: String = "bookedSlots") : FirebaseEndpoints("Doctors")
 }
 
 fun getDoctors(speciality: String, completionHandler: (user: AppResult<List<User>>) -> Unit) =
@@ -55,18 +54,30 @@ fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List
     }
 
 fun deleteAppointmentFirebase(
-    appointmentId: String,
+    medicalAppointment: MedicalAppointment,
     pos: Int,
     completionHandler: (AppResult<Int>) -> Unit
-) =
-    getFirebaseRoot().child(MedicalAppointments.path).child(
-        getCurrentUserUID()
-            ?: throwUIDException()
-    ).child(appointmentId).removeValue().addOnSuccessListener {
-        completionHandler(AppResult.Success(pos))
-    }.addOnFailureListener {
-        completionHandler(AppResult.Error(it))
+) = medicalAppointment.id?.let { appointmentID ->
+    medicalAppointment.doctorID?.let { doctorID ->
+        medicalAppointment.date?.let { appointmentDate ->
+            val formattedAppointmentDate = appointmentDate.split(".").joinToString("")
+            getFirebaseRoot().child(MedicalAppointments.path).child(
+                getCurrentUserUID()
+                    ?: throwUIDException()
+            ).child(appointmentID).removeValue().addOnSuccessListener {
+                getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate)
+                    .child(appointmentID).removeValue()
+                    .addOnSuccessListener {
+                        completionHandler(AppResult.Success(pos))
+                    }.addOnFailureListener {
+                        completionHandler(AppResult.Error(it))
+                    }
+            }.addOnFailureListener {
+                completionHandler(AppResult.Error(it))
+            }
+        }
     }
+}
 
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
     user.entries.map { appointment ->
@@ -78,5 +89,9 @@ private fun throwUIDException(): Nothing =
 
 
 private fun getFirebaseRoot() = FirebaseDatabase.getInstance().reference
+
+private fun getDoctorAppointmentNode(doctorID: String) = Doctors().run {
+    getFirebaseRoot().child(path).child(doctorID).child(bookedSlots)
+}
 
 private fun getCurrentUserUID() = FirebaseAuth.getInstance().currentUser?.uid
