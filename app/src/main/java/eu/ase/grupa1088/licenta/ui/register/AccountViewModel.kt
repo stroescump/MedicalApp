@@ -6,16 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
-import eu.ase.grupa1088.licenta.repo.AccountService
-import eu.ase.grupa1088.licenta.repo.deleteAppointmentFirebase
-import eu.ase.grupa1088.licenta.repo.getUserAccountDetails
-import eu.ase.grupa1088.licenta.repo.getUserAppointmentsFirebase
+import eu.ase.grupa1088.licenta.repo.*
 import eu.ase.grupa1088.licenta.utils.AppResult
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.*
 
 class AccountViewModel(
     private val accountService: AccountService,
@@ -28,6 +26,7 @@ class AccountViewModel(
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
     val deleteLiveData = MutableLiveData<AppResult<Int>>()
+    val bulkUserLiveData = MutableLiveData<AppResult<List<User>>>()
 
     fun registerUser(
         email: String,
@@ -80,6 +79,12 @@ class AccountViewModel(
             deleteAppointmentFirebase(id, pos) {
                 deleteLiveData.postValue(it)
             }
+        }
+    }
+
+    fun getAvailableDoctors(selectedSpeciality: String) {
+        getDoctors(selectedSpeciality.uppercase(Locale.getDefault())) {
+            bulkUserLiveData.postValue(it)
         }
     }
 

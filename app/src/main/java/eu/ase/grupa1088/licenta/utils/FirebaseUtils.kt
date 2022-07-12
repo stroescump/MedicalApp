@@ -39,6 +39,10 @@ fun DataSnapshot.getDoctorId() = if (hasChild("doctorID")) {
 
 fun DataSnapshot.getUser() = getValue(User::class.java)
 
+fun DataSnapshot.getAllUsers() = getValue(object :
+    GenericTypeIndicator<HashMap<String, User>>() {
+})
+
 fun DataSnapshot.getAppointments() = getValue(object :
     GenericTypeIndicator<HashMap<String, MedicalAppointment>>() {
 })

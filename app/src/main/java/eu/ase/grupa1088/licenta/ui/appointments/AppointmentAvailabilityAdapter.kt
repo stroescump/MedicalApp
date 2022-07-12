@@ -6,63 +6,54 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemAppointmentDetailsBinding
+import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.ui.appointments.AppointmentAvailabilityAdapter.AppointmentAvailabilityVH
 
-class AppointmentAvailabilityAdapter(private val availabilityList: MutableList<Triple<String, String, Boolean>>) :
+class AppointmentAvailabilityAdapter(private val appointmentList: MutableList<MedicalAppointment>) :
     RecyclerView.Adapter<AppointmentAvailabilityVH>() {
     private lateinit var binding: ItemAppointmentDetailsBinding
 
     inner class AppointmentAvailabilityVH : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("NotifyDataSetChanged")
-        fun bind(availabilityDetails: Triple<String, String, Boolean>, position: Int) {
+        fun bind(appointment: MedicalAppointment, position: Int) {
             with(binding) {
                 var isSelected = false
                 root.setOnClickListener {
-                    availabilityList.onEachIndexed { index, _ ->
-                        if (index == position) {
-                            isSelected = true
-                            availabilityList[index] =
-                                Triple(availabilityDetails.first, availabilityDetails.second, true)
-                        } else {
-                            availabilityList[index] =
-                                Triple(availabilityDetails.first, availabilityDetails.second, false)
-                        }
-                        notifyDataSetChanged()
+                    //TODO Create logic for selecting state
+                }
+                if (isSelected) {
+                    root.apply {
+                        setBackgroundResource(R.drawable.button_bg)
+                        tvDateAvailable.setTextColor(
+                            resources.getColor(
+                                R.color.white, context.theme
+                            )
+                        )
+                        tvHourInterval.setTextColor(
+                            resources.getColor(
+                                R.color.white,
+                                context.theme
+                            )
+                        )
                     }
-                    if (isSelected) {
-                        root.apply {
-                            setBackgroundResource(R.drawable.button_bg)
-                            tvDateAvailable.setTextColor(
-                                resources.getColor(
-                                    R.color.white, context.theme
-                                )
+                } else {
+                    root.apply {
+                        setBackgroundResource(R.drawable.card_medical_appointment)
+                        tvDateAvailable.setTextColor(
+                            resources.getColor(
+                                R.color.black, context.theme
                             )
-                            tvHourInterval.setTextColor(
-                                resources.getColor(
-                                    R.color.white,
-                                    context.theme
-                                )
+                        )
+                        tvHourInterval.setTextColor(
+                            resources.getColor(
+                                R.color.black,
+                                context.theme
                             )
-                        }
-                    } else {
-                        root.apply {
-                            setBackgroundResource(R.drawable.card_medical_appointment)
-                            tvDateAvailable.setTextColor(
-                                resources.getColor(
-                                    R.color.black, context.theme
-                                )
-                            )
-                            tvHourInterval.setTextColor(
-                                resources.getColor(
-                                    R.color.black,
-                                    context.theme
-                                )
-                            )
-                        }
+                        )
                     }
                 }
-                tvDateAvailable.text = availabilityDetails.first
-                tvHourInterval.text = availabilityDetails.second
+                tvDateAvailable.text = appointment.date
+                tvHourInterval.text = "${appointment.startHour} - ${appointment.endHour}"
             }
         }
     }
@@ -77,9 +68,9 @@ class AppointmentAvailabilityAdapter(private val availabilityList: MutableList<T
     }
 
     override fun onBindViewHolder(holder: AppointmentAvailabilityVH, position: Int) {
-        val currentDetails = availabilityList[position]
+        val currentDetails = appointmentList[position]
         holder.bind(currentDetails, position)
     }
 
-    override fun getItemCount(): Int = availabilityList.size
+    override fun getItemCount(): Int = appointmentList.size
 }

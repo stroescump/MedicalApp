@@ -7,6 +7,7 @@ import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.MedicalAppointments
 import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.Users
 import eu.ase.grupa1088.licenta.utils.AppResult
+import eu.ase.grupa1088.licenta.utils.getAllUsers
 import eu.ase.grupa1088.licenta.utils.getAppointments
 import eu.ase.grupa1088.licenta.utils.getUser
 
@@ -15,6 +16,19 @@ sealed class FirebaseEndpoints(val path: String) {
     object MedicalAppointments : FirebaseEndpoints("Appointments")
     object Doctors : FirebaseEndpoints("Doctors")
 }
+
+fun getDoctors(speciality: String, completionHandler: (user: AppResult<List<User>>) -> Unit) =
+    getFirebaseRoot().child(Users.path).get().addOnSuccessListener { snapshot ->
+        snapshot.getAllUsers()?.let { user ->
+            completionHandler(AppResult.Success(user.values.filter {
+                it.doctorID.isNullOrBlank().not() && it.speciality.isNullOrBlank()
+                    .not() && it.speciality == speciality
+            }))
+        }
+            ?: completionHandler(AppResult.Error(IllegalArgumentException("No doctors have joined the app. Get some doctors onboard, they can take care of your patients.")))
+    }.addOnFailureListener {
+        completionHandler(AppResult.Error(it))
+    }
 
 fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) =
     getFirebaseRoot().child(Users.path).child(
