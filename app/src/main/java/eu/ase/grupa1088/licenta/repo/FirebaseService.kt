@@ -29,7 +29,8 @@ fun getDoctors(speciality: String, completionHandler: (user: AppResult<List<User
         completionHandler(AppResult.Error(it))
     }
 
-fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) =
+fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) = run {
+    completionHandler(AppResult.Progress)
     getFirebaseRoot().child(Users.path).child(
         getCurrentUserUID() ?: throwUIDException()
     ).get().addOnSuccessListener {
@@ -40,17 +41,21 @@ fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) =
     }.addOnFailureListener {
         completionHandler(AppResult.Error(it))
     }
+}
 
 fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List<MedicalAppointment>>) -> Unit) =
-    getFirebaseRoot().child(MedicalAppointments.path).child(
-        getCurrentUserUID() ?: throwUIDException()
-    ).get().addOnSuccessListener { dataSnapshot ->
-        dataSnapshot.getAppointments()?.let { appointmentHashMap ->
-            completionHandler(AppResult.Success(prepareMedicalAppointments(appointmentHashMap)))
+    run {
+        completionHandler(AppResult.Progress)
+        getFirebaseRoot().child(MedicalAppointments.path).child(
+            getCurrentUserUID() ?: throwUIDException()
+        ).get().addOnSuccessListener { dataSnapshot ->
+            dataSnapshot.getAppointments()?.let { appointmentHashMap ->
+                completionHandler(AppResult.Success(prepareMedicalAppointments(appointmentHashMap)))
+            }
+                ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
+        }.addOnFailureListener {
+            completionHandler(AppResult.Error(it))
         }
-            ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
-    }.addOnFailureListener {
-        completionHandler(AppResult.Error(it))
     }
 
 fun deleteAppointmentFirebase(
@@ -60,6 +65,7 @@ fun deleteAppointmentFirebase(
 ) = medicalAppointment.id?.let { appointmentID ->
     medicalAppointment.doctorID?.let { doctorID ->
         medicalAppointment.date?.let { appointmentDate ->
+            completionHandler(AppResult.Progress)
             val formattedAppointmentDate = appointmentDate.split(".").joinToString("")
             getFirebaseRoot().child(MedicalAppointments.path).child(
                 getCurrentUserUID()
@@ -77,6 +83,38 @@ fun deleteAppointmentFirebase(
             }
         }
     }
+}
+
+fun getDoctorAvailability(
+    doctorID: String,
+    date: String,
+    completionHandler: (AppResult<List<MedicalAppointment>>) -> Unit
+) {
+    val formattedAppointmentDate = date.split(".").joinToString("")
+    completionHandler(AppResult.Progress)
+    getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate).get()
+        .addOnSuccessListener { appointmentsHashMap ->
+            appointmentsHashMap.children.onEach { appointment ->
+                val userID = appointment.child("patient_key").value.toString()
+                getFirebaseRoot().child(MedicalAppointments.path).child(userID).get()
+                    .addOnSuccessListener { dataSnapshot ->
+                        dataSnapshot.getAppointments()?.let { appointmentHashMap ->
+                            completionHandler(
+                                AppResult.Success(
+                                    prepareMedicalAppointments(
+                                        appointmentHashMap
+                                    )
+                                )
+                            )
+                        }
+                            ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
+                    }.addOnFailureListener {
+                        completionHandler(AppResult.Error(it))
+                    }
+            }
+        }.addOnFailureListener {
+            completionHandler(AppResult.Error(it))
+        }
 }
 
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =

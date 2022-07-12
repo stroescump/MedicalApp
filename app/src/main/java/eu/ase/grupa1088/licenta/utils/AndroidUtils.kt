@@ -1,5 +1,6 @@
 package eu.ase.grupa1088.licenta.utils
 
+import android.R.layout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -36,4 +37,4 @@ fun initArrayAdapter(context: Context, array: Array<String>) = ArrayAdapter(
     context,
     R.layout.layout_spinner,
     array
-).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+).also { it.setDropDownViewResource(layout.simple_spinner_dropdown_item) }

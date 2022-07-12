@@ -73,4 +73,9 @@ class AppointmentAvailabilityAdapter(private val appointmentList: MutableList<Me
     }
 
     override fun getItemCount(): Int = appointmentList.size
+    fun refreshAdapter(newList: List<MedicalAppointment>) {
+        appointmentList.clear()
+        appointmentList.addAll(newList)
+        notifyDataSetChanged()
+    }
 }

@@ -86,6 +86,12 @@ class AccountViewModel(
         }
     }
 
+    fun getAvailableTimetables(doctorID: String, date: String) {
+        getDoctorAvailability(doctorID, date) { result ->
+            medicalAppointmentLiveData.postValue(result)
+        }
+    }
+
     class Factory(
         private val accountService: AccountService,
         private val dispatcher: CoroutineDispatcher = Dispatchers.IO
