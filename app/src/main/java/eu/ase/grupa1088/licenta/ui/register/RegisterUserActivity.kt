@@ -39,7 +39,13 @@ class RegisterUserActivity : BaseActivity() {
     }
 
     override fun initViews() {
-        binding.cbIsDoctor.isChecked = viewModel.isDoctor
+        with(binding) {
+            spinnerAppointmentType.adapter = initArrayAdapter(
+                this@RegisterUserActivity,
+                resources.getStringArray(R.array.doctor_specialities)
+            )
+            cbIsDoctor.isChecked = viewModel.isDoctor
+        }
     }
 
     override fun setupObservers() {

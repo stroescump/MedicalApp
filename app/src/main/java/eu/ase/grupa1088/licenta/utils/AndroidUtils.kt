@@ -1,8 +1,11 @@
 package eu.ase.grupa1088.licenta.utils
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 
 @Suppress("UNCHECKED_CAST")
@@ -28,3 +31,9 @@ fun <T> Fragment.navigateTo(
         throw IllegalArgumentException("Destination must be an Activity!")
     }
 }
+
+fun initArrayAdapter(context: Context, array: Array<String>) = ArrayAdapter(
+    context,
+    R.layout.layout_spinner,
+    array
+).also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }

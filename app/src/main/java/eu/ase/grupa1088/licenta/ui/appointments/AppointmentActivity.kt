@@ -1,10 +1,8 @@
 package eu.ase.grupa1088.licenta.ui.appointments
 
-import android.R.layout.simple_spinner_dropdown_item
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import com.google.firebase.auth.FirebaseAuth
 import eu.ase.grupa1088.licenta.R
@@ -12,6 +10,7 @@ import eu.ase.grupa1088.licenta.databinding.ActivityAppointmentBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
+import eu.ase.grupa1088.licenta.utils.initArrayAdapter
 import eu.ase.grupa1088.licenta.utils.viewBinding
 
 class AppointmentActivity : BaseActivity() {
@@ -38,12 +37,16 @@ class AppointmentActivity : BaseActivity() {
     override fun initViews() {
         with(binding) {
             spinnerDoctor.adapter = initArrayAdapter(
+                this@AppointmentActivity,
                 arrayOf(
                     "Loading doctors list...",
                 )
             )
             spinnerAppointmentType.adapter =
-                initArrayAdapter(resources.getStringArray(R.array.doctor_specialities))
+                initArrayAdapter(
+                    this@AppointmentActivity,
+                    resources.getStringArray(R.array.doctor_specialities)
+                )
 
             rvAvailableDates.adapter = AppointmentAvailabilityAdapter(
                 mutableListOf()
@@ -51,24 +54,19 @@ class AppointmentActivity : BaseActivity() {
         }
     }
 
-    private fun initArrayAdapter(array: Array<String>) = ArrayAdapter(
-        this@AppointmentActivity,
-        R.layout.layout_spinner,
-        array
-    ).also { it.setDropDownViewResource(simple_spinner_dropdown_item) }
-
-
     override fun setupObservers() {
         viewModel.bulkUserLiveData.observe(this) { result ->
             handleResponse(result) { doctorList ->
                 if (doctorList.isNotEmpty()) {
                     binding.spinnerDoctor.adapter = initArrayAdapter(
+                        this@AppointmentActivity,
                         doctorList.map {
                             it.nume ?: throw IllegalArgumentException("Must have a valid name.")
                         }.toTypedArray()
                     )
                 } else {
-                    binding.spinnerDoctor.adapter = initArrayAdapter(arrayOf(""))
+                    binding.spinnerDoctor.adapter =
+                        initArrayAdapter(this@AppointmentActivity, arrayOf(""))
                     displayInfo(getString(R.string.error_no_doctors_available))
                 }
             }
@@ -84,6 +82,7 @@ class AppointmentActivity : BaseActivity() {
                 ) {
                     val speciality = getSelectedSpeciality()
                     binding.spinnerDoctor.adapter = initArrayAdapter(
+                        this@AppointmentActivity,
                         arrayOf(
                             "Loading doctors list...",
                         )
