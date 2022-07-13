@@ -1,9 +1,12 @@
 package eu.ase.grupa1088.licenta.utils
 
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
+import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.*
+
+val dateFormat_ddMMyyyy = SimpleDateFormat("dd.MM.yyyy")
 
 fun filterBusyDates(
     appointmentsRemoteList: List<MedicalAppointment>,
@@ -28,7 +31,7 @@ fun LocalTime.roundToNearestHour(
     )
 }
 
-fun getTimeNow(calendar: Calendar) = LocalTime.of(
+fun getTimeFrom(calendar: Calendar) = LocalTime.of(
     calendar.get(Calendar.HOUR_OF_DAY),
     calendar.get(Calendar.MINUTE)
 ).roundToNearestHour(calendar)
@@ -52,17 +55,29 @@ fun addHoursToAvailableSlots(
 }
 
 fun showAvailableDates(
+    isToday: Boolean,
     appointmentsRemoteList: List<MedicalAppointment>,
     callback: (List<MedicalAppointment>) -> Unit
 ) {
     val calendar = Calendar.getInstance()
     val listOfHours = mutableListOf<MedicalAppointment>()
-
-    val currentTime = getTimeNow(calendar)
+    val currentTime = if (isToday) getTimeFrom(calendar) else getTimeFrom(
+        beginningOfWorkingHours()
+    )
     val diff = currentTime.until(endOfShift, ChronoUnit.MINUTES)
 
-    addHoursToAvailableSlots(diff, calendar, listOfHours)
+    addHoursToAvailableSlots(
+        diff,
+        if (isToday) calendar else beginningOfWorkingHours(),
+        listOfHours
+    )
     filterBusyDates(appointmentsRemoteList, listOfHours)
 
     callback(listOfHours)
 }
+
+private fun beginningOfWorkingHours() =
+    Calendar.getInstance().also {
+        it.set(Calendar.HOUR_OF_DAY, 9)
+        it.set(Calendar.MINUTE, 0)
+    }

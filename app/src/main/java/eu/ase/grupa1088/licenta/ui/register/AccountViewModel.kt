@@ -22,8 +22,10 @@ class AccountViewModel(
     ViewModel() {
 
     var isDoctor: Boolean = false
+    var doctorID: String = ""
     var selectedDate = ""
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
+    val medicalAppointmentStateFlow = MutableStateFlow<AppResult<MedicalAppointment>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
     val deleteLiveData = MutableLiveData<AppResult<Int>>()
@@ -71,8 +73,11 @@ class AccountViewModel(
     }
 
     fun getUserAppointments() {
-        getUserAppointmentsFirebase { res ->
+        getUserAppointmentsFirebase(isDoctor, doctorID, { res ->
             medicalAppointmentLiveData.postValue(res)
+
+        }) { res ->
+            medicalAppointmentStateFlow.update { res }
         }
     }
 
@@ -96,11 +101,15 @@ class AccountViewModel(
     }
 
     fun showAvailableDates(
+        isToday: Boolean,
         appointmentsRemoteList: List<MedicalAppointment>,
         callback: (List<MedicalAppointment>) -> Unit
     ) {
         viewModelScope.launch(dispatcher) {
-            eu.ase.grupa1088.licenta.utils.showAvailableDates(appointmentsRemoteList) { filteredAvailability ->
+            eu.ase.grupa1088.licenta.utils.showAvailableDates(
+                isToday,
+                appointmentsRemoteList
+            ) { filteredAvailability ->
                 viewModelScope.launch(Dispatchers.Main) {
                     callback(filteredAvailability)
                 }

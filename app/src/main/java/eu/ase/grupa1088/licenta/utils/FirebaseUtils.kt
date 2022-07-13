@@ -46,3 +46,5 @@ fun DataSnapshot.getAllUsers() = getValue(object :
 fun DataSnapshot.getAppointments() = getValue(object :
     GenericTypeIndicator<HashMap<String, MedicalAppointment>>() {
 })
+
+fun DataSnapshot.getOneAppointment() = getValue(MedicalAppointment::class.java)

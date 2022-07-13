@@ -13,10 +13,13 @@ import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
+import eu.ase.grupa1088.licenta.utils.dateFormat_ddMMyyyy
 import eu.ase.grupa1088.licenta.utils.initArrayAdapter
 import eu.ase.grupa1088.licenta.utils.viewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -45,18 +48,19 @@ class AppointmentActivity : BaseActivity() {
         with(binding) {
             btnBack.setOnClickListener { onBackPressed() }
             btnConfirmAppointment.setOnClickListener {
-                val selectedTime = getAvailabilityAdapter().getList().first { it.isSelected }
-                viewModel.bookAppointment(
-                    FirebaseAuth.getInstance().uid!!,
-                    selectedTime.copy(
-                        doctorID = spinnerDoctor.selectedItem?.let {
-                            it as User
-                            return@let it.doctorID
-                        },
-                        roomIDConsultation = Random().nextInt(20).toString(),
-                        consultationPrice = Random().nextInt(350).toFloat(),
+                spinnerDoctor.selectedItem?.let { doctorDetails ->
+                    doctorDetails as User
+                    val selectedTime = getAvailabilityAdapter().getList().first { it.isSelected }
+                    viewModel.bookAppointment(
+                        FirebaseAuth.getInstance().uid!!,
+                        selectedTime.copy(
+                            doctorID = doctorDetails.doctorID,
+                            roomIDConsultation = Random().nextInt(20).toString(),
+                            consultationPrice = Random().nextInt(350).toFloat(),
+                            name = doctorDetails.nume
+                        )
                     )
-                )
+                }
             }
         }
     }
@@ -74,11 +78,11 @@ class AppointmentActivity : BaseActivity() {
                 )
 
             val calendar = Calendar.getInstance()
-            val dateFormat = SimpleDateFormat("dd.MM.yyyy")
+
             val listOfDates = mutableListOf<String>()
             for (index in 1..10) {
                 calendar.add(Calendar.DATE, 1)
-                listOfDates.add(dateFormat.format(calendar.time))
+                listOfDates.add(dateFormat_ddMMyyyy.format(calendar.time))
             }
 
             rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf())
@@ -96,7 +100,12 @@ class AppointmentActivity : BaseActivity() {
         viewModel.sendAppointment.observe(this) { result ->
             handleResponse(result) {
                 displayInfo(getString(R.string.info_appointment_successful))
-                onBackPressed()
+                lifecycleScope.launch(Dispatchers.Default) {
+                    delay(400)
+                    withContext(Dispatchers.Main) {
+                        onBackPressed()
+                    }
+                }
             }
         }
 
@@ -118,7 +127,9 @@ class AppointmentActivity : BaseActivity() {
 
         viewModel.medicalAppointmentLiveData.observe(this) { response ->
             handleResponse(response) { appointmentsRemoteList ->
-                viewModel.showAvailableDates(appointmentsRemoteList) { availableDates ->
+                val isToday =
+                    viewModel.selectedDate == dateFormat_ddMMyyyy.format(Calendar.getInstance().time)
+                viewModel.showAvailableDates(isToday, appointmentsRemoteList) { availableDates ->
                     if (availableDates.isEmpty()) {
                         displayError(getString(R.string.error_no_intervals_available))
                     } else {

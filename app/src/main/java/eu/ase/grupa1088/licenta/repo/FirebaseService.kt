@@ -5,10 +5,7 @@ import com.google.firebase.database.FirebaseDatabase
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.*
-import eu.ase.grupa1088.licenta.utils.AppResult
-import eu.ase.grupa1088.licenta.utils.getAllUsers
-import eu.ase.grupa1088.licenta.utils.getAppointments
-import eu.ase.grupa1088.licenta.utils.getUser
+import eu.ase.grupa1088.licenta.utils.*
 
 sealed class FirebaseEndpoints(val path: String) {
     object Users : FirebaseEndpoints("Users")
@@ -43,19 +40,73 @@ fun getUserAccountDetails(completionHandler: (user: AppResult<User>) -> Unit) = 
     }
 }
 
-fun getUserAppointmentsFirebase(completionHandler: (appointments: AppResult<List<MedicalAppointment>>) -> Unit) =
-    run {
-        completionHandler(AppResult.Progress)
-        getFirebaseRoot().child(MedicalAppointments.path).child(
-            getCurrentUserUID() ?: throwUIDException()
-        ).get().addOnSuccessListener { dataSnapshot ->
-            dataSnapshot.getAppointments()?.let { appointmentHashMap ->
-                completionHandler(AppResult.Success(prepareMedicalAppointments(appointmentHashMap)))
-            }
-                ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
-        }.addOnFailureListener {
-            completionHandler(AppResult.Error(it))
+fun getUserAppointmentsFirebase(
+    isDoctor: Boolean,
+    doctorID: String,
+    completionHandlerPatient: (AppResult<List<MedicalAppointment>>) -> Unit,
+    completionHandlerDoctor: (AppResult<MedicalAppointment>) -> Unit
+) = run {
+    if (isDoctor) {
+        completionHandlerDoctor(AppResult.Progress)
+        getDoctorAppointments(doctorID, completionHandlerDoctor)
+    } else {
+        completionHandlerPatient(AppResult.Progress)
+        getPatientAppointments(completionHandlerPatient)
+    }
+}
+
+private fun getPatientAppointments(completionHandler: (AppResult<List<MedicalAppointment>>) -> Unit) =
+    getFirebaseRoot().child(MedicalAppointments.path).child(
+        getCurrentUserUID() ?: throwUIDException()
+    ).get().addOnSuccessListener { dataSnapshot ->
+        dataSnapshot.getAppointments()?.let { appointmentHashMap ->
+            completionHandler(
+                AppResult.Success(
+                    prepareMedicalAppointments(
+                        appointmentHashMap
+                    )
+                )
+            )
         }
+            ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
+    }.addOnFailureListener {
+        completionHandler(AppResult.Error(it))
+    }
+
+private fun getDoctorAppointments(
+    doctorID: String,
+    completionHandler: (AppResult<MedicalAppointment>) -> Unit
+) = getDoctorAppointmentNode(doctorID).get()
+    .addOnSuccessListener { snapshotByDate ->
+        mutableListOf<MedicalAppointment>()
+        if (snapshotByDate.hasChildren()) {
+            snapshotByDate.children.onEach { patientSnapshot ->
+                val patientId = patientSnapshot.children.first().key.toString()
+                val appointmentId =
+                    patientSnapshot.children.first().children.first().value.toString()
+                getFirebaseRoot().child(Users.path).child(patientId).get()
+                    .addOnSuccessListener { userDetailsSnapshot ->
+                        val userName =
+                            (userDetailsSnapshot.value as HashMap<*, *>)["nume"].toString()
+                        getFirebaseRoot().child(MedicalAppointments.path).child(patientId)
+                            .child(appointmentId).get()
+                            .addOnSuccessListener { appointmentDetails ->
+                                appointmentDetails.getOneAppointment()?.copy(
+                                    name = userName
+                                )?.let {
+                                    completionHandler(AppResult.Success(it))
+                                }
+                            }
+                            .addOnFailureListener {
+                                completionHandler(AppResult.Error(it))
+                            }
+                    }.addOnFailureListener {
+                        completionHandler(AppResult.Error(it))
+                    }
+            }
+        } else completionHandler(AppResult.Success(null))
+    }.addOnFailureListener {
+        completionHandler(AppResult.Error(it))
     }
 
 fun deleteAppointmentFirebase(
@@ -96,7 +147,7 @@ fun getDoctorAvailability(
         .addOnSuccessListener { appointmentsHashMap ->
             if (appointmentsHashMap.hasChildren()) {
                 appointmentsHashMap.children.onEach { appointment ->
-                    val userID = appointment.child("patient_key").value.toString()
+                    val userID = appointment.key.toString()
                     getFirebaseRoot().child(MedicalAppointments.path).child(userID).get()
                         .addOnSuccessListener { dataSnapshot ->
                             dataSnapshot.getAppointments()?.let { appointmentHashMap ->
@@ -108,7 +159,7 @@ fun getDoctorAvailability(
                                     )
                                 )
                             }
-                                ?: completionHandler(AppResult.Error(IllegalArgumentException("No medical appointments for requested input. Please contact owner of the app.")))
+                                ?: completionHandler(AppResult.Success(listOf()))
                         }.addOnFailureListener {
                             completionHandler(AppResult.Error(it))
                         }
@@ -128,18 +179,23 @@ fun sendAppointment(
     val formattedAppointmentDate = appointment.date!!.split(".").joinToString("")
     getDoctorAppointmentNode(appointment.doctorID!!)
         .child(formattedAppointmentDate)
+        .child(patientId)
         .push()
-        .setValue(appointment)
-        .addOnSuccessListener {
-            getFirebaseRoot().child(MedicalAppointments.path).child(
-                patientId
-            ).push().setValue(appointment).addOnSuccessListener {
-                completionHandler(AppResult.Success(true))
-            }.addOnFailureListener {
-                completionHandler(AppResult.Error(it))
-            }
-        }.addOnFailureListener {
-            completionHandler(AppResult.Error(it))
+        .apply {
+            val reference = ref
+            appointment.id = reference.key
+            setValue(appointment.id)
+                .addOnSuccessListener {
+                    getFirebaseRoot().child(MedicalAppointments.path).child(
+                        patientId
+                    ).child(appointment.id!!).setValue(appointment).addOnSuccessListener {
+                        completionHandler(AppResult.Success(true))
+                    }.addOnFailureListener {
+                        completionHandler(AppResult.Error(it))
+                    }
+                }.addOnFailureListener {
+                    completionHandler(AppResult.Error(it))
+                }
         }
 }
 

@@ -83,6 +83,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
         user?.let { userSafe ->
             viewModel.isDoctor =
                 user.doctorID.isNullOrBlank().not() && user.speciality.isNullOrBlank().not()
+            viewModel.doctorID = user.doctorID.toString()
             this.user = user
             replaceFragment(binding.fragmentContainer.id, DashboardFragment.newInstance(user))
             userSafe.nume?.let { name ->
@@ -93,7 +94,7 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                     prenume = filter { it != nume }.joinToString(" ")
                 }
                 val numeFormatat =
-                    "${nume.capitalizeWord()}\n${prenume.capitalizeWord()}"
+                    "${if (viewModel.isDoctor) "Dr." else ""} ${nume.capitalizeWord()}\n${prenume.capitalizeWord()}"
                 drawerFullName.text = numeFormatat
             }
         }

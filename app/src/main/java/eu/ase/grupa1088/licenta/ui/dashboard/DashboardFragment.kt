@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import eu.ase.grupa1088.licenta.MedicalRecordActivity
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.FragmentDashboardBinding
@@ -18,6 +19,9 @@ import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
 import eu.ase.grupa1088.licenta.utils.USER_KEY
 import eu.ase.grupa1088.licenta.utils.getParentActivity
 import eu.ase.grupa1088.licenta.utils.navigateTo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
@@ -28,8 +32,8 @@ class DashboardFragment : Fragment() {
     private val viewModel by activityViewModels<AccountViewModel>()
     private lateinit var parentActivity: ProfileActivity
 
-    override fun onStart() {
-        super.onStart()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         parentActivity = getParentActivity(ProfileActivity::class.java)
     }
 
@@ -46,10 +50,25 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
         initViews()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAdapter().clear()
         viewModel.getUserAppointments()
     }
 
     private fun setupObservers() {
+        lifecycleScope.launch {
+            viewModel.medicalAppointmentStateFlow.collect {
+                withContext(Dispatchers.Main) {
+                    parentActivity.handleResponse(it) {
+                        getAdapter().addAppointment(it)
+                    }
+                }
+            }
+        }
+
         viewModel.medicalAppointmentLiveData.observe(viewLifecycleOwner) {
             parentActivity.handleResponse(it) { medicalAppointments ->
                 getAdapter().refreshList(medicalAppointments)
@@ -82,7 +101,10 @@ class DashboardFragment : Fragment() {
                 }
             }
             rvMedicalAppointments.adapter =
-                MedicalAppointmentAdapter(mutableListOf(), viewModel.isDoctor) { medicalAppointment, pos ->
+                MedicalAppointmentAdapter(
+                    mutableListOf(),
+                    viewModel.isDoctor
+                ) { medicalAppointment, pos ->
                     viewModel.deleteAppointment(medicalAppointment, pos)
                 }
         }

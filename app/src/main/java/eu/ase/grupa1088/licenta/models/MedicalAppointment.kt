@@ -20,7 +20,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class MedicalAppointment(
-    val id: String? = null,
+    var id: String? = null,
     val doctorID: String? = null,
     val name: String? = null,
     val date: String? = null,

@@ -50,7 +50,8 @@ class MedicalAppointmentAdapter(
                     getString(R.string.appointment_title_as_doctor) else getString(R.string.appointment_title_as_patient)
                 tvAppointmentDate.text =
                     "${currentItem.date}\n${currentItem.startHour} - ${currentItem.endHour}"
-                tvAppointmentDoctorName.text = currentItem.name
+                tvAppointmentDoctorName.text =
+                    (if (isPatient()) "Dr." else "") + "${currentItem.name}"
             }
         }
 
@@ -58,14 +59,26 @@ class MedicalAppointmentAdapter(
             binding.root.context.getString(stringRes)
     }
 
+    private fun isPatient() = isDoctor.not()
+
     fun refreshList(newList: List<MedicalAppointment>) {
         medicalAppointments.clear()
         medicalAppointments.addAll(newList)
         notifyDataSetChanged()
     }
 
+    fun addAppointment(newAppointment: MedicalAppointment) {
+        medicalAppointments.add(newAppointment)
+        notifyItemInserted(medicalAppointments.lastIndex)
+    }
+
     fun removeItem(pos: Int) {
         medicalAppointments.removeAt(pos)
         notifyItemRemoved(pos)
+    }
+
+    fun clear() {
+        medicalAppointments.clear()
+        notifyDataSetChanged()
     }
 }
