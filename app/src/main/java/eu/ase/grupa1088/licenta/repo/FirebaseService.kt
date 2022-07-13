@@ -81,28 +81,31 @@ private fun getDoctorAppointments(
         mutableListOf<MedicalAppointment>()
         if (snapshotByDate.hasChildren()) {
             snapshotByDate.children.onEach { patientSnapshot ->
-                val patientId = patientSnapshot.children.first().key.toString()
-                val appointmentId =
-                    patientSnapshot.children.first().children.first().value.toString()
-                getFirebaseRoot().child(Users.path).child(patientId).get()
-                    .addOnSuccessListener { userDetailsSnapshot ->
-                        val userName =
-                            (userDetailsSnapshot.value as HashMap<*, *>)["nume"].toString()
-                        getFirebaseRoot().child(MedicalAppointments.path).child(patientId)
-                            .child(appointmentId).get()
-                            .addOnSuccessListener { appointmentDetails ->
-                                appointmentDetails.getOneAppointment()?.copy(
-                                    name = userName
-                                )?.let {
-                                    completionHandler(AppResult.Success(it))
-                                }
-                            }
-                            .addOnFailureListener {
+                patientSnapshot.children.onEach { dayAppointmentSnapshot ->
+                    dayAppointmentSnapshot.children.onEach { appointmentDetailsSnapshot ->
+                        val patientId = dayAppointmentSnapshot.key.toString()
+                        val appointmentId = appointmentDetailsSnapshot.value.toString()
+                        getFirebaseRoot().child(Users.path).child(patientId).get()
+                            .addOnSuccessListener { userDetailsSnapshot ->
+                                val userName =
+                                    (userDetailsSnapshot.value as HashMap<*, *>)["nume"].toString()
+                                getFirebaseRoot().child(MedicalAppointments.path).child(patientId)
+                                    .child(appointmentId).get()
+                                    .addOnSuccessListener { appointmentDetails ->
+                                        appointmentDetails.getOneAppointment()?.copy(
+                                            name = userName
+                                        )?.let {
+                                            completionHandler(AppResult.Success(it))
+                                        }
+                                    }
+                                    .addOnFailureListener {
+                                        completionHandler(AppResult.Error(it))
+                                    }
+                            }.addOnFailureListener {
                                 completionHandler(AppResult.Error(it))
                             }
-                    }.addOnFailureListener {
-                        completionHandler(AppResult.Error(it))
                     }
+                }
             }
         } else completionHandler(AppResult.Success(MedicalAppointment(id = NO_APPOINTMENTS_FOUND)))
     }.addOnFailureListener {
@@ -122,9 +125,11 @@ fun deleteAppointmentFirebase(
                 completionHandler(AppResult.Progress)
                 val formattedAppointmentDate = appointmentDate.split(".").joinToString("")
                 getFirebaseRoot().child(MedicalAppointments.path).child(
-                    (if (isDoctor) medicalAppointment.patientID else getCurrentUserUID()) ?: throwUIDException()
+                    (if (isDoctor) medicalAppointment.patientID else getCurrentUserUID())
+                        ?: throwUIDException()
                 ).child(appointmentID).removeValue().addOnSuccessListener {
-                    getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate).child(medicalAppointment.patientID ?: throwUIDException())
+                    getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate)
+                        .child(medicalAppointment.patientID ?: throwUIDException())
                         .child(appointmentID).removeValue()
                         .addOnSuccessListener {
                             completionHandler(AppResult.Success(pos to isMarkedForDeletion))
