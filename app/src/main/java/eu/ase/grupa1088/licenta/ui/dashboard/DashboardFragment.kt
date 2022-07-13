@@ -54,7 +54,7 @@ class DashboardFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        getAdapter().clear()
+        getAdapter()?.clear()
         viewModel.getUserAppointments()
     }
 
@@ -63,7 +63,7 @@ class DashboardFragment : Fragment() {
             viewModel.medicalAppointmentStateFlow.collect {
                 withContext(Dispatchers.Main) {
                     parentActivity.handleResponse(it) {
-                        getAdapter().addAppointment(it)
+                        getAdapter()?.addAppointment(it)
                     }
                 }
             }
@@ -71,41 +71,55 @@ class DashboardFragment : Fragment() {
 
         viewModel.medicalAppointmentLiveData.observe(viewLifecycleOwner) {
             parentActivity.handleResponse(it) { medicalAppointments ->
-                getAdapter().refreshList(medicalAppointments)
+                getAdapter()?.refreshList(medicalAppointments)
             }
         }
         viewModel.deleteLiveData.observe(viewLifecycleOwner) {
-            parentActivity.handleResponse(it) { pos ->
-                getAdapter().removeItem(pos)
+            parentActivity.handleResponse(it) { (pos, isMarkedForDeletion) ->
+                getAdapter()?.removeItem(pos)
+                if (isMarkedForDeletion && viewModel.isPatient) {
+                    navigateTo(AppointmentActivity::class.java)
+                }
             }
         }
     }
 
-    private fun getAdapter() = (binding.rvMedicalAppointments.adapter as MedicalAppointmentAdapter)
+    private fun getAdapter() = binding.rvMedicalAppointments.adapter?.let {
+        return@let it as MedicalAppointmentAdapter
+    }
 
     private fun initViews() {
         with(binding) {
             rvCategories.adapter = ItemDashboardAdapter(
-                mutableListOf(
-                    Programari,
-                    TestCovidOnline,
-                    Medici,
-                    IstoricMedical,
-                )
+
+                if (viewModel.isDoctor) {
+                    mutableListOf(
+                        TestCovidOnline,
+                        Pacienti,
+                    )
+                } else {
+                    mutableListOf(
+                        Programari,
+                        TestCovidOnline,
+                        IstoricMedical
+                    )
+                }
+
             ) { dashboardItem ->
                 when (dashboardItem) {
                     Medici -> {}
                     Programari -> navigateTo(AppointmentActivity::class.java)
                     IstoricMedical -> navigateTo(MedicalRecordActivity::class.java)
                     TestCovidOnline -> navigateTo(TestCovidActivity::class.java)
+                    Pacienti -> {}
                 }
             }
             rvMedicalAppointments.adapter =
                 MedicalAppointmentAdapter(
                     mutableListOf(),
                     viewModel.isDoctor
-                ) { medicalAppointment, pos ->
-                    viewModel.deleteAppointment(medicalAppointment, pos)
+                ) { medicalAppointment, pos, isMarkedForDeletion ->
+                    viewModel.deleteAppointment(medicalAppointment, pos, isMarkedForDeletion)
                 }
         }
     }
@@ -122,6 +136,7 @@ class DashboardFragment : Fragment() {
         object Programari : DashboardItem("Programari", R.drawable.appointment)
         object TestCovidOnline : DashboardItem("Test covid online", R.drawable.mask)
         object Medici : DashboardItem("Medici", R.drawable.doctors)
+        object Pacienti : DashboardItem("Pacienti", R.drawable.doctors)
         object IstoricMedical : DashboardItem("Istoric medical", R.drawable.symptoms)
     }
 }

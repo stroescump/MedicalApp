@@ -10,7 +10,7 @@ import eu.ase.grupa1088.licenta.models.MedicalAppointment
 class MedicalAppointmentAdapter(
     private val medicalAppointments: MutableList<MedicalAppointment>,
     private val isDoctor: Boolean,
-    private val onAppointmentClicked: (MedicalAppointment, Int) -> Unit
+    private val onAppointmentClicked: (MedicalAppointment, Int, Boolean) -> Unit
 ) :
     RecyclerView.Adapter<MedicalAppointmentVH>() {
     private lateinit var binding: ItemMedicalAppointmentBinding
@@ -43,7 +43,15 @@ class MedicalAppointmentAdapter(
                 btnCancelAppointment.setOnClickListener {
                     onAppointmentClicked(
                         currentItem,
-                        absoluteAdapterPosition
+                        absoluteAdapterPosition,
+                        true
+                    )
+                }
+                btnRescheduleAppointment.setOnClickListener {
+                    onAppointmentClicked(
+                        currentItem,
+                        absoluteAdapterPosition,
+                        false
                     )
                 }
                 tvAppointmentTitle.text = if (isDoctor)
@@ -73,8 +81,10 @@ class MedicalAppointmentAdapter(
     }
 
     fun removeItem(pos: Int) {
-        medicalAppointments.removeAt(pos)
-        notifyItemRemoved(pos)
+        if(medicalAppointments.isNotEmpty()){
+            medicalAppointments.removeAt(pos)
+            notifyItemRemoved(pos)
+        }
     }
 
     fun clear() {

@@ -112,7 +112,8 @@ private fun getDoctorAppointments(
 fun deleteAppointmentFirebase(
     medicalAppointment: MedicalAppointment,
     pos: Int,
-    completionHandler: (AppResult<Int>) -> Unit
+    isMarkedForDeletion: Boolean,
+    completionHandler: (AppResult<Pair<Int, Boolean>>) -> Unit
 ) = medicalAppointment.id?.let { appointmentID ->
     medicalAppointment.doctorID?.let { doctorID ->
         medicalAppointment.date?.let { appointmentDate ->
@@ -125,7 +126,7 @@ fun deleteAppointmentFirebase(
                 getDoctorAppointmentNode(doctorID).child(formattedAppointmentDate)
                     .child(appointmentID).removeValue()
                     .addOnSuccessListener {
-                        completionHandler(AppResult.Success(pos))
+                        completionHandler(AppResult.Success(pos to isMarkedForDeletion))
                     }.addOnFailureListener {
                         completionHandler(AppResult.Error(it))
                     }

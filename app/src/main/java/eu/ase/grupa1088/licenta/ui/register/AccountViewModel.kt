@@ -22,13 +22,14 @@ class AccountViewModel(
     ViewModel() {
 
     var isDoctor: Boolean = false
+    var isPatient = isDoctor.not()
     var doctorID: String = ""
     var selectedDate = ""
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val medicalAppointmentStateFlow = MutableStateFlow<AppResult<MedicalAppointment>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
-    val deleteLiveData = MutableLiveData<AppResult<Int>>()
+    val deleteLiveData = MutableLiveData<AppResult<Pair<Int, Boolean>>>()
     val bulkUserLiveData = MutableLiveData<AppResult<List<User>>>()
     val sendAppointment = MutableLiveData<AppResult<Boolean>>()
 
@@ -81,8 +82,8 @@ class AccountViewModel(
         }
     }
 
-    fun deleteAppointment(appointment: MedicalAppointment, pos: Int) {
-        deleteAppointmentFirebase(appointment, pos) {
+    fun deleteAppointment(appointment: MedicalAppointment, pos: Int, isMarkedForDeletion: Boolean) {
+        deleteAppointmentFirebase(appointment, pos, isMarkedForDeletion) {
             deleteLiveData.postValue(it)
         }
     }
