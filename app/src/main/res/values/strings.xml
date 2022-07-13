@@ -71,6 +71,7 @@
     <string name="error_no_doctors_available">No doctors available for selected speciality.</string>
     <string name="error_no_intervals_available">No intervals available. Please select another day.</string>
     <string name="info_appointment_successful">Appointment booked successfully.</string>
+    <string name="msg_no_appointments">No appointments for today.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>

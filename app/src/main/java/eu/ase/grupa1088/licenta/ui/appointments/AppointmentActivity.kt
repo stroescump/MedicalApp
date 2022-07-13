@@ -52,12 +52,12 @@ class AppointmentActivity : BaseActivity() {
                     doctorDetails as User
                     val selectedTime = getAvailabilityAdapter().getList().first { it.isSelected }
                     viewModel.bookAppointment(
-                        FirebaseAuth.getInstance().uid!!,
                         selectedTime.copy(
                             doctorID = doctorDetails.doctorID,
                             roomIDConsultation = Random().nextInt(20).toString(),
                             consultationPrice = Random().nextInt(350).toFloat(),
-                            name = doctorDetails.nume
+                            name = doctorDetails.nume,
+                            patientID = FirebaseAuth.getInstance().uid
                         )
                     )
                 }

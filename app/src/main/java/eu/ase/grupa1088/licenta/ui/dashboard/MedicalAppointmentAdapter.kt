@@ -75,9 +75,11 @@ class MedicalAppointmentAdapter(
         notifyDataSetChanged()
     }
 
-    fun addAppointment(newAppointment: MedicalAppointment) {
-        medicalAppointments.add(newAppointment)
-        notifyItemInserted(medicalAppointments.lastIndex)
+    fun addAppointment(newAppointment: MedicalAppointment?) {
+        newAppointment?.let {
+            medicalAppointments.add(it)
+            notifyItemInserted(medicalAppointments.lastIndex)
+        }
     }
 
     fun removeItem(pos: Int) {

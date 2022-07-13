@@ -15,6 +15,8 @@ import kotlinx.parcelize.Parcelize
  * @property roomIDConsultation
  * @property consultationPrice
  * @property treatmentName
+ * @property patientID
+ * @property isSelected
  * @constructor Create empty Medical appointment
  */
 
@@ -29,5 +31,6 @@ data class MedicalAppointment(
     val roomIDConsultation: String? = null,
     val consultationPrice: Float? = 0f,
     val treatmentName: String? = null,
+    val patientID: String? = null,
     var isSelected: Boolean = false
 ) : Parcelable

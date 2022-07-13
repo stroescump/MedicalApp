@@ -16,6 +16,7 @@ import eu.ase.grupa1088.licenta.ui.appointments.AppointmentActivity
 import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem.*
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
+import eu.ase.grupa1088.licenta.utils.NO_APPOINTMENTS_FOUND
 import eu.ase.grupa1088.licenta.utils.USER_KEY
 import eu.ase.grupa1088.licenta.utils.getParentActivity
 import eu.ase.grupa1088.licenta.utils.navigateTo
@@ -63,7 +64,11 @@ class DashboardFragment : Fragment() {
             viewModel.medicalAppointmentStateFlow.collect {
                 withContext(Dispatchers.Main) {
                     parentActivity.handleResponse(it) {
-                        getAdapter()?.addAppointment(it)
+                        if (it.id != NO_APPOINTMENTS_FOUND) {
+                            getAdapter()?.addAppointment(it)
+                        } else {
+                            parentActivity.displayInfo(getString(R.string.msg_no_appointments))
+                        }
                     }
                 }
             }

@@ -83,7 +83,7 @@ class AccountViewModel(
     }
 
     fun deleteAppointment(appointment: MedicalAppointment, pos: Int, isMarkedForDeletion: Boolean) {
-        deleteAppointmentFirebase(appointment, pos, isMarkedForDeletion) {
+        deleteAppointmentFirebase(appointment, pos, isMarkedForDeletion, isDoctor) {
             deleteLiveData.postValue(it)
         }
     }
@@ -118,8 +118,8 @@ class AccountViewModel(
         }
     }
 
-    fun bookAppointment(patientId: String, appointment: MedicalAppointment) {
-        sendAppointment(patientId, appointment) {
+    fun bookAppointment(appointment: MedicalAppointment) {
+        sendAppointment(appointment) {
             sendAppointment.postValue(it)
         }
     }
