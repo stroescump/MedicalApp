@@ -60,7 +60,8 @@ class TestCovidActivity : BaseActivity() {
                 ).setButton(
                     AlertDialogButton.PositiveButton
                 ) {
-                    navigateTo(ProfileActivity::class.java, true)
+                    onBackPressed()
+                    finish()
                 }.create().show()
         } catch (e: IllegalArgumentException) {
             displayError(getString(R.string.error_one_response_mandatory_per_question))
