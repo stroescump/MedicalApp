@@ -9,18 +9,14 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivityAppointmentBinding
-import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
-import eu.ase.grupa1088.licenta.utils.dateFormatter
 import eu.ase.grupa1088.licenta.utils.initArrayAdapter
 import eu.ase.grupa1088.licenta.utils.viewBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.time.temporal.ChronoUnit
 import java.util.*
 
 
@@ -48,6 +44,20 @@ class AppointmentActivity : BaseActivity() {
     override fun setupListeners() {
         with(binding) {
             btnBack.setOnClickListener { onBackPressed() }
+            btnConfirmAppointment.setOnClickListener {
+                val selectedTime = getAvailabilityAdapter().getList().first { it.isSelected }
+                viewModel.bookAppointment(
+                    FirebaseAuth.getInstance().uid!!,
+                    selectedTime.copy(
+                        doctorID = spinnerDoctor.selectedItem?.let {
+                            it as User
+                            return@let it.doctorID
+                        },
+                        roomIDConsultation = Random().nextInt(20).toString(),
+                        consultationPrice = Random().nextInt(350).toFloat(),
+                    )
+                )
+            }
         }
     }
 
@@ -71,20 +81,25 @@ class AppointmentActivity : BaseActivity() {
                 listOfDates.add(dateFormat.format(calendar.time))
             }
 
-            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf()) {
-                displayInfo("${getAvailabilityAdapter().getList()[0].date}")
-            }
+            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf())
             rvDateDesired.adapter = DesiredDateAdapter(listOfDates) { dateDesired, _ ->
                 binding.spinnerDoctor.selectedItem?.also {
                     (it as User).doctorID?.let { doctorID ->
                         viewModel.getAvailableTimetables(doctorID, dateDesired)
                     }
                 }
-            }.also { it.setHasStableIds(true) }
+            }
         }
     }
 
     override fun setupObservers() {
+        viewModel.sendAppointment.observe(this) { result ->
+            handleResponse(result) {
+                displayInfo(getString(R.string.info_appointment_successful))
+                onBackPressed()
+            }
+        }
+
         viewModel.bulkUserLiveData.observe(this) { result ->
             handleResponse(result) { doctorList ->
                 if (doctorList.isNotEmpty()) {
@@ -103,36 +118,12 @@ class AppointmentActivity : BaseActivity() {
 
         viewModel.medicalAppointmentLiveData.observe(this) { response ->
             handleResponse(response) { appointmentsRemoteList ->
-                val calendar = Calendar.getInstance()
-                val listOfHours = mutableListOf<MedicalAppointment>()
-                var currentTime =
-                    LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
-                val currentMinute = calendar.get(Calendar.MINUTE)
-                if (currentMinute > 30) {
-                    calendar.add(Calendar.MINUTE, 60 - currentMinute)
-                    currentTime = LocalTime.of(
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE)
-                    )
-                } else if (currentMinute in 1..29) {
-                    calendar.add(Calendar.MINUTE, 30 - currentMinute)
-                    currentTime = LocalTime.of(
-                        calendar.get(Calendar.HOUR_OF_DAY),
-                        calendar.get(Calendar.MINUTE)
-                    )
-                }
-                val endOfShift = LocalTime.of(18, 0)
-                val diff = currentTime.until(endOfShift, ChronoUnit.MINUTES)
-                addHoursToAvailabileSlots(diff, calendar, listOfHours)
-                appointmentsRemoteList.onEach { appointmentRemote ->
-                    listOfHours.removeIf { it.startHour == appointmentRemote.startHour }
-                }
-                if (listOfHours.isEmpty()) {
-                    displayError(getString(R.string.error_no_intervals_available))
-                } else {
-                    getAvailabilityAdapter().apply {
-                        refreshAdapter(
-                            listOfHours.map { it.copy(date = viewModel.selectedDate) }
+                viewModel.showAvailableDates(appointmentsRemoteList) { availableDates ->
+                    if (availableDates.isEmpty()) {
+                        displayError(getString(R.string.error_no_intervals_available))
+                    } else {
+                        getAvailabilityAdapter().refreshAdapter(
+                            availableDates.map { it.copy(date = viewModel.selectedDate) }
                         )
                     }
                 }
@@ -178,24 +169,6 @@ class AppointmentActivity : BaseActivity() {
                     user = it
                 }
             }
-        }
-    }
-
-    private fun addHoursToAvailabileSlots(
-        diff: Long,
-        calendar: Calendar,
-        listOfHours: MutableList<MedicalAppointment>
-    ) {
-        for (i in 1..(diff) step 30) {
-            val startHour = dateFormatter.format(calendar.time)
-            calendar.add(Calendar.MINUTE, 30)
-            val endHour = dateFormatter.format(calendar.time)
-            listOfHours.add(
-                MedicalAppointment(
-                    startHour = startHour,
-                    endHour = endHour
-                )
-            )
         }
     }
 

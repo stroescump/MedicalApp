@@ -28,5 +28,6 @@ data class MedicalAppointment(
     val endHour: String? = null,
     val roomIDConsultation: String? = null,
     val consultationPrice: Float? = 0f,
-    val treatmentName: String? = null
+    val treatmentName: String? = null,
+    var isSelected: Boolean = false
 ) : Parcelable

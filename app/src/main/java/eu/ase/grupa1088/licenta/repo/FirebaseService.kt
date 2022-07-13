@@ -119,6 +119,30 @@ fun getDoctorAvailability(
         }
 }
 
+fun sendAppointment(
+    patientId: String,
+    appointment: MedicalAppointment,
+    completionHandler: (AppResult<Boolean>) -> Unit
+) {
+    completionHandler(AppResult.Progress)
+    val formattedAppointmentDate = appointment.date!!.split(".").joinToString("")
+    getDoctorAppointmentNode(appointment.doctorID!!)
+        .child(formattedAppointmentDate)
+        .push()
+        .setValue(appointment)
+        .addOnSuccessListener {
+            getFirebaseRoot().child(MedicalAppointments.path).child(
+                patientId
+            ).push().setValue(appointment).addOnSuccessListener {
+                completionHandler(AppResult.Success(true))
+            }.addOnFailureListener {
+                completionHandler(AppResult.Error(it))
+            }
+        }.addOnFailureListener {
+            completionHandler(AppResult.Error(it))
+        }
+}
+
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
     user.entries.map { appointment ->
         appointment.value.copy(id = appointment.key)

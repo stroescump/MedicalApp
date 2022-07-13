@@ -137,7 +137,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun <T> handleResponse(
         it: AppResult<T>?,
-        successHandler: (dataSnapshot: T) -> Unit
+        successHandler: (T) -> Unit
     ) {
         when (it) {
             is AppResult.Error -> displayError(it.exception.localizedMessage)
@@ -145,6 +145,7 @@ abstract class BaseActivity : AppCompatActivity() {
             is AppResult.Success -> {
                 hideProgress()
                 it.successData?.let { dataSnapshot -> successHandler(dataSnapshot) }
+                    ?: displayError()
             }
             else -> {}
         }

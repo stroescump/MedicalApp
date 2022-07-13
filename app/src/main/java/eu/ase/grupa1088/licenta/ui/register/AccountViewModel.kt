@@ -28,6 +28,7 @@ class AccountViewModel(
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
     val deleteLiveData = MutableLiveData<AppResult<Int>>()
     val bulkUserLiveData = MutableLiveData<AppResult<List<User>>>()
+    val sendAppointment = MutableLiveData<AppResult<Boolean>>()
 
     fun registerUser(
         email: String,
@@ -91,6 +92,25 @@ class AccountViewModel(
         selectedDate = date
         getDoctorAvailability(doctorID, date) { result ->
             medicalAppointmentLiveData.postValue(result)
+        }
+    }
+
+    fun showAvailableDates(
+        appointmentsRemoteList: List<MedicalAppointment>,
+        callback: (List<MedicalAppointment>) -> Unit
+    ) {
+        viewModelScope.launch(dispatcher) {
+            eu.ase.grupa1088.licenta.utils.showAvailableDates(appointmentsRemoteList) { filteredAvailability ->
+                viewModelScope.launch(Dispatchers.Main) {
+                    callback(filteredAvailability)
+                }
+            }
+        }
+    }
+
+    fun bookAppointment(patientId: String, appointment: MedicalAppointment) {
+        sendAppointment(patientId, appointment) {
+            sendAppointment.postValue(it)
         }
     }
 

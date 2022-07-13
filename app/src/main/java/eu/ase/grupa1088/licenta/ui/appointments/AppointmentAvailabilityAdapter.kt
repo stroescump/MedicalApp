@@ -3,13 +3,14 @@ package eu.ase.grupa1088.licenta.ui.appointments
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.paris.extensions.style
+import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemAppointmentDetailsBinding
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.ui.appointments.AppointmentAvailabilityAdapter.AppointmentAvailabilityVH
 
 class AppointmentAvailabilityAdapter(
-    private val appointmentList: MutableList<MedicalAppointment>,
-    private val onAvailableDateClicked: (MedicalAppointment) -> Unit
+    private val appointmentList: MutableList<MedicalAppointment>
 ) :
     RecyclerView.Adapter<AppointmentAvailabilityVH>() {
     private lateinit var binding: ItemAppointmentDetailsBinding
@@ -35,10 +36,20 @@ class AppointmentAvailabilityAdapter(
     inner class AppointmentAvailabilityVH : RecyclerView.ViewHolder(binding.root) {
         fun bind(appointment: MedicalAppointment) {
             with(binding) {
+                if(appointment.isSelected){
+                    root.style(R.style.CustomButton)
+                } else {
+                    root.style(R.style.CustomButton_Inverted)
+                }
                 tvDateAvailable.text = appointment.date
                 tvHourInterval.text = "${appointment.startHour} - ${appointment.endHour}"
                 root.setOnClickListener {
-                    onAvailableDateClicked(appointment)
+                    appointment.isSelected = !appointment.isSelected
+                    if(appointment.isSelected){
+                        root.style(R.style.CustomButton)
+                    } else {
+                        root.style(R.style.CustomButton_Inverted)
+                    }
                 }
             }
         }
