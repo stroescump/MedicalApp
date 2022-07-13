@@ -82,8 +82,10 @@ class DashboardFragment : Fragment() {
         viewModel.deleteLiveData.observe(viewLifecycleOwner) {
             parentActivity.handleResponse(it) { (pos, isMarkedForDeletion) ->
                 getAdapter()?.removeItem(pos)
-                if (isMarkedForDeletion && viewModel.isPatient) {
+                if (isMarkedForDeletion && user.doctorID.isNullOrBlank()) {
                     navigateTo(AppointmentActivity::class.java)
+                } else if(user.doctorID.isNullOrBlank().not()){
+                    parentActivity.displayInfo(getString(R.string.msg_reschedule_appointment))
                 }
             }
         }
