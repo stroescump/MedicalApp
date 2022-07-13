@@ -20,10 +20,12 @@ class AppointmentAvailabilityAdapter(
             parent,
             false
         )
+
         return AppointmentAvailabilityVH()
     }
 
     override fun onBindViewHolder(holder: AppointmentAvailabilityVH, position: Int) {
+        holder.setIsRecyclable(false)
         val currentDetails = appointmentList[position]
         holder.bind(currentDetails)
     }
@@ -33,11 +35,11 @@ class AppointmentAvailabilityAdapter(
     inner class AppointmentAvailabilityVH : RecyclerView.ViewHolder(binding.root) {
         fun bind(appointment: MedicalAppointment) {
             with(binding) {
+                tvDateAvailable.text = appointment.date
+                tvHourInterval.text = "${appointment.startHour} - ${appointment.endHour}"
                 root.setOnClickListener {
                     onAvailableDateClicked(appointment)
                 }
-                tvDateAvailable.text = appointment.date
-                tvHourInterval.text = "${appointment.startHour} - ${appointment.endHour}"
             }
         }
     }
@@ -47,4 +49,6 @@ class AppointmentAvailabilityAdapter(
         appointmentList.addAll(newList)
         notifyDataSetChanged()
     }
+
+    fun getList() = appointmentList
 }

@@ -3,8 +3,6 @@ package eu.ase.grupa1088.licenta.ui.appointments
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.airbnb.paris.extensions.style
-import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemAppointmentDesiredDateBinding
 import eu.ase.grupa1088.licenta.ui.appointments.DesiredDateAdapter.DesiredDateAdapterVH
 
@@ -48,6 +46,7 @@ class DesiredDateAdapter(
     }
 
     override fun onBindViewHolder(holder: DesiredDateAdapterVH, position: Int) {
+        holder.setIsRecyclable(false)
         val currentDetails = appointmentDateList[position]
         holder.bind(currentDetails, position)
     }
@@ -57,11 +56,4 @@ class DesiredDateAdapter(
     }
 
     override fun getItemCount(): Int = appointmentDateList.size
-//    fun refreshAdapter(newList: List<DateAvailableModel>) {
-//        appointmentDateList.clear()
-//        appointmentDateList.addAll(newList)
-//        notifyDataSetChanged()
-//    }
-
-    fun notifyAdapter(pos: Int) = notifyDataSetChanged()
 }

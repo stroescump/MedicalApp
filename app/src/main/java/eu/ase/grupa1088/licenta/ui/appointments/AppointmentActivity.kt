@@ -73,7 +73,7 @@ class AppointmentActivity : BaseActivity() {
             }
 
             rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf()) {
-                displayInfo("${it.date}")
+                displayInfo("${getAvailabilityAdapter().getList()[0].date}")
             }
             rvDateDesired.adapter = DesiredDateAdapter(listOfDates) { dateDesired, _ ->
                 binding.spinnerDoctor.selectedItem?.also {
