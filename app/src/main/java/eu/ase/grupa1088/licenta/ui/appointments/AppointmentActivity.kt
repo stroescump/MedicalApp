@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
@@ -122,15 +121,9 @@ class AppointmentActivity : BaseActivity() {
                         calendar.get(Calendar.MINUTE)
                     )
                 }
-                val endOfShift = LocalTime.of(17, 30)
+                val endOfShift = LocalTime.of(18, 0)
                 val diff = currentTime.until(endOfShift, ChronoUnit.MINUTES)
-                if (diff > 60) {
-                    for (i in 1..(diff) step 60) {
-                        addHoursToAvailabileSlots(calendar, listOfHours)
-                    }
-                } else if (diff > 30) {
-                    addHoursToAvailabileSlots(calendar, listOfHours)
-                }
+                addHoursToAvailabileSlots(diff, calendar, listOfHours)
                 appointmentsRemoteList.onEach { appointmentRemote ->
                     listOfHours.removeIf { it.startHour == appointmentRemote.startHour }
                 }
@@ -166,6 +159,19 @@ class AppointmentActivity : BaseActivity() {
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
+        binding.spinnerDoctor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                getAvailabilityAdapter().refreshAdapter(listOf())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
         lifecycleScope.launch {
             viewModel.uiStateFlow.collect { result ->
                 handleResponse(result) {
@@ -176,18 +182,21 @@ class AppointmentActivity : BaseActivity() {
     }
 
     private fun addHoursToAvailabileSlots(
+        diff: Long,
         calendar: Calendar,
         listOfHours: MutableList<MedicalAppointment>
     ) {
-        val startHour = dateFormatter.format(calendar.time)
-        calendar.add(Calendar.MINUTE, 30)
-        val endHour = dateFormatter.format(calendar.time)
-        listOfHours.add(
-            MedicalAppointment(
-                startHour = startHour,
-                endHour = endHour
+        for (i in 1..(diff) step 30) {
+            val startHour = dateFormatter.format(calendar.time)
+            calendar.add(Calendar.MINUTE, 30)
+            val endHour = dateFormatter.format(calendar.time)
+            listOfHours.add(
+                MedicalAppointment(
+                    startHour = startHour,
+                    endHour = endHour
+                )
             )
-        )
+        }
     }
 
     private fun getAvailabilityAdapter() =
