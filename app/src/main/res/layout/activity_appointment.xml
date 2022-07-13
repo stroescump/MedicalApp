@@ -69,6 +69,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/rvAvailableDates"
         app:layout_constraintTop_toBottomOf="@id/spinnerDoctor"
+        tools:itemCount="10"
         tools:listitem="@layout/item_appointment_desired_date" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -76,9 +77,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dimen_10dp"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rvDateDesired"
+        tools:itemCount="10"
         tools:listitem="@layout/item_appointment_details" />
 
     <androidx.appcompat.widget.AppCompatButton

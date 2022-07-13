@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
@@ -71,14 +72,16 @@ class AppointmentActivity : BaseActivity() {
                 listOfDates.add(dateFormat.format(calendar.time))
             }
 
-            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf())
-            rvDateDesired.adapter = DesiredDateAdapter(listOfDates) { dateDesired ->
+            rvAvailableDates.adapter = AppointmentAvailabilityAdapter(mutableListOf()) {
+                displayInfo("${it.date}")
+            }
+            rvDateDesired.adapter = DesiredDateAdapter(listOfDates) { dateDesired, _ ->
                 binding.spinnerDoctor.selectedItem?.also {
                     (it as User).doctorID?.let { doctorID ->
                         viewModel.getAvailableTimetables(doctorID, dateDesired)
                     }
                 }
-            }
+            }.also { it.setHasStableIds(true) }
         }
     }
 
@@ -103,8 +106,22 @@ class AppointmentActivity : BaseActivity() {
             handleResponse(response) { appointmentsRemoteList ->
                 val calendar = Calendar.getInstance()
                 val listOfHours = mutableListOf<MedicalAppointment>()
-                val currentTime =
+                var currentTime =
                     LocalTime.of(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
+                val currentMinute = calendar.get(Calendar.MINUTE)
+                if (currentMinute > 30) {
+                    calendar.add(Calendar.MINUTE, 60 - currentMinute)
+                    currentTime = LocalTime.of(
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE)
+                    )
+                } else if (currentMinute in 1..29) {
+                    calendar.add(Calendar.MINUTE, 30 - currentMinute)
+                    currentTime = LocalTime.of(
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE)
+                    )
+                }
                 val endOfShift = LocalTime.of(17, 30)
                 val diff = currentTime.until(endOfShift, ChronoUnit.MINUTES)
                 if (diff > 60) {
@@ -120,9 +137,11 @@ class AppointmentActivity : BaseActivity() {
                 if (listOfHours.isEmpty()) {
                     displayError(getString(R.string.error_no_intervals_available))
                 } else {
-                    getAvailabilityAdapter().refreshAdapter(
-                        listOfHours
-                    )
+                    getAvailabilityAdapter().apply {
+                        refreshAdapter(
+                            listOfHours.map { it.copy(date = viewModel.selectedDate) }
+                        )
+                    }
                 }
             }
         }
@@ -160,7 +179,6 @@ class AppointmentActivity : BaseActivity() {
         calendar: Calendar,
         listOfHours: MutableList<MedicalAppointment>
     ) {
-        calendar.add(Calendar.MINUTE, 30)
         val startHour = dateFormatter.format(calendar.time)
         calendar.add(Calendar.MINUTE, 30)
         val endHour = dateFormatter.format(calendar.time)

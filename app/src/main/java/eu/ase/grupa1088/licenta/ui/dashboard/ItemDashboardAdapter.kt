@@ -32,7 +32,7 @@ class ItemDashboardAdapter(
 
     override fun getItemCount(): Int = dashboardItems.size
 
-    inner class ItemDashboardVH() :
+    inner class ItemDashboardVH :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("UseCompatLoadingForDrawables")
         fun bind(currentItem: DashboardItem) {

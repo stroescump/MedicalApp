@@ -8,27 +8,34 @@ import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ItemAppointmentDesiredDateBinding
 import eu.ase.grupa1088.licenta.ui.appointments.DesiredDateAdapter.DesiredDateAdapterVH
 
+data class DateAvailableModel(val date: String, var isSelected: Boolean)
+
 class DesiredDateAdapter(
-    private val appointmentDateList: MutableList<String>,
-    val onDateClicked: (date: String) -> Unit
+    private val appointmentDateList: List<String>,
+    val onDateClicked: (String, Int) -> Unit
 ) :
     RecyclerView.Adapter<DesiredDateAdapterVH>() {
     private lateinit var binding: ItemAppointmentDesiredDateBinding
 
     inner class DesiredDateAdapterVH : RecyclerView.ViewHolder(binding.root) {
-        fun bind(dateDesired: String) {
+        fun bind(dateAvailableModel: String, position: Int) {
             with(binding) {
+//                if (dateAvailableModel.isSelected) {
+//                    root.style(R.style.CustomButton)
+//                } else root.style(R.style.CustomButton_Inverted)
                 root.setOnClickListener {
-                    it.isSelected = !it.isSelected
-                    if (root.isSelected) {
-                        root.style(R.style.CustomButton)
-                    } else root.style(R.style.CustomButton_Inverted)
-                    onDateClicked(dateDesired)
+//                    dateAvailableModel.isSelected = !dateAvailableModel.isSelected
+//                    if (dateAvailableModel.isSelected) {
+//                        appointmentDateList.onEach {
+//                            if (dateAvailableModel.date != it.date) it.isSelected = false
+//                        }
+//                        root.style(R.style.CustomButton)
+//                    } else root.style(R.style.CustomButton_Inverted)
+                    onDateClicked(dateAvailableModel, position)
                 }
-                root.text = dateDesired
+                root.text = dateAvailableModel
             }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DesiredDateAdapterVH {
@@ -42,17 +49,19 @@ class DesiredDateAdapter(
 
     override fun onBindViewHolder(holder: DesiredDateAdapterVH, position: Int) {
         val currentDetails = appointmentDateList[position]
-        holder.bind(currentDetails)
+        holder.bind(currentDetails, position)
+    }
+
+    override fun getItemId(position: Int): Long {
+        return appointmentDateList[position].hashCode().toLong()
     }
 
     override fun getItemCount(): Int = appointmentDateList.size
-    fun refreshAdapter(newList: List<String>) {
-        appointmentDateList.clear()
-        appointmentDateList.addAll(newList)
-        notifyDataSetChanged()
-    }
+//    fun refreshAdapter(newList: List<DateAvailableModel>) {
+//        appointmentDateList.clear()
+//        appointmentDateList.addAll(newList)
+//        notifyDataSetChanged()
+//    }
 
-
-//    private fun isSelected(layoutPos: Int) = selectedPos == layoutPos
-
+    fun notifyAdapter(pos: Int) = notifyDataSetChanged()
 }

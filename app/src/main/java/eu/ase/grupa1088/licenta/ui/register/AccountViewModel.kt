@@ -22,6 +22,7 @@ class AccountViewModel(
     ViewModel() {
 
     var isDoctor: Boolean = false
+    var selectedDate = ""
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
@@ -87,6 +88,7 @@ class AccountViewModel(
     }
 
     fun getAvailableTimetables(doctorID: String, date: String) {
+        selectedDate = date
         getDoctorAvailability(doctorID, date) { result ->
             medicalAppointmentLiveData.postValue(result)
         }
