@@ -28,6 +28,7 @@ class MedicalAppointmentAdapter(
     }
 
     override fun onBindViewHolder(holder: MedicalAppointmentVH, position: Int) {
+        holder.setIsRecyclable(false)
         val currentItem = medicalAppointments[position]
         holder.bind(currentItem)
     }
