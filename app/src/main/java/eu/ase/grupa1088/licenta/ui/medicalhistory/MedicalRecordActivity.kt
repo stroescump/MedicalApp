@@ -37,7 +37,7 @@ class MedicalRecordActivity : BaseActivity() {
     }
 
     private fun fetchMedicalRecord() {
-        if (user.isDoctor()) {
+        if (user.isDoctor().not()) {
             FirebaseAuth.getInstance().currentUser?.uid?.let { id ->
                 lifecycleScope.launch {
                     viewModel.fetchMedicalRecordAsPatient(id)?.collect { result ->
