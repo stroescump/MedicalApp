@@ -73,6 +73,7 @@
     <string name="info_appointment_successful">Appointment booked successfully.</string>
     <string name="msg_no_appointments">No appointments for today.</string>
     <string name="msg_reschedule_appointment">Appointment has been cancelled successfully. Please notify your patient.</string>
+    <string name="info_select_patient">Please select a patient to see his medical record.</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
@@ -100,5 +101,85 @@
         <item>Tomografie</item>
         <item>Analize</item>
         <item>Intretinere corporala</item>
+    </string-array>
+    <string-array name="array_alergies">
+        <item>Amoxicilina</item>
+        <item>Ampicilina</item>
+        <item>Penicilina G</item>
+        <item>Penicilina V</item>
+        <item>Polen</item>
+        <item>Aspirina</item>
+        <item>Ibuprofen</item>
+        <item>Diverse metale</item>
+        <item>Pacientul nu suferă de nicio alergie</item>
+    </string-array>
+    <string-array name="array_diseases">
+        <item>Durerile musculare</item>
+        <item>Artrita</item>
+        <item>Artroza</item>
+        <item>Discopatia</item>
+        <item>Accident vascular cerebral</item>
+        <item>Traumatism/leziune musculară</item>
+        <item>Scolioză</item>
+        <item>Hernie de disc</item>
+        <item>Durerile/spasmele musculare</item>
+        <item>Osteoporoza</item>
+        <item>Analize</item>
+        <item>Poliartrită reumatoidă</item>
+        <item>Dureri musculare</item>
+        <item>Dureri de gât</item>
+        <item>Tonus muscular slab</item>
+        <item>Umăr înțepenit</item>
+        <item>Întindere musculară</item>
+        <item>Operație tendon</item>
+        <item>Operație genunchi</item>
+        <item>Postură neadecvată</item>
+    </string-array>
+    <string-array name="pacient_diagnostic">
+        <item>Durerile musculare</item>
+        <item>Artrita</item>
+        <item>Artroza</item>
+        <item>Discopatia</item>
+        <item>Accident vascular cerebral</item>
+        <item>Traumatism/leziune musculară</item>
+        <item>Scolioză</item>
+        <item>Hernie de disc</item>
+        <item>Durerile/spasmele musculare</item>
+        <item>Osteoporoza</item>
+        <item>Analize</item>
+        <item>Poliartrită reumatoidă</item>
+        <item>Dureri musculare</item>
+        <item>Dureri de gât</item>
+        <item>Tonus muscular slab</item>
+        <item>Umăr înțepenit</item>
+        <item>Întindere musculară</item>
+        <item>Operație tendon</item>
+        <item>Operație genunchi</item>
+        <item>Postură neadecvată</item>
+        <item>Afectiuni reumatice</item>
+        <item>Afectiuni cardiovasculare</item>
+        <item>Afectiuni respiratorii</item>
+    </string-array>
+    <string-array name="pacient_tratamente">
+        <item>Terapia laser</item>
+        <item>Magnetoterapie</item>
+        <item>Shockwave</item>
+        <item>Ultrasunete</item>
+        <item>Electroterapie</item>
+        <item>Masaj terapeutic</item>
+        <item>Parafina</item>
+        <item>Unde scurte</item>
+        <item>Bai galvanice</item>
+        <item>Kinetoterapie </item>
+        <item>Drenaj limfatic</item>
+        <item>Dus subacval </item>
+        <item>Osteopatie</item>
+        <item>Masaj Shiatsu</item>
+        <item>Terapia Vojta</item>
+        <item>Tehnica Fascia</item>
+        <item>Exercitii pentru mobilitate</item>
+        <item>Fizioterapia</item>
+        <item>Tehnica Tecar</item>
+        <item>Terapia prin elongatie vertebrala </item>
     </string-array>
 </resources>

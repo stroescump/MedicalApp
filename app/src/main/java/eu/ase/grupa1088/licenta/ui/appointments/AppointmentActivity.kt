@@ -192,7 +192,7 @@ class AppointmentActivity : BaseActivity() {
 
     private fun getSelectedSpeciality() = binding.spinnerAppointmentType.selectedItem as String
 
-    fun initDoctorAdapter(context: Context, list: List<User>) = DoctorsArrayAdapter(
+    fun initDoctorAdapter(context: Context, list: List<User>) = UserArrayAdapter(
         context,
         R.layout.layout_spinner,
         list

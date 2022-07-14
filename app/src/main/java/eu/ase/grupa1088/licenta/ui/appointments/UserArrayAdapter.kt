@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.models.User
 
-class DoctorsArrayAdapter(context: Context, resource: Int, var items: List<User>) :
+class UserArrayAdapter(context: Context, resource: Int, var items: List<User>) :
     ArrayAdapter<User>(context, resource, items) {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)

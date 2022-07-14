@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Licenta">
         <activity
+            android:name=".MedicalHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.testcovid.TestCovidActivity"
             android:exported="false" />
         <activity
@@ -19,10 +22,10 @@
             android:name=".ui.appointments.AppointmentActivity"
             android:exported="false" />
         <activity
-            android:name=".MedicalRecordActivity"
+            android:name=".ui.medicalhistory.MedicalRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".SchimbaParolaActivity"
+            android:name=".ui.profile.SchimbaParolaActivity"
             android:exported="true" />
         <activity
             android:name=".ui.register.RegisterUserActivity"

@@ -6,7 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import eu.ase.grupa1088.licenta.R
-import eu.ase.grupa1088.licenta.SchimbaParolaActivity
+import eu.ase.grupa1088.licenta.ui.profile.SchimbaParolaActivity
 import eu.ase.grupa1088.licenta.databinding.ActivityMainBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
@@ -30,8 +30,8 @@ class LoginActivity : BaseActivity() {
         FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
         binding.etPassword.text = "123456".toEditable()
-        binding.etEmail.text = "thetests1234@gmail.com".toEditable()
-//        binding.btnSignIn.performClick()
+        binding.etEmail.text = "stroescump@gmail.com".toEditable()
+        binding.btnSignIn.performClick()
     }
 
     override fun setupListeners() {

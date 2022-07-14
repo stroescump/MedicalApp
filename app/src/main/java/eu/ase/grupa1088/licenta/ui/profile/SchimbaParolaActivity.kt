@@ -1,8 +1,9 @@
-package eu.ase.grupa1088.licenta
+package eu.ase.grupa1088.licenta.ui.profile
 
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
+import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.ActivitySchimbaParolaBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity

@@ -1,15 +1,22 @@
 package eu.ase.grupa1088.licenta.repo
 
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
+import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.*
 import eu.ase.grupa1088.licenta.utils.*
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.flow.callbackFlow
 
 sealed class FirebaseEndpoints(val path: String) {
     object Users : FirebaseEndpoints("Users")
     object MedicalAppointments : FirebaseEndpoints("Appointments")
+    object MedicalRecords : FirebaseEndpoints("MedicalRecords")
     data class Doctors(val bookedSlots: String = "bookedSlots") : FirebaseEndpoints("Doctors")
 }
 
@@ -173,9 +180,7 @@ fun getDoctorAvailability(
                         }
                 }
             } else completionHandler(AppResult.Success(listOf()))
-        }.addOnFailureListener {
-            completionHandler(AppResult.Error(it))
-        }
+        }.provideFailureListener(completionHandler)
 }
 
 fun sendAppointment(
@@ -197,13 +202,68 @@ fun sendAppointment(
                         appointment.patientID.toString()
                     ).child(appointment.id!!).setValue(appointment).addOnSuccessListener {
                         completionHandler(AppResult.Success(true))
-                    }.addOnFailureListener {
-                        completionHandler(AppResult.Error(it))
-                    }
-                }.addOnFailureListener {
-                    completionHandler(AppResult.Error(it))
-                }
+                    }.provideFailureListener(completionHandler)
+                }.provideFailureListener(completionHandler)
         }
+}
+
+private fun <T, Q> Task<Q>.provideFailureListener(completionHandler: (AppResult<T>) -> Unit) {
+    addOnFailureListener {
+        completionHandler(AppResult.Error(it))
+    }
+}
+
+fun getMedicalRecordForPatient(
+    patientID: String,
+) = callbackFlow<AppResult<Pair<User?, MedicalRecord>>> {
+    trySendBlocking(AppResult.Progress)
+    getFirebaseRoot().child(MedicalRecords.path).child(patientID).get()
+        .addOnSuccessListener { medicalRecordSnapshot ->
+            getMedicalRecordForPatient(medicalRecordSnapshot)?.let { medicalRecord ->
+                trySendBlocking(AppResult.Success(null to medicalRecord))
+            }
+        }
+        .addOnFailureListener {
+            trySendBlocking(AppResult.Error(it))
+        }
+    awaitClose()
+}
+
+fun getMedicalRecordForDoctor(
+    doctorID: String,
+) = callbackFlow<AppResult<Pair<User?, MedicalRecord>>> {
+    trySendBlocking(AppResult.Progress)
+    getFirebaseRoot().child(MedicalRecords.path).get()
+        .addOnSuccessListener { allPatientsRecordSnapshot ->
+            if (allPatientsRecordSnapshot.hasChildren()) {
+                val patientsSnapshots = allPatientsRecordSnapshot.children.filter { patientRecord ->
+                    patientRecord.child("doctorID").value.toString() == doctorID
+                }
+                patientsSnapshots.onEach { snapshot ->
+                    val patientID = snapshot.key.toString()
+                    getFirebaseRoot().child(Users.path).child(patientID).get()
+                        .addOnSuccessListener {
+                            val patient = it.getUser()
+                                ?: throw IllegalArgumentException("Error while parsing Firebase User with key ${it.key}")
+                            val patientRecords = snapshot.getValue(MedicalRecord::class.java)
+                                ?: throw IllegalArgumentException("Error while parsing Firebase MedicalRecord with key ${snapshot.key}")
+                            trySendBlocking(AppResult.Success(patient to patientRecords))
+                        }.addOnFailureListener {
+                            trySend(AppResult.Error(it))
+                            close(it)
+                        }
+                }
+            } else run {
+                trySendBlocking(AppResult.Error(Throwable("Hi Doc. You don't have any patients as of now.")))
+                close(Throwable("Hi Doc. You don't have any patients as of now."))
+            }
+        }
+        .addOnFailureListener {
+            trySendBlocking(AppResult.Error(it))
+            close(it)
+        }
+
+    awaitClose {}
 }
 
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
@@ -220,5 +280,8 @@ private fun getFirebaseRoot() = FirebaseDatabase.getInstance().reference
 private fun getDoctorAppointmentNode(doctorID: String) = Doctors().run {
     getFirebaseRoot().child(path).child(doctorID).child(bookedSlots)
 }
+
+private fun getMedicalRecordForPatient(medicalRecordSnapshot: DataSnapshot) =
+    medicalRecordSnapshot.getValue(MedicalRecord::class.java)
 
 private fun getCurrentUserUID() = FirebaseAuth.getInstance().currentUser?.uid

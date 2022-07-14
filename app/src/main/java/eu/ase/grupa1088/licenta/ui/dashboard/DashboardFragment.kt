@@ -8,18 +8,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import eu.ase.grupa1088.licenta.MedicalRecordActivity
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.FragmentDashboardBinding
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.ui.appointments.AppointmentActivity
 import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem.*
+import eu.ase.grupa1088.licenta.ui.medicalhistory.MedicalRecordActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
-import eu.ase.grupa1088.licenta.utils.NO_APPOINTMENTS_FOUND
-import eu.ase.grupa1088.licenta.utils.USER_KEY
-import eu.ase.grupa1088.licenta.utils.getParentActivity
-import eu.ase.grupa1088.licenta.utils.navigateTo
+import eu.ase.grupa1088.licenta.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -84,7 +81,7 @@ class DashboardFragment : Fragment() {
                 getAdapter()?.removeItem(pos)
                 if (isMarkedForDeletion && user.doctorID.isNullOrBlank()) {
                     navigateTo(AppointmentActivity::class.java)
-                } else if(user.doctorID.isNullOrBlank().not()){
+                } else if (user.doctorID.isNullOrBlank().not()) {
                     parentActivity.displayInfo(getString(R.string.msg_reschedule_appointment))
                 }
             }
@@ -102,7 +99,7 @@ class DashboardFragment : Fragment() {
                 if (viewModel.isDoctor) {
                     mutableListOf(
                         TestCovidOnline,
-                        Pacienti,
+                        IstoricMedical
                     )
                 } else {
                     mutableListOf(
@@ -116,9 +113,12 @@ class DashboardFragment : Fragment() {
                 when (dashboardItem) {
                     Medici -> {}
                     Programari -> navigateTo(AppointmentActivity::class.java)
-                    IstoricMedical -> navigateTo(MedicalRecordActivity::class.java)
+                    IstoricMedical -> navigateTo(
+                        MedicalRecordActivity::class.java,
+                        extras = Bundle().also {
+                            it.putParcelable(USER_KEY, user)
+                        })
                     TestCovidOnline -> navigateTo(TestCovidActivity::class.java)
-                    Pacienti -> {}
                 }
             }
             rvMedicalAppointments.adapter =
@@ -143,7 +143,6 @@ class DashboardFragment : Fragment() {
         object Programari : DashboardItem("Programari", R.drawable.appointment)
         object TestCovidOnline : DashboardItem("Test covid online", R.drawable.mask)
         object Medici : DashboardItem("Medici", R.drawable.doctors)
-        object Pacienti : DashboardItem("Pacienti", R.drawable.doctors)
         object IstoricMedical : DashboardItem("Istoric medical", R.drawable.symptoms)
     }
 }
