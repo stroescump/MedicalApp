@@ -35,7 +35,7 @@
                 android:fontFamily="@font/mont_heavy"
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/dimen_10dp"
-                android:text="@string/centru_medical_de_recuperare_oneline"
+                android:text="@string/istoric_medical"
                 android:textColor="@color/red"
                 app:layout_constraintBottom_toTopOf="@id/guidelineTop"
                 app:layout_constraintEnd_toEndOf="parent"

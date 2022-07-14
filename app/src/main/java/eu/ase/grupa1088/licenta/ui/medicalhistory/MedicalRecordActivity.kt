@@ -42,7 +42,7 @@ class MedicalRecordActivity : BaseActivity() {
                 lifecycleScope.launch {
                     viewModel.fetchMedicalRecordAsPatient(id)?.collect { result ->
                         handleResponse(result) {
-                            getSpinnerAdapter().insertData(it)
+                            binding.populateMedicalHistory(it)
                         }
                     }
                 }
@@ -75,17 +75,7 @@ class MedicalRecordActivity : BaseActivity() {
                             tvTreatmentsList
                         ).onEach { it.text = "" }
                         (spPatients.getItemAtPosition(position)?.let {
-                            (it as Pair<User, MedicalRecord>).let { (user, medicalRecord) ->
-                                medicalRecord.allergiesHistory?.let { allergies ->
-                                    tvAllergiesList.addData(*allergies.toTypedArray())
-                                }
-                                medicalRecord.diseasesHistory?.let { diseases ->
-                                    tvDiseasesList.addData(*diseases.toTypedArray())
-                                }
-                                medicalRecord.treatmentsHistory?.let { treatments ->
-                                    tvTreatmentsList.addData(*treatments.toTypedArray())
-                                }
-                            }
+                            populateMedicalHistory((it as Pair<User, MedicalRecord>))
                         })
                     }
 
@@ -93,6 +83,20 @@ class MedicalRecordActivity : BaseActivity() {
                         displayInfo(getString(R.string.info_select_patient))
                     }
                 }
+        }
+    }
+
+    private fun ActivityMedicalRecordBinding.populateMedicalHistory(data: Pair<User?, MedicalRecord>) {
+        data.let { (user, medicalRecord) ->
+            medicalRecord.allergiesHistory?.let { allergies ->
+                tvAllergiesList.addData(*allergies.toTypedArray())
+            }
+            medicalRecord.diseasesHistory?.let { diseases ->
+                tvDiseasesList.addData(*diseases.toTypedArray())
+            }
+            medicalRecord.treatmentsHistory?.let { treatments ->
+                tvTreatmentsList.addData(*treatments.toTypedArray())
+            }
         }
     }
 
