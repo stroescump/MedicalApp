@@ -34,6 +34,16 @@ class MedicalRecordActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fetchMedicalRecord()
+        supportFragmentManager.setFragmentResultListener(
+            "TEST", this
+        ) { requestKey, result ->
+            run {
+                if (requestKey == "TEST" && result.getBoolean("IS_SUCCESS", false)) {
+                    getSpinnerAdapter().clear()
+                    fetchMedicalRecord()
+                }
+            }
+        }
     }
 
     private fun fetchMedicalRecord() {
@@ -60,6 +70,50 @@ class MedicalRecordActivity : BaseActivity() {
 
     override fun setupListeners() {
         with(binding) {
+            layoutContainerAlergies.setOnClickListener {
+                spPatients.selectedItem?.let {
+                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
+                    AddMedicalDataBottomSheet.newInstance(
+                        ParcelablePair(
+                            user,
+                            medicalRecord,
+                            MedicalData.Allergies
+                        )
+                    ).apply {
+                        show(
+                            supportFragmentManager,
+                            AddMedicalDataBottomSheet::class.java.simpleName
+                        )
+                    }
+                }
+            }
+
+            layoutContainerDiseaseHistory.setOnClickListener {
+                spPatients.selectedItem?.let {
+                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
+                    AddMedicalDataBottomSheet.newInstance(
+                        ParcelablePair(
+                            user,
+                            medicalRecord,
+                            MedicalData.Disease
+                        )
+                    ).show(supportFragmentManager, AddMedicalDataBottomSheet::class.java.simpleName)
+                }
+            }
+
+            layoutTreatmentsHistory.setOnClickListener {
+                spPatients.selectedItem?.let {
+                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
+                    AddMedicalDataBottomSheet.newInstance(
+                        ParcelablePair(
+                            user,
+                            medicalRecord,
+                            MedicalData.Treatment
+                        )
+                    ).show(supportFragmentManager, AddMedicalDataBottomSheet::class.java.simpleName)
+                }
+            }
+
             btnBack.setOnClickListener { onBackPressed() }
             spPatients.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
@@ -79,9 +133,7 @@ class MedicalRecordActivity : BaseActivity() {
                         })
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        displayInfo(getString(R.string.info_select_patient))
-                    }
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
         }
     }

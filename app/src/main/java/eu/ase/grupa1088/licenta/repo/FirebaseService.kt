@@ -4,10 +4,12 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
 import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.FirebaseEndpoints.*
+import eu.ase.grupa1088.licenta.ui.medicalhistory.MedicalData
 import eu.ase.grupa1088.licenta.utils.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.trySendBlocking
@@ -246,6 +248,7 @@ fun getMedicalRecordForDoctor(
                             val patient = it.getUser()
                                 ?: throw IllegalArgumentException("Error while parsing Firebase User with key ${it.key}")
                             val patientRecords = snapshot.getValue(MedicalRecord::class.java)
+                                ?.apply { id = snapshot.key }
                                 ?: throw IllegalArgumentException("Error while parsing Firebase MedicalRecord with key ${snapshot.key}")
                             trySendBlocking(AppResult.Success(patient to patientRecords))
                         }.addOnFailureListener {
@@ -262,9 +265,33 @@ fun getMedicalRecordForDoctor(
             trySendBlocking(AppResult.Error(it))
             close(it)
         }
-
-    awaitClose {}
+    awaitClose()
 }
+
+fun insertMedicalData(patientID: String, medicalData: String, medicalDataType: MedicalData) =
+    callbackFlow<AppResult<Boolean>> {
+        trySendBlocking(AppResult.Progress)
+        val endpoint = when (medicalDataType) {
+            MedicalData.Allergies -> "allergiesHistory"
+            MedicalData.Disease -> "diseasesHistory"
+            MedicalData.Treatment -> "treatmentsHistory"
+        }
+        getFirebaseRoot().child(MedicalRecords.path).child(patientID).child(endpoint).get()
+            .addOnSuccessListener { medicalDataSnapshot ->
+                val medicalDataList =
+                    medicalDataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
+                        ?.toMutableList()
+                medicalDataList?.add(medicalData)
+                medicalDataSnapshot.ref.setValue(medicalDataList).addOnSuccessListener {
+                    trySendBlocking(AppResult.Success(true))
+                }
+                    .addOnFailureListener {
+                        trySendBlocking(AppResult.Error(it))
+                        close(it)
+                    }
+            }
+        awaitClose()
+    }
 
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
     user.entries.map { appointment ->

@@ -74,6 +74,7 @@
     <string name="msg_no_appointments">No appointments for today.</string>
     <string name="msg_reschedule_appointment">Appointment has been cancelled successfully. Please notify your patient.</string>
     <string name="info_select_patient">Please select a patient to see his medical record.</string>
+    <string name="add_medical_data">Add medical data</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>
@@ -160,7 +161,7 @@
         <item>Afectiuni cardiovasculare</item>
         <item>Afectiuni respiratorii</item>
     </string-array>
-    <string-array name="pacient_tratamente">
+    <string-array name="array_treatments">
         <item>Terapia laser</item>
         <item>Magnetoterapie</item>
         <item>Shockwave</item>

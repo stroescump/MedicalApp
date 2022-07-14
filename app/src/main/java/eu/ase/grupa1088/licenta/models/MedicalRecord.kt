@@ -8,6 +8,6 @@ data class MedicalRecord(
     val allergiesHistory: List<String>? = listOf(),
     val diseasesHistory: List<String>? = listOf(),
     val treatmentsHistory: List<String>? = listOf(),
-    val id: String? = null,
+    var id: String? = null,
     var doctorID: String? = null,
 ) : Parcelable
