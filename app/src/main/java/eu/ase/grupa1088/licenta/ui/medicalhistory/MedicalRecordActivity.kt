@@ -14,6 +14,7 @@ import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.utils.USER_KEY
+import eu.ase.grupa1088.licenta.utils.hide
 import eu.ase.grupa1088.licenta.utils.viewBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,9 +32,6 @@ class MedicalRecordActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        with(binding) {
-            spPatients.adapter = initPatientsAdapter(mutableListOf())
-        }
         super.onCreate(savedInstanceState)
         fetchMedicalRecord()
     }
@@ -98,7 +96,15 @@ class MedicalRecordActivity : BaseActivity() {
         }
     }
 
-    override fun initViews() {}
+    override fun initViews() {
+        with(binding) {
+            if (user.isDoctor().not()) {
+                binding.spPatients.hide()
+            } else {
+                spPatients.adapter = initPatientsAdapter(mutableListOf())
+            }
+        }
+    }
 
     private fun initPatientsAdapter(medicalRecordList: MutableList<Pair<User?, MedicalRecord>>) =
         MedicalRecordArrayAdapter(
