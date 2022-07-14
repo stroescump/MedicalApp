@@ -249,7 +249,7 @@ fun getMedicalRecordForDoctor(
                                 ?: throw IllegalArgumentException("Error while parsing Firebase MedicalRecord with key ${snapshot.key}")
                             trySendBlocking(AppResult.Success(patient to patientRecords))
                         }.addOnFailureListener {
-                            trySend(AppResult.Error(it))
+                            trySendBlocking(AppResult.Error(it))
                             close(it)
                         }
                 }

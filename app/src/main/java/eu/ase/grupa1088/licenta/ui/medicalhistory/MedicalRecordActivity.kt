@@ -124,7 +124,7 @@ class MedicalRecordActivity : BaseActivity() {
 
 }
 
-private fun User.isDoctor() = doctorID.isNullOrBlank()
+private fun User.isDoctor() = doctorID.isNullOrBlank().not()
 
 private fun AppCompatTextView.addData(
     vararg newData: String
