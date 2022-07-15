@@ -75,6 +75,10 @@
     <string name="msg_reschedule_appointment">Appointment has been cancelled successfully. Please notify your patient.</string>
     <string name="info_select_patient">Please select a patient to see his medical record.</string>
     <string name="add_medical_data">Add medical data</string>
+    <string name="filtreaza_pacientii_dupa_boala">Filtreaza pacientii dupa boala</string>
+    <string name="pacienti">Pacienti</string>
+    <string name="info_no_patient_with_symptoms">Niciun pacient nu prezinta aceste simptome.</string>
+    <string name="info_back_to_medical_record">Inapoi la istoricul medical</string>
     <string-array name="test_covid_online_questions">
         <item>1.Aveți vreo problemă de sănătate în momentul de față?</item>
         <item>2.Ați avut vreun episod febril , asemănător cu gripa, în ultimele 14 zile?</item>

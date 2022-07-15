@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import eu.ase.grupa1088.licenta.R
@@ -68,6 +69,10 @@ class MedicalRecordActivity : BaseActivity() {
 
     override fun setupListeners() {
         with(binding) {
+            btnFilterByDisease.setOnClickListener {
+                handleFilterByDisease()
+            }
+
             layoutContainerAlergies.setOnClickListener {
                 handleOnClick(MedicalData.Allergies)
             }
@@ -101,8 +106,66 @@ class MedicalRecordActivity : BaseActivity() {
 
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                 }
+
+            spDiseases.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        tvPatientsList.text = ""
+                        (spDiseases.getItemAtPosition(position)?.let { disease ->
+                            val patientsFilteredByDisease =
+                                getSpinnerAdapter().getMedicalRecordList().filter {
+                                    it.second.diseasesHistory?.contains(disease) == true
+                                }.map { it.first?.nume.toString() }
+                            if (patientsFilteredByDisease.isEmpty()) {
+                                tvPatientsList.addData(getString(R.string.info_no_patient_with_symptoms))
+                            } else {
+                                tvPatientsList.addData(*patientsFilteredByDisease.toTypedArray())
+                            }
+
+                        })
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                }
         }
     }
+
+    private fun ActivityMedicalRecordBinding.handleFilterByDisease() {
+        if (isFilterMode()) {
+            btnFilterByDisease.text = getString(R.string.filtreaza_pacientii_dupa_boala)
+            arrayOf(
+                spPatients,
+                layoutContainerAlergies,
+                layoutContainerDiseaseHistory,
+                layoutTreatmentsHistory
+            ).onEach { it.show() }
+            spDiseases.hide()
+            layoutContainerPatientsFiltered.hide()
+        } else {
+            btnFilterByDisease.text = getString(R.string.info_back_to_medical_record)
+            arrayOf(
+                spPatients,
+                layoutContainerAlergies,
+                layoutContainerDiseaseHistory,
+                layoutTreatmentsHistory
+            ).onEach { it.hide() }
+            spDiseases.show()
+            layoutContainerPatientsFiltered.show()
+            spDiseases.adapter = MedicalDataArrayAdapter(
+                this@MedicalRecordActivity,
+                R.layout.layout_spinner,
+                resources.getStringArray(R.array.array_diseases).toMutableList()
+            )
+        }
+    }
+
+    private fun ActivityMedicalRecordBinding.isFilterMode() =
+        spDiseases.isVisible
 
     override fun initViews() {
         with(binding) {

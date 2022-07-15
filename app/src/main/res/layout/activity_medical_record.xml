@@ -56,6 +56,68 @@
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:listitem="@layout/layout_spinner" />
 
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spDiseases"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_40dp"
+            android:layout_marginTop="@dimen/dimen_10dp"
+            android:layout_marginEnd="@dimen/dimen_40dp"
+            android:background="@null"
+            android:overlapAnchor="false"
+            android:popupBackground="@drawable/card_medical_appointment"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:listitem="@layout/layout_spinner" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFilterByDisease"
+            style="@style/CustomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:text="@string/filtreaza_pacientii_dupa_boala"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/layoutContainerPatientsFiltered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_20dp"
+            android:layout_marginTop="@dimen/dimen_20dp"
+            android:layout_marginEnd="@dimen/dimen_20dp"
+            android:background="@drawable/card_medical_appointment"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPatientsFiltered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginTop="@dimen/dimen_20dp"
+                android:layout_marginEnd="@dimen/dimen_20dp"
+                android:fontFamily="@font/mont_heavy"
+                android:text="@string/pacienti"
+                android:textColor="@color/red"
+                android:textSize="@dimen/dimen_32sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvPatientsList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimen_20dp"
+                android:layout_marginBottom="@dimen/dimen_20dp"
+                android:textColor="@color/black"
+                tools:text="- Pacient 1\n- Pacient 2\n- Pacient 3\n- Pacient 4" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layoutContainerAlergies"
             android:layout_width="match_parent"

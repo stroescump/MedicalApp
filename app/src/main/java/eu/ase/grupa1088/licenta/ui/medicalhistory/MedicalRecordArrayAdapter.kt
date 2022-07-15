@@ -48,6 +48,8 @@ class MedicalRecordArrayAdapter(
         notifyDataSetChanged()
     }
 
+    fun getMedicalRecordList() = items.toList()
+
     fun insertData(newRecord: Pair<User?, MedicalRecord>) {
         items.add(newRecord)
         notifyDataSetChanged()
