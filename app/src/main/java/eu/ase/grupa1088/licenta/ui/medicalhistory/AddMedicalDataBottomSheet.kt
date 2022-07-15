@@ -106,8 +106,8 @@ class AddMedicalDataBottomSheet : BottomSheetDialogFragment() {
                         medicalData,
                         medicalRecord.medicalData,
                     ).collect { result ->
-                        parentActivity.handleResponse(result) { result ->
-                            if (result) {
+                        parentActivity.handleResponse(result) { res ->
+                            if (res) {
                                 setFragmentResult(
                                     BOTTOM_SHEET_DONE,
                                     Bundle().also { it.putBoolean(IS_SUCCESS, true) })
