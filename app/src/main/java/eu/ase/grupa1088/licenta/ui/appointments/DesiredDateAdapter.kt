@@ -18,17 +18,7 @@ class DesiredDateAdapter(
     inner class DesiredDateAdapterVH : RecyclerView.ViewHolder(binding.root) {
         fun bind(dateAvailableModel: String, position: Int) {
             with(binding) {
-//                if (dateAvailableModel.isSelected) {
-//                    root.style(R.style.CustomButton)
-//                } else root.style(R.style.CustomButton_Inverted)
                 root.setOnClickListener {
-//                    dateAvailableModel.isSelected = !dateAvailableModel.isSelected
-//                    if (dateAvailableModel.isSelected) {
-//                        appointmentDateList.onEach {
-//                            if (dateAvailableModel.date != it.date) it.isSelected = false
-//                        }
-//                        root.style(R.style.CustomButton)
-//                    } else root.style(R.style.CustomButton_Inverted)
                     onDateClicked(dateAvailableModel, position)
                 }
                 root.text = dateAvailableModel
