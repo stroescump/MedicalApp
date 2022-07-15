@@ -170,7 +170,8 @@ class MedicalRecordActivity : BaseActivity() {
     override fun initViews() {
         with(binding) {
             if (user.isDoctor().not()) {
-                binding.spPatients.hide()
+                spPatients.hide()
+                btnFilterByDisease.hide()
             } else {
                 spPatients.adapter = initPatientsAdapter(mutableListOf())
             }
