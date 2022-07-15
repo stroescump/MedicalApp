@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemContainerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dimen_10dp"
+    tools:context=".ui.dashboard.AppointmentDetailsBottomSheetFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/appointment_title_as_patient" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentDoctorName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10dp"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/red"
+        android:textSize="@dimen/dimen_16sp"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvAppointmentTitle"
+        tools:text="Dr. Radu Ciobanu" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppointmentDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvAppointmentDoctorName"
+        tools:text="24.06.2022\n11:00AM - 11:30AM" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRoomID"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvAppointmentDate"
+        tools:text="Salon 4" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimen_10dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/tvAppointmentTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvRoomID"
+        tools:text="Pret consultatie : 200 Ron" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

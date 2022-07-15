@@ -16,7 +16,10 @@ import eu.ase.grupa1088.licenta.ui.dashboard.DashboardFragment.DashboardItem.*
 import eu.ase.grupa1088.licenta.ui.medicalhistory.MedicalRecordActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
 import eu.ase.grupa1088.licenta.ui.testcovid.TestCovidActivity
-import eu.ase.grupa1088.licenta.utils.*
+import eu.ase.grupa1088.licenta.utils.NO_APPOINTMENTS_FOUND
+import eu.ase.grupa1088.licenta.utils.USER_KEY
+import eu.ase.grupa1088.licenta.utils.getParentActivity
+import eu.ase.grupa1088.licenta.utils.navigateTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -124,9 +127,15 @@ class DashboardFragment : Fragment() {
             rvMedicalAppointments.adapter =
                 MedicalAppointmentAdapter(
                     mutableListOf(),
-                    viewModel.isDoctor
-                ) { medicalAppointment, pos, isMarkedForDeletion ->
-                    viewModel.deleteAppointment(medicalAppointment, pos, isMarkedForDeletion)
+                    viewModel.isDoctor,
+                    { medicalAppointment, pos, isMarkedForDeletion ->
+                        viewModel.deleteAppointment(medicalAppointment, pos, isMarkedForDeletion)
+                    }) { onAppointmentDetailsModel ->
+                    AppointmentDetailsBottomSheetFragment.newInstance(ParcelablePairAppointment(user, onAppointmentDetailsModel))
+                        .show(
+                            parentFragmentManager,
+                            AppointmentDetailsBottomSheetFragment::class.java.simpleName
+                        )
                 }
         }
     }
