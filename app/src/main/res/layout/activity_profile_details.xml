@@ -69,7 +69,7 @@
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
                 android:inputType="textPersonName"
-                android:text="Marian Dobrescu"
+                tools:text="Marian Dobrescu"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
-                android:text="mdobrescu@gmail.com"
+                tools:text="mdobrescu@gmail.com"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
                 android:inputType="textPassword"
-                android:text="Marian Dobrescu"
+                tools:text="Marian Dobrescu"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +119,7 @@
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
                 android:inputType="number"
-                android:text="18767645352635"
+                tools:text="18767645352635"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +127,7 @@
                 app:layout_constraintWidth_percent="0.8" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvGender"
+                android:id="@+id/tvUserType"
                 style="@style/CustomEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -135,12 +135,12 @@
                 android:layout_marginTop="@dimen/dimen_10dp"
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
-                android:text="Male"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvCNP"
-                app:layout_constraintWidth_percent="0.8" />
+                app:layout_constraintWidth_percent="0.8"
+                tools:text="Pacient" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etPhone"
@@ -152,11 +152,11 @@
                 android:layout_marginEnd="@dimen/dimen_40dp"
                 android:background="@drawable/card_medical_appointment"
                 android:inputType="phone"
-                android:text="+40756456789"
+                tools:text="+40756456789"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvGender"
+                app:layout_constraintTop_toBottomOf="@id/tvUserType"
                 app:layout_constraintWidth_percent="0.8" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
@@ -172,5 +172,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_percent="0.8" />
+
+    <include
+        android:id="@+id/layoutProgress"
+        layout="@layout/layout_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

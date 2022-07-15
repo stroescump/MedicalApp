@@ -32,6 +32,7 @@ class AccountViewModel(
     val deleteLiveData = MutableLiveData<AppResult<Pair<Int, Boolean>>>()
     val bulkUserLiveData = MutableLiveData<AppResult<List<User>>>()
     val sendAppointment = MutableLiveData<AppResult<Boolean>>()
+    val updateProfile = MutableLiveData<AppResult<Boolean>>()
 
     fun registerUser(
         email: String,
@@ -121,6 +122,12 @@ class AccountViewModel(
     fun bookAppointment(appointment: MedicalAppointment) {
         sendAppointment(appointment) {
             sendAppointment.postValue(it)
+        }
+    }
+
+    fun updateProfile(phone: String, password: String) {
+        updateProfileRemote(phone, password) {
+            updateProfile.postValue(it)
         }
     }
 

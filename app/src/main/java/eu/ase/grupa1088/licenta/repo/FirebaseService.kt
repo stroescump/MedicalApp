@@ -305,6 +305,25 @@ fun insertMedicalData(patientID: String, medicalData: String, medicalDataType: M
         awaitClose()
     }
 
+fun updateProfileRemote(
+    phone: String,
+    password: String,
+    completionHandler: (AppResult<Boolean>) -> Unit
+) {
+    completionHandler(AppResult.Progress)
+    getFirebaseRoot().child(Users.path).child(
+        getCurrentUserUID() ?: throwUIDException()
+    ).get().addOnSuccessListener { userSnapshot ->
+        if (userSnapshot.exists()) {
+            userSnapshot.child("parola").ref.setValue(password).addOnSuccessListener {
+                userSnapshot.child("nrTel").ref.setValue(phone).addOnSuccessListener {
+                    completionHandler(AppResult.Success(true))
+                }.provideFailureListener(completionHandler)
+            }.provideFailureListener(completionHandler)
+        }
+    }.provideFailureListener(completionHandler)
+}
+
 private fun prepareMedicalAppointments(user: HashMap<String, MedicalAppointment>) =
     user.entries.map { appointment ->
         appointment.value.copy(id = appointment.key)

@@ -42,6 +42,11 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
             ?: throw IllegalStateException("Must have a valid user.")
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserInfo()
+    }
+
     override fun setupListeners() {}
 
     override fun initViews() {
@@ -60,7 +65,11 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 getHeaderView(0).also {
                     drawerFullName = it.findViewById(R.id.nav_user_fullname)
                     it.findViewById<CircleImageView>(R.id.nav_user_image).setOnClickListener {
-                        navigateTo(ProfileDetailsActivity::class.java)
+                        navigateTo(ProfileDetailsActivity::class.java, extras = Bundle().also {
+                            it.putParcelable(
+                                USER_KEY, user
+                            )
+                        })
                     }
                     it.findViewById<AppCompatImageButton>(R.id.btnClose).setOnClickListener {
                         drawerLayout.closeDrawer(GravityCompat.START)
@@ -110,7 +119,11 @@ class ProfileActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedL
                 FirebaseAuth.getInstance().signOut()
                 navigateTo(LoginActivity::class.java, true)
             }
-            R.id.profile -> navigateTo(ProfileDetailsActivity::class.java)
+            R.id.profile -> navigateTo(ProfileDetailsActivity::class.java, extras = Bundle().also {
+                it.putParcelable(
+                    USER_KEY, user
+                )
+            })
             R.id.testCovid -> navigateTo(TestCovidActivity::class.java)
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
