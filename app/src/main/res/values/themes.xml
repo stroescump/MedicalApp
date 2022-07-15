@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Licenta" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Licenta" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">#B8720A</item>
@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@color/red_light1</item>
         <item name="android:fontFamily">@font/mustica_pro_semibold</item>
+        <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 
     <style name="CustomEditText" parent="Widget.AppCompat.EditText">
@@ -62,5 +63,22 @@
         <item name="android:textSize">@dimen/dimen_16sp</item>
         <item name="android:textColor">@color/red_dark1</item>
         <item name="android:fontFamily">@font/mustica_pro_semibold</item>
+    </style>
+
+    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="android:backgroundTint">@color/red_light1</item>
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 </resources>

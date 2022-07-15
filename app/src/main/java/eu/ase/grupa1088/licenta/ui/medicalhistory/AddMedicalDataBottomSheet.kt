@@ -51,6 +51,10 @@ class AddMedicalDataBottomSheet : BottomSheetDialogFragment() {
         )
     }
 
+    override fun getTheme(): Int {
+        return R.style.CustomBottomSheetDialog
+    }
+
     override fun onStart() {
         super.onStart()
         parentActivity = requireActivity() as MedicalRecordActivity
@@ -60,7 +64,7 @@ class AddMedicalDataBottomSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = LayoutAddMedicalDataBinding.inflate(layoutInflater, null, false)
+        binding = LayoutAddMedicalDataBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
