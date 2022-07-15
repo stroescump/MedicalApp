@@ -29,8 +29,8 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         FirebaseApp.initializeApp(this)
         super.onCreate(savedInstanceState)
-        binding.etPassword.text = "123456".toEditable()
-        binding.etEmail.text = "thetests1234@gmail.com".toEditable()
+//        binding.etPassword.text = "123456".toEditable()
+//        binding.etEmail.text = "stroescump@gmail.com".toEditable()
 //        binding.btnSignIn.performClick()
     }
 

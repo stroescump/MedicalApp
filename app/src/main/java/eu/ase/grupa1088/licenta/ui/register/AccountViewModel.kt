@@ -8,6 +8,7 @@ import eu.ase.grupa1088.licenta.models.MedicalAppointment
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.repo.*
 import eu.ase.grupa1088.licenta.utils.AppResult
+import eu.ase.grupa1088.licenta.utils.Event
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,7 +30,7 @@ class AccountViewModel(
     val medicalAppointmentStateFlow = MutableStateFlow<AppResult<MedicalAppointment>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
     val medicalAppointmentLiveData = MutableLiveData<AppResult<List<MedicalAppointment>>>()
-    val deleteLiveData = MutableLiveData<AppResult<Pair<Int, Boolean>>>()
+    val deleteLiveData = MutableLiveData<Event<AppResult<Pair<Int, Boolean>>>>()
     val bulkUserLiveData = MutableLiveData<AppResult<List<User>>>()
     val sendAppointment = MutableLiveData<AppResult<Boolean>>()
     val updateProfile = MutableLiveData<AppResult<Boolean>>()
@@ -85,7 +86,7 @@ class AccountViewModel(
 
     fun deleteAppointment(appointment: MedicalAppointment, pos: Int, isMarkedForDeletion: Boolean) {
         deleteAppointmentFirebase(appointment, pos, isMarkedForDeletion, isDoctor) {
-            deleteLiveData.postValue(it)
+            deleteLiveData.postValue(Event(it))
         }
     }
 

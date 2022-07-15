@@ -79,13 +79,15 @@ class DashboardFragment : Fragment() {
                 getAdapter()?.refreshList(medicalAppointments)
             }
         }
-        viewModel.deleteLiveData.observe(viewLifecycleOwner) {
-            parentActivity.handleResponse(it) { (pos, isMarkedForDeletion) ->
-                getAdapter()?.removeItem(pos)
-                if (isMarkedForDeletion && user.doctorID.isNullOrBlank()) {
-                    navigateTo(AppointmentActivity::class.java)
-                } else if (user.doctorID.isNullOrBlank().not()) {
-                    parentActivity.displayInfo(getString(R.string.msg_reschedule_appointment))
+        viewModel.deleteLiveData.observe(viewLifecycleOwner) { event ->
+            event.getContentIfNotHandled()?.let {
+                parentActivity.handleResponse(it) { (pos, isMarkedForDeletion) ->
+                    getAdapter()?.removeItem(pos)
+                    if (isMarkedForDeletion && user.doctorID.isNullOrBlank()) {
+                        navigateTo(AppointmentActivity::class.java)
+                    } else if (user.doctorID.isNullOrBlank().not()) {
+                        parentActivity.displayInfo(getString(R.string.msg_reschedule_appointment))
+                    }
                 }
             }
         }
@@ -131,7 +133,12 @@ class DashboardFragment : Fragment() {
                     { medicalAppointment, pos, isMarkedForDeletion ->
                         viewModel.deleteAppointment(medicalAppointment, pos, isMarkedForDeletion)
                     }) { onAppointmentDetailsModel ->
-                    AppointmentDetailsBottomSheetFragment.newInstance(ParcelablePairAppointment(user, onAppointmentDetailsModel))
+                    AppointmentDetailsBottomSheetFragment.newInstance(
+                        ParcelablePairAppointment(
+                            user,
+                            onAppointmentDetailsModel
+                        )
+                    )
                         .show(
                             parentFragmentManager,
                             AppointmentDetailsBottomSheetFragment::class.java.simpleName
