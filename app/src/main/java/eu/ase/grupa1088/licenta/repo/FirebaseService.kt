@@ -203,7 +203,19 @@ fun sendAppointment(
                     getFirebaseRoot().child(MedicalAppointments.path).child(
                         appointment.patientID.toString()
                     ).child(appointment.id!!).setValue(appointment).addOnSuccessListener {
-                        completionHandler(AppResult.Success(true))
+                        getFirebaseRoot().child(MedicalRecords.path)
+                            .child(appointment.patientID.toString()).get().addOnSuccessListener {
+                                if (it.exists().not()) {
+                                    it.ref.setValue(
+                                        MedicalRecord(
+                                            id = appointment.patientID,
+                                            doctorID = appointment.doctorID
+                                        )
+                                    )
+                                }
+                                completionHandler(AppResult.Success(true))
+                            }
+                            .provideFailureListener(completionHandler)
                     }.provideFailureListener(completionHandler)
                 }.provideFailureListener(completionHandler)
         }
@@ -280,8 +292,8 @@ fun insertMedicalData(patientID: String, medicalData: String, medicalDataType: M
             .addOnSuccessListener { medicalDataSnapshot ->
                 val medicalDataList =
                     medicalDataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
-                        ?.toMutableList()
-                medicalDataList?.add(medicalData)
+                        ?.toMutableList() ?: mutableListOf()
+                medicalDataList.add(medicalData)
                 medicalDataSnapshot.ref.setValue(medicalDataList).addOnSuccessListener {
                     trySendBlocking(AppResult.Success(true))
                 }

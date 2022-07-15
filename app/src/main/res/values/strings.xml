@@ -119,7 +119,6 @@
         <item>Pacientul nu suferă de nicio alergie</item>
     </string-array>
     <string-array name="array_diseases">
-        <item>Durerile musculare</item>
         <item>Artrita</item>
         <item>Artroza</item>
         <item>Discopatia</item>
