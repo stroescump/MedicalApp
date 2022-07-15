@@ -22,13 +22,13 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 sealed class MedicalData(val sectionName: String) : Parcelable {
     @Parcelize
-    object Allergies : MedicalData("Allergies")
+    object Allergies : MedicalData("Alergii")
 
     @Parcelize
-    object Disease : MedicalData("Disease")
+    object Disease : MedicalData("Boli")
 
     @Parcelize
-    object Treatment : MedicalData("Treatment")
+    object Treatment : MedicalData("Tratament")
 }
 
 @Parcelize
