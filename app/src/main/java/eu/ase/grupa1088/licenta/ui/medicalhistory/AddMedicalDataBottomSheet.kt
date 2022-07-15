@@ -14,6 +14,8 @@ import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.LayoutAddMedicalDataBinding
 import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.models.User
+import eu.ase.grupa1088.licenta.utils.BOTTOM_SHEET_DONE
+import eu.ase.grupa1088.licenta.utils.IS_SUCCESS
 import eu.ase.grupa1088.licenta.utils.MEDICAL_RECORD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -107,8 +109,8 @@ class AddMedicalDataBottomSheet : BottomSheetDialogFragment() {
                         parentActivity.handleResponse(result) { result ->
                             if (result) {
                                 setFragmentResult(
-                                    "TEST",
-                                    Bundle().also { it.putBoolean("IS_SUCCESS", true) })
+                                    BOTTOM_SHEET_DONE,
+                                    Bundle().also { it.putBoolean(IS_SUCCESS, true) })
                                 dismiss()
                             } else {
                                 dismiss()

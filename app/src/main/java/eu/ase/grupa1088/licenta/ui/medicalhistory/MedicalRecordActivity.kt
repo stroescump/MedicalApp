@@ -13,9 +13,7 @@ import eu.ase.grupa1088.licenta.databinding.ActivityMedicalRecordBinding
 import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.models.User
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
-import eu.ase.grupa1088.licenta.utils.USER_KEY
-import eu.ase.grupa1088.licenta.utils.hide
-import eu.ase.grupa1088.licenta.utils.viewBinding
+import eu.ase.grupa1088.licenta.utils.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -35,10 +33,10 @@ class MedicalRecordActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         fetchMedicalRecord()
         supportFragmentManager.setFragmentResultListener(
-            "TEST", this
+            BOTTOM_SHEET_DONE, this
         ) { requestKey, result ->
             run {
-                if (requestKey == "TEST" && result.getBoolean("IS_SUCCESS", false)) {
+                if (requestKey == BOTTOM_SHEET_DONE && result.getBoolean(IS_SUCCESS, false)) {
                     getSpinnerAdapter().clear()
                     fetchMedicalRecord()
                 }
@@ -71,47 +69,15 @@ class MedicalRecordActivity : BaseActivity() {
     override fun setupListeners() {
         with(binding) {
             layoutContainerAlergies.setOnClickListener {
-                spPatients.selectedItem?.let {
-                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
-                    AddMedicalDataBottomSheet.newInstance(
-                        ParcelablePair(
-                            user,
-                            medicalRecord,
-                            MedicalData.Allergies
-                        )
-                    ).apply {
-                        show(
-                            supportFragmentManager,
-                            AddMedicalDataBottomSheet::class.java.simpleName
-                        )
-                    }
-                }
+                handleOnClick(MedicalData.Allergies)
             }
 
             layoutContainerDiseaseHistory.setOnClickListener {
-                spPatients.selectedItem?.let {
-                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
-                    AddMedicalDataBottomSheet.newInstance(
-                        ParcelablePair(
-                            user,
-                            medicalRecord,
-                            MedicalData.Disease
-                        )
-                    ).show(supportFragmentManager, AddMedicalDataBottomSheet::class.java.simpleName)
-                }
+                handleOnClick(MedicalData.Disease)
             }
 
             layoutTreatmentsHistory.setOnClickListener {
-                spPatients.selectedItem?.let {
-                    val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
-                    AddMedicalDataBottomSheet.newInstance(
-                        ParcelablePair(
-                            user,
-                            medicalRecord,
-                            MedicalData.Treatment
-                        )
-                    ).show(supportFragmentManager, AddMedicalDataBottomSheet::class.java.simpleName)
-                }
+                handleOnClick(MedicalData.Treatment)
             }
 
             btnBack.setOnClickListener { onBackPressed() }
@@ -138,20 +104,6 @@ class MedicalRecordActivity : BaseActivity() {
         }
     }
 
-    private fun ActivityMedicalRecordBinding.populateMedicalHistory(data: Pair<User?, MedicalRecord>) {
-        data.let { (user, medicalRecord) ->
-            medicalRecord.allergiesHistory?.let { allergies ->
-                tvAllergiesList.addData(*allergies.toTypedArray())
-            }
-            medicalRecord.diseasesHistory?.let { diseases ->
-                tvDiseasesList.addData(*diseases.toTypedArray())
-            }
-            medicalRecord.treatmentsHistory?.let { treatments ->
-                tvTreatmentsList.addData(*treatments.toTypedArray())
-            }
-        }
-    }
-
     override fun initViews() {
         with(binding) {
             if (user.isDoctor().not()) {
@@ -173,6 +125,33 @@ class MedicalRecordActivity : BaseActivity() {
 
     private fun getSpinnerAdapter() =
         (binding.spPatients.adapter as MedicalRecordArrayAdapter)
+
+    private fun ActivityMedicalRecordBinding.handleOnClick(medicalData: MedicalData) {
+        spPatients.selectedItem?.let {
+            val (user, medicalRecord) = (it as Pair<User, MedicalRecord>)
+            AddMedicalDataBottomSheet.newInstance(
+                ParcelablePair(
+                    user,
+                    medicalRecord,
+                    medicalData
+                )
+            ).show(supportFragmentManager, AddMedicalDataBottomSheet::class.java.simpleName)
+        }
+    }
+
+    private fun ActivityMedicalRecordBinding.populateMedicalHistory(data: Pair<User?, MedicalRecord>) {
+        data.let { (user, medicalRecord) ->
+            medicalRecord.allergiesHistory?.let { allergies ->
+                tvAllergiesList.addData(*allergies.toTypedArray())
+            }
+            medicalRecord.diseasesHistory?.let { diseases ->
+                tvDiseasesList.addData(*diseases.toTypedArray())
+            }
+            medicalRecord.treatmentsHistory?.let { treatments ->
+                tvTreatmentsList.addData(*treatments.toTypedArray())
+            }
+        }
+    }
 
 }
 
