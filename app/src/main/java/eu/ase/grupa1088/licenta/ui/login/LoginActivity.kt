@@ -31,7 +31,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding.etPassword.text = "123456".toEditable()
         binding.etEmail.text = "thetests1234@gmail.com".toEditable()
-        binding.btnSignIn.performClick()
+//        binding.btnSignIn.performClick()
     }
 
     override fun setupListeners() {
