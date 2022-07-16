@@ -61,7 +61,7 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
                             it.first.toCharArray().first().toString() to it.second
                         })
                         onDataPointTouchListener = { index: Int, _: Float, _: Float ->
-                            displayInfo("Incidenta ${dataEntries[index].first.lowercase()} - ${dataEntries[index].second} cazuri")
+                            displayInfo("Incidenta ${dataEntries[index].first.lowercase()} - ${dataEntries[index].second.toInt()} cazuri")
                         }
                     }
                 }
