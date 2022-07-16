@@ -293,7 +293,7 @@ fun insertMedicalData(patientID: String, medicalData: String, medicalDataType: M
                 val medicalDataList =
                     medicalDataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
                         ?.toMutableList() ?: mutableListOf()
-                medicalDataList.add(medicalData)
+                if(medicalDataList.contains(medicalData).not()) medicalDataList.add(medicalData)
                 medicalDataSnapshot.ref.setValue(medicalDataList).addOnSuccessListener {
                     trySendBlocking(AppResult.Success(true))
                 }
