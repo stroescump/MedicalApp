@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.db.williamchart.ExperimentalFeature
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.databinding.LayoutStatisticsBottomSheetBinding
@@ -33,6 +35,7 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        expandBottomSheet()
         binding = LayoutStatisticsBottomSheetBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -69,6 +72,10 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
+    private fun expandBottomSheet() {
+        val d = requireDialog() as BottomSheetDialog
+        d.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 
     companion object {
         @JvmStatic
