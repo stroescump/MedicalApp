@@ -71,7 +71,7 @@ class MedicalRecordActivity : BaseActivity() {
     override fun setupListeners() {
         with(binding) {
             btnStatistics.setOnClickListener {
-                StatisticsBottomSheetFragment.newInstance(viewModel.medicalRecordsList).show(
+                StatisticsBottomSheetFragment.newInstance(getSpinnerAdapter().getData()).show(
                     supportFragmentManager,
                     StatisticsBottomSheetFragment::class.java.simpleName
                 )

@@ -54,4 +54,6 @@ class MedicalRecordArrayAdapter(
         items.add(newRecord)
         notifyDataSetChanged()
     }
+
+    fun getData() = ArrayList(items.map { it.second })
 }
