@@ -50,14 +50,7 @@ class MedicalRecordActivity : BaseActivity() {
             FirebaseAuth.getInstance().currentUser?.uid?.let { id ->
                 lifecycleScope.launch {
                     viewModel.fetchMedicalRecordAsPatient(id)?.collect { result ->
-                        handleResponse(result, errorHandler = {
-                            with(binding) {
-                                layoutContainerAlergies.hide()
-                                layoutContainerDiseaseHistory.hide()
-                                layoutTreatmentsHistory.hide()
-                                btnFilterByDisease.hide()
-                            }
-                        }) {
+                        handleResponse(result) {
                             binding.populateMedicalHistory(it)
                         }
                     }
@@ -66,7 +59,14 @@ class MedicalRecordActivity : BaseActivity() {
         } else {
             lifecycleScope.launch {
                 viewModel.fetchMedicalRecordAsDoctor(user.doctorID)?.collect { result ->
-                    handleResponse(result) {
+                    handleResponse(result, errorHandler = {
+                        with(binding) {
+                            layoutContainerAlergies.hide()
+                            layoutContainerDiseaseHistory.hide()
+                            layoutTreatmentsHistory.hide()
+                            btnFilterByDisease.hide()
+                        }
+                    }) {
                         getSpinnerAdapter().insertData(it)
                     }
                 }
