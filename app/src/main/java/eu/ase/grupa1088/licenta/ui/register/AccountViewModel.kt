@@ -26,6 +26,7 @@ class AccountViewModel(
     var isPatient = isDoctor.not()
     var doctorID: String = ""
     var selectedDate = ""
+    var initialPasswd = ""
     val uiStateFlow = MutableStateFlow<AppResult<User>?>(null)
     val medicalAppointmentStateFlow = MutableStateFlow<AppResult<MedicalAppointment>?>(null)
     val resetPasswordStateFlow = MutableStateFlow<AppResult<Boolean>?>(null)
@@ -127,8 +128,12 @@ class AccountViewModel(
     }
 
     fun updateProfile(phone: String, password: String) {
-        updateProfileRemote(phone, password) {
-            updateProfile.postValue(it)
+        if (password != initialPasswd) {
+            accountService.changePassword(password) {
+                updateProfileRemote(phone, password) {
+                    updateProfile.postValue(it)
+                }
+            }
         }
     }
 

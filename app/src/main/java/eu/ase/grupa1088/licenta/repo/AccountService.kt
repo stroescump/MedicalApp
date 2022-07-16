@@ -94,4 +94,12 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
             completionCallback(AppResult.Error(it))
         }
     }
+
+    fun changePassword(newPassword: String, completionCallback: (AppResult<Boolean>) -> Unit) {
+        firebaseDep.currentUser?.updatePassword(newPassword)?.addOnSuccessListener {
+            completionCallback(AppResult.Success(true))
+        }?.addOnFailureListener {
+            completionCallback(AppResult.Error(it))
+        }
+    }
 }

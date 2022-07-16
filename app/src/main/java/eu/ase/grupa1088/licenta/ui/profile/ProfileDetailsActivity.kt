@@ -69,6 +69,7 @@ class ProfileDetailsActivity : BaseActivity() {
         lifecycleScope.launch {
             viewModel.uiStateFlow.collect {
                 handleResponse(it) {
+                    viewModel.initialPasswd = user.parola.toString()
                     with(binding) {
                         etPhone.text = user.nrTel?.toEditable()
                         etPassword.text = user.parola?.toEditable()
