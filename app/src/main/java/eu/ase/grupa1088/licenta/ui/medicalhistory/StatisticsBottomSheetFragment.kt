@@ -56,7 +56,7 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
                 }
                 withContext(Dispatchers.Main) {
                     barChart.apply {
-                        labelsSize = 16F
+                        labelsSize = 18F
                         show(dataEntries.map {
                             it.first.toCharArray().first().toString() to it.second
                         })
