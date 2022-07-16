@@ -253,20 +253,25 @@ fun getMedicalRecordForDoctor(
                 val patientsSnapshots = allPatientsRecordSnapshot.children.filter { patientRecord ->
                     patientRecord.child("doctorID").value.toString() == doctorID
                 }
-                patientsSnapshots.onEach { snapshot ->
-                    val patientID = snapshot.key.toString()
-                    getFirebaseRoot().child(Users.path).child(patientID).get()
-                        .addOnSuccessListener {
-                            val patient = it.getUser()
-                                ?: throw IllegalArgumentException("Error while parsing Firebase User with key ${it.key}")
-                            val patientRecords = snapshot.getValue(MedicalRecord::class.java)
-                                ?.apply { id = snapshot.key }
-                                ?: throw IllegalArgumentException("Error while parsing Firebase MedicalRecord with key ${snapshot.key}")
-                            trySendBlocking(AppResult.Success(patient to patientRecords))
-                        }.addOnFailureListener {
-                            trySendBlocking(AppResult.Error(it))
-                            close(it)
-                        }
+                if (patientsSnapshots.isNotEmpty()) {
+                    patientsSnapshots.onEach { snapshot ->
+                        val patientID = snapshot.key.toString()
+                        getFirebaseRoot().child(Users.path).child(patientID).get()
+                            .addOnSuccessListener {
+                                val patient = it.getUser()
+                                    ?: throw IllegalArgumentException("Error while parsing Firebase User with key ${it.key}")
+                                val patientRecords = snapshot.getValue(MedicalRecord::class.java)
+                                    ?.apply { id = snapshot.key }
+                                    ?: throw IllegalArgumentException("Error while parsing Firebase MedicalRecord with key ${snapshot.key}")
+                                trySendBlocking(AppResult.Success(patient to patientRecords))
+                            }.addOnFailureListener {
+                                trySendBlocking(AppResult.Error(it))
+                                close(it)
+                            }
+                    }
+                } else {
+                    trySendBlocking(AppResult.Error(Throwable("Hi Doc. You don't have any patients as of now.")))
+                    close(Throwable("Hi Doc. You don't have any patients as of now."))
                 }
             } else run {
                 trySendBlocking(AppResult.Error(Throwable("Hi Doc. You don't have any patients as of now.")))
@@ -293,7 +298,7 @@ fun insertMedicalData(patientID: String, medicalData: String, medicalDataType: M
                 val medicalDataList =
                     medicalDataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
                         ?.toMutableList() ?: mutableListOf()
-                if(medicalDataList.contains(medicalData).not()) medicalDataList.add(medicalData)
+                if (medicalDataList.contains(medicalData).not()) medicalDataList.add(medicalData)
                 medicalDataSnapshot.ref.setValue(medicalDataList).addOnSuccessListener {
                     trySendBlocking(AppResult.Success(true))
                 }

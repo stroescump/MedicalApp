@@ -79,7 +79,7 @@ class RegisterUserActivity : BaseActivity() {
                     etTelefon.value(),
                     etCNP.value(),
                     etIdDoctor.value(),
-                    spSpeciality.selectedItem?.let { return@let it.toString() }
+                    spSpeciality.selectedItem?.let { return@let it.toString().uppercase() }
                 )
             } else {
                 displayError(getString(R.string.check_data_validity))
