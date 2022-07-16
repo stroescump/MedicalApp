@@ -49,6 +49,7 @@
                 android:layout_weight="1" />
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:visibility="gone"
                 android:id="@+id/btnStatistics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
