@@ -18,6 +18,7 @@ import eu.ase.grupa1088.licenta.utils.displayInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 
 class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
@@ -59,6 +60,7 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
                 }
                 withContext(Dispatchers.Main) {
                     barChart.apply {
+                        labelsFormatter = { it.roundToInt().toString() }
                         labelsSize = 18F
                         show(dataEntries.map {
                             it.first.toCharArray().first().toString() to it.second
