@@ -14,8 +14,6 @@ import kotlinx.coroutines.flow.Flow
 class MedicalRecordViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) :
     ViewModel() {
 
-    val medicalRecordsList = ArrayList<MedicalRecord>()
-
     fun fetchMedicalRecordAsDoctor(doctorID: String?) =
         doctorID?.let {
             getMedicalRecordForDoctor(it)

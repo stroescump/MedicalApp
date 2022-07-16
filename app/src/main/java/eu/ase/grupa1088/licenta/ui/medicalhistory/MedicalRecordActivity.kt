@@ -60,7 +60,6 @@ class MedicalRecordActivity : BaseActivity() {
             lifecycleScope.launch {
                 viewModel.fetchMedicalRecordAsDoctor(user.doctorID)?.collect { result ->
                     handleResponse(result) {
-                        viewModel.medicalRecordsList.add(it.second)
                         getSpinnerAdapter().insertData(it)
                     }
                 }
