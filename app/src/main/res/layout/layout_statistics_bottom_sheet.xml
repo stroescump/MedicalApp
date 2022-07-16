@@ -30,6 +30,7 @@
             android:layout_marginStart="@dimen/dimen_10dp"
             android:layout_marginTop="@dimen/dimen_40dp"
             android:layout_marginEnd="@dimen/dimen_10dp"
+            android:layout_marginBottom="@dimen/dimen_20dp"
             app:chart_barsBackgroundColor="@color/red_light1"
             app:chart_barsColor="@color/red_dark1"
             app:chart_barsRadius="@dimen/dimen_10dp"

@@ -57,13 +57,12 @@ class StatisticsBottomSheetFragment : BottomSheetDialogFragment() {
                 withContext(Dispatchers.Main) {
                     barChart.apply {
                         labelsSize = 16F
-                        onDataPointClickListener = { index: Int, _: Float, _: Float ->
-                            displayInfo("Incidenta ${dataEntries[index].first.lowercase()} - ${dataEntries[index].second} cazuri")
-                        }
                         show(dataEntries.map {
                             it.first.toCharArray().first().toString() to it.second
                         })
-
+                        onDataPointTouchListener = { index: Int, _: Float, _: Float ->
+                            displayInfo("Incidenta ${dataEntries[index].first.lowercase()} - ${dataEntries[index].second} cazuri")
+                        }
                     }
                 }
             }
