@@ -8,7 +8,6 @@ import eu.ase.grupa1088.licenta.databinding.ActivitySchimbaParolaBinding
 import eu.ase.grupa1088.licenta.repo.AccountService
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 import eu.ase.grupa1088.licenta.ui.register.AccountViewModel
-import eu.ase.grupa1088.licenta.utils.AppResult
 import eu.ase.grupa1088.licenta.utils.inputValidator
 import eu.ase.grupa1088.licenta.utils.value
 import eu.ase.grupa1088.licenta.utils.viewBinding
@@ -35,14 +34,8 @@ class SchimbaParolaActivity : BaseActivity() {
     override fun setupObservers() {
         lifecycleScope.launch {
             viewModel.resetPasswordStateFlow.collect {
-                when (it) {
-                    is AppResult.Error -> displayError(it.exception.localizedMessage)
-                    AppResult.Progress -> showProgress()
-                    is AppResult.Success -> {
-                        hideProgress()
-                        displayInfo(getString(R.string.msg_password_reset_info))
-                    }
-                    null -> {}
+                handleResponse(it) {
+                    displayInfo(getString(R.string.msg_password_reset_info))
                 }
             }
         }
