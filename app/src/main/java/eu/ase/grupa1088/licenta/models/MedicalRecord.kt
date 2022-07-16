@@ -9,5 +9,5 @@ data class MedicalRecord(
     val diseasesHistory: List<String>? = listOf(),
     val treatmentsHistory: List<String>? = listOf(),
     var id: String? = null,
-    var doctorID: String? = null,
+    val doctorID: List<String>? = null,
 ) : Parcelable

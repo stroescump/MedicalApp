@@ -204,14 +204,22 @@ fun sendAppointment(
                         appointment.patientID.toString()
                     ).child(appointment.id!!).setValue(appointment).addOnSuccessListener {
                         getFirebaseRoot().child(MedicalRecords.path)
-                            .child(appointment.patientID.toString()).get().addOnSuccessListener {
-                                if (it.exists().not()) {
-                                    it.ref.setValue(
+                            .child(appointment.patientID.toString()).get().addOnSuccessListener { medicalRecordSnapshot ->
+                                if (medicalRecordSnapshot.exists().not()) {
+                                    medicalRecordSnapshot.ref.setValue(
                                         MedicalRecord(
                                             id = appointment.patientID,
-                                            doctorID = appointment.doctorID
+                                            doctorID = listOf(appointment.doctorID)
                                         )
                                     )
+                                } else {
+                                    val doctorIDList = medicalRecordSnapshot.child("doctorID").getValue(object : GenericTypeIndicator<List<String>>(){})
+                                    if(doctorIDList?.contains(appointment.doctorID)?.not() == true){
+                                        val updatedList = doctorIDList.toMutableList().apply { add(appointment.doctorID) }
+                                        medicalRecordSnapshot.child("doctorID").ref.setValue(
+                                            updatedList
+                                        )
+                                    }
                                 }
                                 completionHandler(AppResult.Success(true))
                             }
