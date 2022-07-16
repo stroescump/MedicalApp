@@ -50,7 +50,14 @@ class MedicalRecordActivity : BaseActivity() {
             FirebaseAuth.getInstance().currentUser?.uid?.let { id ->
                 lifecycleScope.launch {
                     viewModel.fetchMedicalRecordAsPatient(id)?.collect { result ->
-                        handleResponse(result) {
+                        handleResponse(result, errorHandler = {
+                            with(binding) {
+                                layoutContainerAlergies.hide()
+                                layoutContainerDiseaseHistory.hide()
+                                layoutTreatmentsHistory.hide()
+                                btnFilterByDisease.hide()
+                            }
+                        }) {
                             binding.populateMedicalHistory(it)
                         }
                     }

@@ -137,10 +137,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     fun <T> handleResponse(
         it: AppResult<T>?,
+        errorHandler: ((Throwable) -> Unit)? = null,
         successHandler: (T) -> Unit
     ) {
         when (it) {
-            is AppResult.Error -> displayError(it.exception.localizedMessage)
+            is AppResult.Error -> kotlin.run {
+                displayError(it.exception.localizedMessage)
+                errorHandler?.let { handler -> handler(it.exception) }
+            }
             AppResult.Progress -> showProgress()
             is AppResult.Success -> {
                 hideProgress()
