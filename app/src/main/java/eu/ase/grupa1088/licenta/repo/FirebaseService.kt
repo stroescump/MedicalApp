@@ -259,7 +259,9 @@ fun getMedicalRecordForDoctor(
         .addOnSuccessListener { allPatientsRecordSnapshot ->
             if (allPatientsRecordSnapshot.hasChildren()) {
                 val patientsSnapshots = allPatientsRecordSnapshot.children.filter { patientRecord ->
-                    patientRecord.child("doctorID").value.toString() == doctorID
+                    patientRecord.child("doctorID").getValue(object : GenericTypeIndicator<List<String>>(){})?.let {
+                        return@let it.contains(doctorID)
+                    } ?: false
                 }
                 if (patientsSnapshots.isNotEmpty()) {
                     patientsSnapshots.onEach { snapshot ->
