@@ -152,26 +152,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
 
-    fun <T> handleResponseReturn(
-        it: AppResult<T>?,
-//        successHandler: (T) -> Unit
-    ): T {
-        when (it) {
-            is AppResult.Error -> displayError(it.exception.localizedMessage)
-            AppResult.Progress -> showProgress()
-            is AppResult.Success -> {
-                hideProgress()
-                it.successData?.let { dataSnapshot ->
-//                    successHandler(dataSnapshot)
-                    return@let dataSnapshot
-                }
-                    ?: displayError()
-            }
-            null -> {}
-        }
-        throw IllegalArgumentException("Must return non-null data.")
-    }
-
     fun displayInfo(message: String) =
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
 

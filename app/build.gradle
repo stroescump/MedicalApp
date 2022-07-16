@@ -69,7 +69,12 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation("androidx.fragment:fragment-ktx:$fragment_ktx")
+    // Charts
+    implementation 'com.diogobernardino:williamchart:3.10.1'
 
+// Tooltips
+    implementation 'com.diogobernardino.williamchart:tooltip-slider:3.10.1'
+    implementation 'com.diogobernardino.williamchart:tooltip-points:3.10.1'
     implementation 'com.airbnb.android:paris:2.0.0'
     // Apply the Paris processor if you're using Paris annotations for code gen.
     kapt 'com.airbnb.android:paris-processor:2.0.0'

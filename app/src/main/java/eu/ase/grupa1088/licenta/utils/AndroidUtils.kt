@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import eu.ase.grupa1088.licenta.R
 import eu.ase.grupa1088.licenta.ui.base.BaseActivity
 
@@ -32,6 +33,9 @@ fun <T> Fragment.navigateTo(
         throw IllegalArgumentException("Destination must be an Activity!")
     }
 }
+
+fun Fragment.displayInfo(message: String) =
+    Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
 
 fun initArrayAdapter(context: Context, array: Array<String>) = ArrayAdapter(
     context,

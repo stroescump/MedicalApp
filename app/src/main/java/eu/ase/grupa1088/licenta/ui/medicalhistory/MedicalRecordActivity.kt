@@ -60,6 +60,7 @@ class MedicalRecordActivity : BaseActivity() {
             lifecycleScope.launch {
                 viewModel.fetchMedicalRecordAsDoctor(user.doctorID)?.collect { result ->
                     handleResponse(result) {
+                        viewModel.medicalRecordsList.add(it.second)
                         getSpinnerAdapter().insertData(it)
                     }
                 }
@@ -69,6 +70,13 @@ class MedicalRecordActivity : BaseActivity() {
 
     override fun setupListeners() {
         with(binding) {
+            btnStatistics.setOnClickListener {
+                StatisticsBottomSheetFragment.newInstance(viewModel.medicalRecordsList).show(
+                    supportFragmentManager,
+                    StatisticsBottomSheetFragment::class.java.simpleName
+                )
+            }
+
             btnFilterByDisease.setOnClickListener {
                 handleFilterByDisease()
             }

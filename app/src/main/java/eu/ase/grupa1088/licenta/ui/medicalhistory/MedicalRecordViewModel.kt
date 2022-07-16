@@ -2,6 +2,7 @@ package eu.ase.grupa1088.licenta.ui.medicalhistory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import eu.ase.grupa1088.licenta.models.MedicalRecord
 import eu.ase.grupa1088.licenta.repo.getMedicalRecordForDoctor
 import eu.ase.grupa1088.licenta.repo.getMedicalRecordForPatient
 import eu.ase.grupa1088.licenta.repo.insertMedicalData
@@ -12,6 +13,8 @@ import kotlinx.coroutines.flow.Flow
 
 class MedicalRecordViewModel(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) :
     ViewModel() {
+
+    val medicalRecordsList = ArrayList<MedicalRecord>()
 
     fun fetchMedicalRecordAsDoctor(doctorID: String?) =
         doctorID?.let {
