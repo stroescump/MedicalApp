@@ -271,16 +271,13 @@ fun getMedicalRecordForDoctor(
                     }
                 } else {
                     trySendBlocking(AppResult.Error(Throwable("Hi Doc. You don't have any patients as of now.")))
-                    close(Throwable("Hi Doc. You don't have any patients as of now."))
                 }
             } else run {
                 trySendBlocking(AppResult.Error(Throwable("Hi Doc. You don't have any patients as of now.")))
-                close(Throwable("Hi Doc. You don't have any patients as of now."))
             }
         }
         .addOnFailureListener {
             trySendBlocking(AppResult.Error(it))
-            close(it)
         }
     awaitClose()
 }
