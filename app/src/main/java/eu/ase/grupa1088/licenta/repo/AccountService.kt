@@ -14,13 +14,14 @@ class AccountService(private val firebaseDep: FirebaseAuth) {
         telefon: String,
         cnp: String? = null,
         doctorID: String? = null,
+        speciality: String? = null,
         completionCallback: (user: AppResult<User>) -> Unit
     ) {
         completionCallback(AppResult.Progress)
         firebaseDep.createUserWithEmailAndPassword(email, parola)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = User(nume, telefon, email, parola, cnp, doctorID)
+                    val user = User(nume, telefon, email, parola, cnp, doctorID, speciality = speciality)
                     FirebaseAuth.getInstance().currentUser?.let {
                         FirebaseDatabase.getInstance().getReference("Users")
                             .child(it.uid)

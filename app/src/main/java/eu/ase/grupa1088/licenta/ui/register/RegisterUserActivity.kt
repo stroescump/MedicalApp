@@ -26,21 +26,15 @@ class RegisterUserActivity : BaseActivity() {
             btnRegister.setOnClickListener { registerUser() }
             tvScreenTitle.setOnClickListener { navigateTo(LoginActivity::class.java) }
             cbIsDoctor.setOnClickListener {
-                if (cbIsDoctor.isChecked) {
-                    cbIsDoctor.isChecked = false
-                    handleIsDoctorChecked(cbIsDoctor.isChecked)
-                } else {
-
-                    cbIsDoctor.isChecked = true
-                    handleIsDoctorChecked(cbIsDoctor.isChecked)
-                }
+                cbIsDoctor.isChecked = !cbIsDoctor.isChecked
+                handleIsDoctorChecked(cbIsDoctor.isChecked)
             }
         }
     }
 
     override fun initViews() {
         with(binding) {
-            spinnerAppointmentType.adapter = initArrayAdapter(
+            spSpeciality.adapter = initArrayAdapter(
                 this@RegisterUserActivity,
                 resources.getStringArray(R.array.doctor_specialities)
             )
@@ -84,7 +78,8 @@ class RegisterUserActivity : BaseActivity() {
                     etNume.value(),
                     etTelefon.value(),
                     etCNP.value(),
-                    etIdDoctor.value()
+                    etIdDoctor.value(),
+                    spSpeciality.selectedItem?.let { return@let it.toString() }
                 )
             } else {
                 displayError(getString(R.string.check_data_validity))
@@ -103,7 +98,7 @@ class RegisterUserActivity : BaseActivity() {
                 text?.clear()
                 show()
             }
-            spinnerAppointmentType.show()
+            spSpeciality.show()
         } else {
             etCNP.apply {
                 text?.clear()
@@ -113,7 +108,7 @@ class RegisterUserActivity : BaseActivity() {
                 text?.clear()
                 hide()
             }
-            spinnerAppointmentType.hide()
+            spSpeciality.hide()
         }
     }
 }

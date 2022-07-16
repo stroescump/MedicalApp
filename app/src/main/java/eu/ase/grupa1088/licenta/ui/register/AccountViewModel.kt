@@ -42,10 +42,11 @@ class AccountViewModel(
         nume: String,
         telefon: String,
         cnp: String? = null,
-        doctorID: String? = null
+        doctorID: String? = null,
+        speciality: String?
     ) {
         viewModelScope.launch(dispatcher) {
-            accountService.registerUser(email, parola, nume, telefon, cnp, doctorID) { res ->
+            accountService.registerUser(email, parola, nume, telefon, cnp, doctorID, speciality) { res ->
                 uiStateFlow.update { res }
             }
         }
